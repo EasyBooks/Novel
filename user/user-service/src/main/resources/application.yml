@@ -1,0 +1,59 @@
+# NSQ
+nsq:
+  produce:
+    host: 47.95.239.29
+    port: 4150
+  lookup:
+    host: 47.95.239.29
+    port: 4161
+
+  topic: own_test
+  channel1: channel1
+
+spring:
+  application:
+    name: novel-service-user
+  redis:
+    password:
+    database: 0
+    timeout: 5000
+    host: 47.95.239.29
+    port: 6379
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.95.239.29:3306/novel?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 10
+    minIdle: 10
+    maxActive: 20
+    maxWait: 6000
+    validationQuery: SELECT 1 FROM DUAL
+    filters: stat,wall
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+# 日志配置
+logging:
+  config: classpath:log4j2.xml
+  level:
+    root: info
+    web: info
+
+# Dubbo、Nacos
+nacos:
+  service-address: 114.116.239.108
+  port: 8848
+dubbo:
+  registry:
+    address: nacos://${nacos.service-address}:${nacos.port}
+  protocol:
+    name: dubbo
+    port: 20010
+  scan:
+    base-packages: com.novel.user.service.dubbo
+
+# 雪花算法配置
+snowflake:
+  machine-id: 1
+  app-id: 0

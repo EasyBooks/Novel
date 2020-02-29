@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: novel-api-gateway
+
+nacos:
+  service-address: 114.116.239.108
+  port: 8848
+dubbo:
+  application:
+    logger: log4j2
+  registry:
+    address: nacos://${nacos.service-address}:${nacos.port}
+
+server:
+  port: 8080
+
+address:
+  white:
+    list: 127.0.0.1,192.168.31.21
+  black:
+    list: 127.0.0.2,192.168.146.21
