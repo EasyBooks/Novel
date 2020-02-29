@@ -46,14 +46,15 @@ public class ReptileBookFacade
                 if (!document.select("title").first().text().equals(NOT_FIND_STR))
                 {
                     Book book = getBookInfoByUrl(document);
-                    System.out.println(book);
+                    produce.produce("book_reptile", book);
                     List<Chapter> chapterList = getChapterListByUrl(url);
-                    int sort=1;
-                    for (Chapter c:chapterList)
+                    int sort = 1;
+                    for (Chapter c : chapterList)
                     {
                         c.setId(snowflake.nextId());
                         c.setBookId(book.getId());
                         c.setSorted(sort++);
+                        produce.produce("chapter_reptile", c);
                     }
                 }
             }
@@ -65,7 +66,7 @@ public class ReptileBookFacade
 
     private Book getBookInfoByUrl(Document document)
     {
-        Book book= BaseEntity.initEntity(Book.class);
+        Book book = BaseEntity.initEntity(Book.class);
         book.setId(snowflake.nextId());
         book.setTypeId(1L);
         book.setClick(0);
@@ -73,16 +74,16 @@ public class ReptileBookFacade
         book.setCollection(0);
         book.setRecommend(0);
         book.setWordNum(0L);
-        document.select("div").forEach(e->
+        document.select("div").forEach(e ->
                 {
-                    String cla=e.attr("class");
-                    if(cla.equals("book-name"))
+                    String cla = e.attr("class");
+                    if (cla.equals("book-name"))
                     {
                         book.setTitle(e.text());
-                    }else if("book-img fl".equals(cla))
+                    } else if ("book-img fl".equals(cla))
                     {
                         book.setCover(e.child(1).attr("src"));
-                    }else if(cla.equals("book-dec Jbook-dec hide"))
+                    } else if (cla.equals("book-dec Jbook-dec hide"))
                     {
                         book.setSynopsis(e.child(0).text());
                     }
@@ -94,9 +95,9 @@ public class ReptileBookFacade
     private List<Chapter> getChapterListByUrl(String url)
     {
         Document document = getHtmlTextByUrl(url);
-        for(Element d:document.select("a"))
+        for (Element d : document.select("a"))
         {
-            if(d.text().equals("开始阅读"))
+            if (d.text().equals("开始阅读"))
             {
                 return getBookChapter(d.attr("href"));
             }

@@ -25,9 +25,6 @@ public class NsqProduce
     @Value("${nsq.produce.port}")
     private Integer nsqPort;
 
-    @Value("${nsq.topic}")
-    private String nsqTopic;
-
     private NSQProducer nsqProducer;
 
     @PostConstruct
@@ -38,23 +35,7 @@ public class NsqProduce
     }
 
     @Async
-    public void produce(Object data)
-    {
-        try
-        {
-            Optional<byte[]> optionalBytes = BitObjectUtil.objectToBytes(data);
-            if (optionalBytes.isPresent())
-            {
-                this.nsqProducer.produce(nsqTopic, optionalBytes.get());
-            }
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    @Async
-    public void produce(String topic,Object data)
+    public void produce(String topic, Object data)
     {
         try
         {
@@ -63,19 +44,9 @@ public class NsqProduce
             {
                 this.nsqProducer.produce(topic, optionalBytes.get());
             }
-        }catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
-    }
-
-    public void produce(byte[] data) throws NSQException, TimeoutException
-    {
-        this.nsqProducer.produce(nsqTopic, data);
-    }
-
-    public void produce(String msg) throws NSQException, TimeoutException
-    {
-        this.nsqProducer.produce(nsqTopic, msg.getBytes());
     }
 }
