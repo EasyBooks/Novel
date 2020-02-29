@@ -2,7 +2,22 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Novel.iml" filepath="$PROJECT_DIR$/.idea/Novel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Novel.iml" filepath="$PROJECT_DIR$/Novel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/admin/admin.iml" filepath="$PROJECT_DIR$/admin/admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/api-gateway/api-gateway.iml" filepath="$PROJECT_DIR$/api-gateway/api-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/book/book.iml" filepath="$PROJECT_DIR$/book/book.iml" />
+      <module fileurl="file://$PROJECT_DIR$/book/book-api/book-api.iml" filepath="$PROJECT_DIR$/book/book-api/book-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/book/book-service/book-service.iml" filepath="$PROJECT_DIR$/book/book-service/book-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/im/im.iml" filepath="$PROJECT_DIR$/im/im.iml" />
+      <module fileurl="file://$PROJECT_DIR$/im/im-api/im-api.iml" filepath="$PROJECT_DIR$/im/im-api/im-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/im/im-service/im-service.iml" filepath="$PROJECT_DIR$/im/im-service/im-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/reptile/reptile.iml" filepath="$PROJECT_DIR$/reptile/reptile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/reptile/reptile-api/reptile-api.iml" filepath="$PROJECT_DIR$/reptile/reptile-api/reptile-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/reptile/reptile-service/reptile-service.iml" filepath="$PROJECT_DIR$/reptile/reptile-service/reptile-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/user.iml" filepath="$PROJECT_DIR$/user/user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/user-api/user-api.iml" filepath="$PROJECT_DIR$/user/user-api/user-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/user-service/user-service.iml" filepath="$PROJECT_DIR$/user/user-service/user-service.iml" />
     </modules>
   </component>
 </project>
