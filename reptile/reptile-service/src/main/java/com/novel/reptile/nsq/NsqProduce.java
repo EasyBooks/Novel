@@ -43,6 +43,7 @@ public class NsqProduce
             if (optionalBytes.isPresent())
             {
                 this.nsqProducer.produce(topic, optionalBytes.get());
+                System.out.println("发送一个数据，topic=" + topic + "，data=" + data);
             }
         } catch (Exception e)
         {

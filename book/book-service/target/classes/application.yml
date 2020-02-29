@@ -7,8 +7,9 @@ nsq:
     host: 47.95.239.29
     port: 4161
 
-  topic: reptile_book_topic
-  channel: reptile_book_channel
+  bookTopic: book_reptile
+  chapterTopic: chapter_reptile
+  channel: reptile_channel
 
 spring:
   application:

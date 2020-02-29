@@ -62,7 +62,7 @@ public class NsqConsumer implements ApplicationRunner
                 (message) ->
                 {
                     Optional<Book> optional = BitObjectUtil.bytesToObject(message.getMessage());
-                    optional.ifPresent(nsqBookDto -> consumerHandler.bookHandler(optional));
+                    optional.ifPresent(o -> consumerHandler.bookHandler(o));
                     message.finished();
                 });
         registerConsumer.setExecutor(executor);
@@ -72,11 +72,11 @@ public class NsqConsumer implements ApplicationRunner
     @Async
     public void chapterConsumer(NSQLookup lookup, Executor executor)
     {
-        NSQConsumer registerConsumer = new NSQConsumer(lookup, bookTopic, channel,
+        NSQConsumer registerConsumer = new NSQConsumer(lookup, chapterTopic, channel,
                 (message) ->
                 {
                     Optional<Chapter> optional = BitObjectUtil.bytesToObject(message.getMessage());
-                    optional.ifPresent(nsqBookDto -> consumerHandler.bookHandler(optional));
+                    optional.ifPresent(o -> consumerHandler.bookHandler(o));
                     message.finished();
                 });
         registerConsumer.setExecutor(executor);

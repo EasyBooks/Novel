@@ -8,7 +8,7 @@ nsq:
     port: 4161
 
   bookTopic: book_reptile
-  chapterTopic：chapter_reptile
+  chapterTopic: chapter_reptile
   channel: reptile_channel
 
 spring:

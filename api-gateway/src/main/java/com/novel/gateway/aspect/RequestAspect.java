@@ -5,7 +5,6 @@
  */
 package com.novel.gateway.aspect;
 
-import com.novel.common.utils.ResultUtil;
 import com.novel.gateway.handler.UserHandler;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;

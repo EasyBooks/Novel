@@ -27,7 +27,7 @@ public class PlusConfig
     {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
         DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
-        dynamicTableNameParser.setTableNameHandlerMap(new HashMap<>(4)
+        dynamicTableNameParser.setTableNameHandlerMap(new HashMap<>(2)
         {{
             put("type", (metaObject, sql, tableName) -> "t_" + tableName);
             put("book", (metaObject, sql, tableName) -> "t_" + tableName);
