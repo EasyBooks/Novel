@@ -6,6 +6,7 @@
 package com.novel.common.utils;
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.impl.DefaultClaims;
 
 import java.util.Date;
 import java.util.UUID;
@@ -14,7 +15,7 @@ public class JWTUtil
 {
     private static final String subject = "root";
     private static final String secret = "novel.project";
-    private static final long outMillis = 2 * 60 * 60 * 1000;
+    private static final long outMillis = 7 * 24 * 60 * 60 * 1000;
 
     /**
      * 根据uid获取token
@@ -22,7 +23,7 @@ public class JWTUtil
      * @param uid
      * @return
      */
-    public static String createJWT(Integer uid)
+    public static String createJWT(Integer uid,Integer userType)
     {
         Date now = new Date();
         JwtBuilder builder = Jwts.builder()
@@ -31,7 +32,8 @@ public class JWTUtil
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + outMillis))
                 .signWith(SignatureAlgorithm.HS256, secret.getBytes())
-                .claim("uid", uid);
+                .claim("uid", uid)
+                .claim("userType",userType);
         return builder.compact();
     }
 
@@ -41,23 +43,26 @@ public class JWTUtil
      * @param token
      * @return
      */
-    public static Integer parseJWT(String token)
+    public static Claims parseJWT(String token)
     {
         try
         {
-            Claims claims = Jwts.parser()
+            return Jwts.parser()
                     .setSigningKey(secret.getBytes())
                     .parseClaimsJws(token)
                     .getBody();
-            return (Integer) claims.get("uid");
         } catch (ExpiredJwtException e)
         {
-            // 过期返回-1
-            return -1;
+            // 过期
+            Claims claims=new DefaultClaims();
+            claims.put("error","过期");
+            return claims;
         } catch (Exception e)
         {
-            // 解析失败返回null
-            return null;
+            // 解析失败
+            Claims claims=new DefaultClaims();
+            claims.put("error","解析失败");
+            return claims;
         }
     }
 }

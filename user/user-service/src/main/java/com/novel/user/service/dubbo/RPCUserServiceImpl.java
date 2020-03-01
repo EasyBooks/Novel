@@ -25,20 +25,20 @@ public class RPCUserServiceImpl implements RPCUserService
     }
 
     @Override
-    public String login(String username, String password)
+    public User login(String username, String password)
     {
-        return null;
+        return userService.login(username, password);
     }
 
     @Override
-    public String flushToken(String token)
+    public String flushToken(String token,Integer uid,Integer userType)
     {
-        return null;
+        return userService.flushToken(token, uid,userType);
     }
 
     @Override
     public int register(User user, UserDetails details)
     {
-        return 0;
+        return userService.register(user, details);
     }
 }

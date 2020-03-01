@@ -3,10 +3,10 @@
  * 时间：2019/11/2-16:36
  * 作用：
  */
-package com.novel.gateway.utils;
+package com.novel.common.utils;
 
 
-import com.novel.common.utils.JWTUtil;
+import io.jsonwebtoken.Claims;
 
 public class AuthUtil
 {
@@ -16,17 +16,16 @@ public class AuthUtil
         {
             return AuthVerifyType.VERIFY_ERR;
         }
-        Integer parseUid = JWTUtil.parseJWT(token);
-        System.out.println("parseUid="+parseUid);
-        if (parseUid == null)
+        Claims claims= JWTUtil.parseJWT(token);
+        Object error= claims.get("error");
+        if("过期".equals(error))
+        {
+            return AuthVerifyType.VERIFY_TIME_OUT;
+        }else if("解析失败".equals(error))
         {
             return AuthVerifyType.VERIFY_ERR;
         }
-        if (parseUid.compareTo(0) < 0)
-        {
-            return AuthVerifyType.VERIFY_TIME_OUT;
-        }
-        if ((parseUid + "").equals(uid))
+        if ((claims.get("uid") + "").equals(uid))
         {
             return AuthVerifyType.VERIFY_OK;
         } else

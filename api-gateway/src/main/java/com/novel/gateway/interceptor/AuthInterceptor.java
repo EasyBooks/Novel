@@ -5,10 +5,10 @@
  */
 package com.novel.gateway.interceptor;
 
+import com.novel.common.utils.AuthUtil;
 import com.novel.common.utils.ObjectUtil;
 import com.novel.common.utils.ResultUtil;
 import com.novel.gateway.logic.AddersLogic;
-import com.novel.gateway.utils.AuthUtil;
 import com.novel.gateway.utils.RequestUtil;
 import org.springframework.web.servlet.HandlerInterceptor;
 

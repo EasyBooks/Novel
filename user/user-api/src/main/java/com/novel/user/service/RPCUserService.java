@@ -12,9 +12,9 @@ public interface RPCUserService
 {
     String hello(String name);
 
-    String login(String username,String password);
+    User login(String username,String password);
 
-    String flushToken(String token);
+    String flushToken(String token,Integer uid,Integer userType);
 
     int register(User user, UserDetails details);
 }

@@ -35,7 +35,6 @@ public class ConsumerHandler
             {
                 bookMapper.updateById(book);
             }
-            System.out.println("一个book入库");
         } else if (data instanceof Chapter)
         {
             Chapter chapter = (Chapter) data;
@@ -48,7 +47,6 @@ public class ConsumerHandler
             {
                 chapterMapper.updateById(chapter);
             }
-            System.out.println("一个chapter入库");
         }
     }
 }

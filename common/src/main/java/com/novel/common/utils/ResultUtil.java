@@ -21,29 +21,14 @@ public class ResultUtil
 
     static
     {
-        Result limit = new Result();
-        limit.code = 10001;
-        limit.info = "服务器繁忙，稍后再试";
-        limitResult = gson.toJson(limit);
-        Result timeOut = new Result();
-        limit.code = 10002;
-        limit.info = "认证已经过期，请重新登录";
-        timeOutResult = gson.toJson(timeOut);
-        Result error = new Result();
-        error.code = 10000;
-        error.info = "错误请求";
+        Result error = Result.of(10000,"错误请求");
         errorResult = gson.toJson(error);
-        Result metadata = new Result();
-        metadata.code = 10003;
-        metadata.info = "缺少请求元数据";
+        Result limit = Result.of(10001,"服务器繁忙，稍后再试");
+        limitResult = gson.toJson(limit);
+        Result timeOut = Result.of(10002,"认证已经过期，请重新登录");
+        timeOutResult = gson.toJson(timeOut);
+        Result metadata = Result.of(10003,"缺少请求元数据");
         metadataResult = gson.toJson(metadata);
-    }
-
-    @Data
-    static class Result
-    {
-        private int code;
-        private String info;
     }
 
     public static Map<String, Object> success(String info)

@@ -3,7 +3,7 @@
  * 时间：2019/11/2-16:38
  * 作用：
  */
-package com.novel.gateway.utils;
+package com.novel.common.utils;
 
 public enum AuthVerifyType
 {
