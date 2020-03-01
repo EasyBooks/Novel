@@ -44,7 +44,6 @@ public class UserHandler
             return ResultUtil.error("登录失败");
         }else
         {
-            System.out.println("user="+user);
             UserDto userDto=new UserDto();
             BeanUtils.copyProperties(user,userDto);
             return ResultUtil.success(Map.of("token",JWTUtil.createJWT(user.getUid(),user.getType()),"data",userDto));
