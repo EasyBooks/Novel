@@ -3,7 +3,7 @@
  * 时间：2020/1/19-21:58
  * 作用：
  */
-package com.novel.common.domain.user;
+package com.novel.common.domain.order;
 
 import com.novel.common.domain.BaseEntity;
 import lombok.Data;

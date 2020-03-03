@@ -5,6 +5,7 @@ import com.novel.common.domain.book.Book;
 import com.novel.common.domain.book.Chapter;
 import com.novel.common.utils.Snowflake;
 import com.novel.reptile.nsq.NsqProduce;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 @Component
+@Slf4j
 public class ReptileBookFacade
 {
     private static final int TIME_OUT = 5 * 1000;
@@ -32,7 +34,25 @@ public class ReptileBookFacade
     public void allReptile()
     {
         // work(100000);
-        work(123438);
+        // 123438
+        // 124312
+        // 912887
+        // 785695
+        // 887862
+        // 771898
+        // 842795
+        // 879373
+        // 845570
+
+
+        // 941433
+        // 873139
+        // 891736
+        // 730493
+        // 850594
+        // 837229
+        // 841041
+        // work(new int[]{941433,873139,891736,730493,850594,837229,841041});
     }
 
     private void work(int start)
@@ -61,6 +81,14 @@ public class ReptileBookFacade
         } catch (NullPointerException e)
         {
             work(start);
+        }
+    }
+
+    private void work(int[] arr)
+    {
+        for (int i = 0; i < arr.length; i++)
+        {
+            work(arr[i]);
         }
     }
 
@@ -177,9 +205,11 @@ public class ReptileBookFacade
             Document document = getHtmlTextByUrl(url);
             url = getNextUrl(document);
             // 标题
-            chapter.setName(getTitle(document));
+            String title = getTitle(document);
+            chapter.setName(title);
             // 内容
             chapter.setContent(getText(document));
+            log.info("爬到一个章节，{}", title);
             chapterList.add(chapter);
         } while (!url.equals(END_HREF));
         return chapterList;

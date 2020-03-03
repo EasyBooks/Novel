@@ -12,6 +12,7 @@
       <module fileurl="file://$PROJECT_DIR$/im/im.iml" filepath="$PROJECT_DIR$/im/im.iml" />
       <module fileurl="file://$PROJECT_DIR$/im/im-api/im-api.iml" filepath="$PROJECT_DIR$/im/im-api/im-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/im/im-service/im-service.iml" filepath="$PROJECT_DIR$/im/im-service/im-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/order/order.iml" filepath="$PROJECT_DIR$/order/order.iml" />
       <module fileurl="file://$PROJECT_DIR$/reptile/reptile.iml" filepath="$PROJECT_DIR$/reptile/reptile.iml" />
       <module fileurl="file://$PROJECT_DIR$/reptile/reptile-api/reptile-api.iml" filepath="$PROJECT_DIR$/reptile/reptile-api/reptile-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/reptile/reptile-service/reptile-service.iml" filepath="$PROJECT_DIR$/reptile/reptile-service/reptile-service.iml" />

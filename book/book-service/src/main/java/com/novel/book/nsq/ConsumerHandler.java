@@ -10,10 +10,12 @@ import com.novel.book.mapper.BookMapper;
 import com.novel.book.mapper.ChapterMapper;
 import com.novel.common.domain.book.Book;
 import com.novel.common.domain.book.Chapter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class ConsumerHandler
 {
     @Autowired
@@ -35,6 +37,7 @@ public class ConsumerHandler
             {
                 bookMapper.updateById(book);
             }
+            log.info("保存一本小说，{}", book.getTitle());
         } else if (data instanceof Chapter)
         {
             Chapter chapter = (Chapter) data;
@@ -47,6 +50,7 @@ public class ConsumerHandler
             {
                 chapterMapper.updateById(chapter);
             }
+            log.info("保存一个章节，{}", chapter.getName());
         }
     }
 }

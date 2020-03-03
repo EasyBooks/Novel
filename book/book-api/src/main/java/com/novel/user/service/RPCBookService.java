@@ -20,7 +20,7 @@ public interface RPCBookService
     List<Book> bookList(Map<String,Object> conditionMap);
 
     /**
-     * 修改书籍
+     * 修改小说
      *
      * @param book
      * @return
@@ -28,7 +28,7 @@ public interface RPCBookService
     boolean updateBook(Book book);
 
     /**
-     * 删除分类
+     * 删除小说
      *
      * @param id
      * @return
