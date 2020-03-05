@@ -5,8 +5,8 @@
  */
 package com.novel.gateway.config.bean;
 
-import com.novel.common.bean.define.ResultTask;
-import com.novel.common.bean.define.Task;
+import com.novel.common.define.ResultTask;
+import com.novel.common.define.Task;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;

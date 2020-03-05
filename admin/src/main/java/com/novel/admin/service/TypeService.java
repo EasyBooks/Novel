@@ -5,15 +5,10 @@
  */
 package com.novel.admin.service;
 
+import com.novel.common.bean.CurdService;
 import com.novel.common.domain.book.Type;
 
-import java.util.Map;
-
-public interface TypeService
+public interface TypeService extends CurdService<Type>
 {
-    Object list(Map<String, Object> condition);
-
-    Object saveOrUpdateType(Type type);
-
-    Object deleteType(Long id);
+    String findTypeName(Long id);
 }

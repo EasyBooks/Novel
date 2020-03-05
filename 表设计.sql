@@ -181,3 +181,13 @@ CREATE TABLE `t_comment` (
   `update_time` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `t_admin`;
+CREATE TABLE `t_admin` (
+  `id` bigint(20) NOT NULL,
+  `nick_name` varchar(55) NOT NULL,
+  `user_name` varchar(55) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `roles` varchar(1288) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

@@ -23,7 +23,7 @@ public class TypeController
     @PostMapping("save")
     public Object save(Type type)
     {
-        return typeService.saveOrUpdateType(type);
+        return typeService.save(type) == 1 ? ResultUtil.success("ok") : ResultUtil.error("error");
     }
 
     @PostMapping("delete")
@@ -33,6 +33,7 @@ public class TypeController
         {
             return ResultUtil.error("ID不可以为空");
         }
-        return typeService.deleteType(id);
+
+        return typeService.delete(id) == 1 ? ResultUtil.success("ok") : ResultUtil.error("error");
     }
 }

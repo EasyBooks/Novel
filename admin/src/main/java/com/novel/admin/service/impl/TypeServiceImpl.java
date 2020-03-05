@@ -8,8 +8,8 @@ package com.novel.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.novel.admin.mapper.TypeMapper;
 import com.novel.admin.service.TypeService;
+import com.novel.common.define.Define;
 import com.novel.common.domain.book.Type;
-import com.novel.common.utils.ResultUtil;
 import com.novel.common.utils.Snowflake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,42 +26,40 @@ public class TypeServiceImpl implements TypeService
     private Snowflake snowflake;
 
     @Override
-    public Object list(Map<String, Object> condition)
+    public Map<String, Object> list(int page, int size, Map<String, Object> condition)
     {
         return null;
     }
 
     @Override
-    public Object saveOrUpdateType(Type type)
+    public int update(Type type)
     {
-        int result;
         int now = (int) (System.currentTimeMillis() / 1000);
         type.setUpdateTime(now);
-        if (type.getId() == null)
-        {
-            type.setId(snowflake.nextId());
-            type.setStatus(1);
-            type.setCreateTime(now);
-            result = typeMapper.insert(type);
-        } else
-        {
-            result = typeMapper.updateById(type);
-        }
-        if (result == 1)
-        {
-            return ResultUtil.success("ok");
-        }
-        return ResultUtil.error("error");
+        return typeMapper.updateById(type);
     }
 
     @Override
-    public Object deleteType(Long id)
+    public int save(Type type)
     {
-        if (deleteTypeById(id) == 1)
-        {
-            return ResultUtil.success("ok");
-        }
-        return ResultUtil.error("找不到删除对象");
+        int now = (int) (System.currentTimeMillis() / 1000);
+        type.setId(snowflake.nextId());
+        type.setStatus(Define.ENABLE);
+        type.setCreateTime(now);
+        type.setUpdateTime(now);
+        return typeMapper.insert(type);
+    }
+
+    @Override
+    public int delete(Long id)
+    {
+        return deleteTypeById(id);
+    }
+
+    @Override
+    public Type selectById(Long id)
+    {
+        return null;
     }
 
     private int deleteTypeById(Long id)
@@ -70,7 +68,7 @@ public class TypeServiceImpl implements TypeService
         wrapper.eq("pid", id);
         if (typeMapper.selectCount(wrapper) == 0)
         {
-            return typeMapper.deleteById(id);
+            return typeMapper.enable(Define.DISABLE, id);
         } else
         {
             wrapper.comment("id");
@@ -81,5 +79,13 @@ public class TypeServiceImpl implements TypeService
             }
         }
         return 0;
+    }
+
+    @Override
+    public String findTypeName(Long id)
+    {
+        QueryWrapper<Type> wrapper = new QueryWrapper<>();
+        Type t = typeMapper.selectOne(wrapper.select("name").eq("id", id));
+        return t == null ? null : t.getName();
     }
 }

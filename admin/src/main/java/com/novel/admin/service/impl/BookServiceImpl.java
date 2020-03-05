@@ -10,12 +10,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.novel.admin.mapper.BookMapper;
 import com.novel.admin.service.BookService;
+import com.novel.admin.service.ChapterService;
+import com.novel.admin.service.TypeService;
 import com.novel.admin.utils.DtoUtil;
+import com.novel.common.define.Define;
 import com.novel.common.domain.book.Book;
 import com.novel.common.dto.book.BookDto;
-import com.novel.common.utils.ResultUtil;
+import com.novel.common.utils.Snowflake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -25,13 +29,18 @@ public class BookServiceImpl implements BookService
 {
     @Autowired
     private BookMapper bookMapper;
+    @Autowired
+    private ChapterService chapterService;
+    @Autowired
+    private TypeService typeService;
+    @Autowired
+    private Snowflake snowflake;
 
     @Override
-    public Object list(int page, int size, Map<String, Object> condition)
+    public Map<String, Object> list(int page, int size, Map<String, Object> condition)
     {
         IPage<Book> bookPage = new Page<>(page, size);
         QueryWrapper<Book> wrapper = new QueryWrapper<>();
-        wrapper.eq("status", 1);
         Object title = condition.get("title");
         if (title != null)
         {
@@ -88,11 +97,53 @@ public class BookServiceImpl implements BookService
         bookMapper.selectPage(bookPage, wrapper);
         List<BookDto> bookDtoList = DtoUtil.convertBook(bookPage.getRecords());
         completionBookDto(bookDtoList);
-        return ResultUtil.success(Map.of("page", bookPage.getPages(), "size", bookPage.getTotal(), "data", bookDtoList));
+        return Map.of("page", bookPage.getPages(), "size", bookPage.getTotal(), "data", bookDtoList);
     }
 
-    private void completionBookDto(List<BookDto> bookDtoList)
+    @Override
+    public int update(Book book)
     {
+        int now = (int) (System.currentTimeMillis() / 1000);
+        book.setId(snowflake.nextId());
+        book.setStatus(Define.ENABLE);
+        book.setCreateTime(now);
+        book.setUpdateTime(now);
+        return bookMapper.updateById(book);
+    }
 
+    @Override
+    public int save(Book book)
+    {
+        int now = (int) (System.currentTimeMillis() / 1000);
+        book.setUpdateTime(now);
+        return bookMapper.insert(book);
+    }
+
+    @Transactional
+    @Override
+    public int delete(Long id)
+    {
+        // 删除小说，需要先删除章节
+        chapterService.deleteByBookId(id);
+        return bookMapper.enable(Define.DISABLE, id);
+    }
+
+    @Override
+    public Book selectById(Long id)
+    {
+        return bookMapper.selectById(id);
+    }
+
+    /**
+     * @param bookDtoList
+     */
+    @Transactional
+    public void completionBookDto(List<BookDto> bookDtoList)
+    {
+        for (BookDto d : bookDtoList)
+        {
+            // d.setAuthors();
+            d.setTypeName(typeService.findTypeName(d.getTypeId()));
+        }
     }
 }

@@ -5,29 +5,23 @@
  */
 package com.novel.admin.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class CorsConfig
+public class CorsConfig implements WebMvcConfigurer
 {
-    private CorsConfiguration buildConfig()
+    @Override
+    public void addCorsMappings(CorsRegistry registry)
     {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*"); //允许任何域名
-        corsConfiguration.addAllowedHeader("*"); //允许任何头
-        corsConfiguration.addAllowedMethod("*"); //允许任何方法
-        return corsConfiguration;
-    }
-
-    @Bean
-    public CorsFilter corsFilter()
-    {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", buildConfig()); //注册
-        return new CorsFilter(source);
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                //暴露header中的其他属性给客户端应用程序
+                //如果不设置这个属性前端无法通过response header获取到Authorization也就是token
+                .exposedHeaders("Authorization")
+                .allowCredentials(true)
+                .allowedMethods("GET", "POST", "DELETE", "PUT")
+                .maxAge(3600);
     }
 }

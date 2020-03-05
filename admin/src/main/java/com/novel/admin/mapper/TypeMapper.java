@@ -7,7 +7,11 @@ package com.novel.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.novel.common.domain.book.Type;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 public interface TypeMapper extends BaseMapper<Type>
 {
+    @Update("update t_type set status=#{status} where id=#{id}")
+    int enable(@Param("status") Integer status, @Param("id") Long id);
 }

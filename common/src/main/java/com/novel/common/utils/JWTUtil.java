@@ -5,6 +5,7 @@
  */
 package com.novel.common.utils;
 
+import com.novel.common.define.Define;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.DefaultClaims;
 
@@ -13,10 +14,6 @@ import java.util.UUID;
 
 public class JWTUtil
 {
-    private static final String subject = "root";
-    private static final String secret = "novel.project";
-    private static final long outMillis = 7 * 24 * 60 * 60 * 1000;
-
     /**
      * 根据uid获取token
      *
@@ -28,10 +25,10 @@ public class JWTUtil
         Date now = new Date();
         JwtBuilder builder = Jwts.builder()
                 .setId(UUID.randomUUID().toString())
-                .setSubject(subject)
+                .setSubject(Define.SUBJECT)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + outMillis))
-                .signWith(SignatureAlgorithm.HS256, secret.getBytes())
+                .setExpiration(new Date(now.getTime() + Define.OUT_MILLIS))
+                .signWith(SignatureAlgorithm.HS256, Define.SECRET.getBytes())
                 .claim("uid", uid)
                 .claim("userType",userType);
         return builder.compact();
@@ -48,7 +45,7 @@ public class JWTUtil
         try
         {
             return Jwts.parser()
-                    .setSigningKey(secret.getBytes())
+                    .setSigningKey(Define.SECRET.getBytes())
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException e)

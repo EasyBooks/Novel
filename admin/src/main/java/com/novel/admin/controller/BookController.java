@@ -7,14 +7,13 @@ package com.novel.admin.controller;
 
 import com.novel.admin.service.BookService;
 import com.novel.admin.utils.ParamUtil;
-import com.novel.common.domain.book.Book;
+import com.novel.common.define.Define;
+import com.novel.common.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -29,7 +28,7 @@ public class BookController
                        Long typeId, Integer startTime, Integer endTime, Integer sortType)
     {
         Integer[] params = ParamUtil.PageVerify(page, size);
-        Map<String, Object> condition = new HashMap<>();
+        Map<String, Object> condition = Define.conditionMap();
         if (title != null)
         {
             condition.put("title", title);
@@ -50,6 +49,6 @@ public class BookController
         {
             condition.put("sortType", sortType);
         }
-        return bookService.list(params[0], params[1], condition);
+        return ResultUtil.success(bookService.list(params[0], params[1], condition));
     }
 }

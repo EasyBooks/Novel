@@ -5,15 +5,10 @@
  */
 package com.novel.admin.service;
 
-import java.util.Map;
+import com.novel.common.bean.CurdService;
+import com.novel.common.domain.book.Book;
 
-public interface BookService
+public interface BookService extends CurdService<Book>
 {
-    /**
-     * 分页查询
-     * @param page
-     * @param size
-     * @return
-     */
-    Object list(int page, int size, Map<String,Object> condition);
+
 }
