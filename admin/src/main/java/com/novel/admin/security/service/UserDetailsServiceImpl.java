@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserDetailsServiceImpl  implements UserDetailsService
+public class UserDetailsServiceImpl implements UserDetailsService
 {
     @Autowired
     AdminService adminService;
@@ -24,6 +24,6 @@ public class UserDetailsServiceImpl  implements UserDetailsService
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException
     {
         Admin admin = adminService.findUserByUserName(userName);
-        return new JwtAdmin(admin);
+        return admin == null ? null : new JwtAdmin(admin);
     }
 }

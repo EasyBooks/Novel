@@ -14,7 +14,7 @@ import java.util.Collection;
 @Data
 public class JwtAdmin implements UserDetails
 {
-    private Integer id;
+    private Long id;
     private String nickName;
     private String userName;
     private String password;
@@ -27,10 +27,10 @@ public class JwtAdmin implements UserDetails
     public JwtAdmin(Admin admin)
     {
         this.id = admin.getId();
-        this.userName = admin.getUserName();
-        this.nickName = admin.getNickName();
+        this.userName = admin.getUsername();
+        this.nickName = admin.getNickname();
         this.password = admin.getPassword();
-        this.authorities = admin.getRoles();
+        this.authorities = Admin.getRoles(admin);
     }
 
     @Override

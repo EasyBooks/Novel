@@ -5,6 +5,7 @@
  */
 package com.novel.admin.security.filter;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.novel.admin.security.bean.JwtTokenUtils;
 import com.novel.admin.security.bean.SecurityConstants;
@@ -52,6 +53,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
                     loginUser.getUsername(), loginUser.getPassword());
             return authenticationManager.authenticate(authRequest);
+        } catch (JsonParseException e)
+        {
+            return null;
         } catch (IOException e)
         {
             e.printStackTrace();

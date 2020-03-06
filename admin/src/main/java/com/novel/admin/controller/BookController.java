@@ -10,6 +10,7 @@ import com.novel.admin.utils.ParamUtil;
 import com.novel.common.define.Define;
 import com.novel.common.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,7 @@ public class BookController
     private BookService bookService;
 
     @GetMapping("list")
+    @PreAuthorize("hasAnyRole('ROLE_DEV','ROLE_PM','ROLE_ADMIN')")
     public Object list(Integer page, Integer size, String title,
                        Long typeId, Integer startTime, Integer endTime, Integer sortType)
     {

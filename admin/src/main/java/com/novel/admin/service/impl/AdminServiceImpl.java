@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.novel.admin.security.entity.Admin;
 import com.novel.admin.mapper.AdminMapper;
 import com.novel.admin.service.AdminService;
+import com.novel.common.utils.Snowflake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ public class AdminServiceImpl implements AdminService
     private AdminMapper adminMapper;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private Snowflake snowflake;
 
     @Override
     public Admin findUserByUserName(String userName)
@@ -38,6 +41,8 @@ public class AdminServiceImpl implements AdminService
     @Override
     public int saveAdmin(Admin admin)
     {
+        admin.setId(snowflake.nextId());
+        admin.setRoles("DEV,PM");
         admin.setPassword(bCryptPasswordEncoder.encode(admin.getPassword()));
         return adminMapper.insert(admin);
     }

@@ -20,16 +20,20 @@ import java.util.List;
 public class Admin implements Serializable
 {
     @TableId
-    private Integer id;
-    private String nickName;
-    private String userName;
+    private Long id;
+    private String nickname;
+    private String username;
     private String password;
     private String roles;
 
-    public List<SimpleGrantedAuthority> getRoles()
+    public static List<SimpleGrantedAuthority> getRoles(Admin admin)
     {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        Arrays.stream(roles.split(",")).forEach(role ->
+        if (admin.getRoles() == null)
+        {
+            return authorities;
+        }
+        Arrays.stream(admin.getRoles().split(",")).forEach(role ->
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + role)));
         return authorities;
     }
