@@ -38,6 +38,12 @@ public class MsgHandler extends ChannelInboundHandlerAdapter
         String message = frame.content().toString(CharsetUtil.UTF_8);
         log.info("接受的消息={}", message);
         Msg msg = MsgUtil.strToMsg(message);
+        if (msg == null)
+        {
+            ctx.close().sync();
+            log.warn("非法信息，连接断开");
+            return;
+        }
         switch (msg.getCmd())
         {
             case 1:
