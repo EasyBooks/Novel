@@ -5,6 +5,9 @@
  */
 package com.novel.book.utils;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
 import java.util.Map;
 
 public class ConditionUtil
@@ -19,5 +22,10 @@ public class ConditionUtil
     public static Map<String,Object> getTypeCondition(Map<String,Object> conditionMap)
     {
         return conditionMap;
+    }
+
+    public static <T> Wrapper<T> getWrapperByMap(Map<String,Object> conditionMap)
+    {
+        return new QueryWrapper<>();
     }
 }

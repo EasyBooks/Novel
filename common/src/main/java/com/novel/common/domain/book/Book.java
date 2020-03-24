@@ -3,6 +3,9 @@ package com.novel.common.domain.book;
 import com.novel.common.domain.BaseEntity;
 import lombok.Data;
 
+/**
+ * 小说
+ */
 @Data
 public class Book extends BaseEntity
 {

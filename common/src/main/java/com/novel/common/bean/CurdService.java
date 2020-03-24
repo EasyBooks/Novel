@@ -5,6 +5,7 @@
  */
 package com.novel.common.bean;
 
+import java.util.List;
 import java.util.Map;
 
 public interface CurdService<E>
@@ -17,7 +18,14 @@ public interface CurdService<E>
      * @param condition
      * @return
      */
-    Map<String, Object> list(int page, int size, Map<String, Object> condition);
+    PageList<E> list(int page, int size, Map<String, Object> condition);
+
+    /**
+     * 查询所有
+     *
+     * @return
+     */
+    List<E> findAll();
 
     /**
      * 更新

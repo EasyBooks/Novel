@@ -7,12 +7,14 @@ package com.novel.admin.service.impl;
 
 import com.novel.admin.mapper.ChapterMapper;
 import com.novel.admin.service.ChapterService;
+import com.novel.common.bean.PageList;
 import com.novel.common.define.Define;
 import com.novel.common.domain.book.Chapter;
 import com.novel.common.utils.Snowflake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -24,7 +26,13 @@ public class ChapterServiceImpl implements ChapterService
     private Snowflake snowflake;
 
     @Override
-    public Map<String, Object> list(int page, int size, Map<String, Object> condition)
+    public List<Chapter> findAll()
+    {
+        return chapterMapper.selectList(null);
+    }
+
+    @Override
+    public PageList<Chapter> list(int page, int size, Map<String, Object> condition)
     {
         return null;
     }

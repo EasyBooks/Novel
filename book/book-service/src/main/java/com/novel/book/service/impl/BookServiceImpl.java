@@ -5,9 +5,13 @@
  */
 package com.novel.book.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.novel.book.mapper.BookMapper;
 import com.novel.book.service.BookService;
 import com.novel.book.utils.ConditionUtil;
+import com.novel.common.bean.PageList;
 import com.novel.common.domain.book.Book;
 import com.novel.common.utils.Snowflake;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +30,11 @@ public class BookServiceImpl implements BookService
     private Snowflake snowflake;
 
     @Override
-    public List<Book> bookList(Map<String, Object> conditionMap)
+    public PageList<Book> bookList(Map<String, Object> conditionMap,int page,int size)
     {
-        return bookMapper.selectByMap(ConditionUtil.getBookCondition(conditionMap));
+        IPage<Book> pageObj = new Page<>(page, size);
+        IPage<Book> iPage=bookMapper.selectPage(pageObj, ConditionUtil.getWrapperByMap(conditionMap));
+        return PageList.of(iPage.getRecords(),iPage.getTotal());
     }
 
     @Transactional
@@ -58,5 +64,15 @@ public class BookServiceImpl implements BookService
     public Book findBook(long id)
     {
         return bookMapper.selectById(id);
+    }
+
+    @Override
+    public PageList<Book> findCollection(int uid, int page, int size)
+    {
+        IPage<Book> pageObj = new Page<>(page, size);
+        QueryWrapper<Book> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("uid", uid);
+        IPage<Book> iPage=bookMapper.selectPage(pageObj, queryWrapper);
+        return PageList.of(iPage.getRecords(),iPage.getTotal());
     }
 }

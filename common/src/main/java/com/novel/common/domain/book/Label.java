@@ -8,6 +8,9 @@ package com.novel.common.domain.book;
 import com.novel.common.domain.BaseEntity;
 import lombok.Data;
 
+/**
+ * 标签
+ */
 @Data
 public class Label extends BaseEntity
 {

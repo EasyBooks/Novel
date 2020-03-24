@@ -5,6 +5,7 @@
  */
 package com.novel.user.service;
 
+import com.novel.common.bean.PageList;
 import com.novel.common.domain.book.Book;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface RPCBookService
      *
      * @return
      */
-    List<Book> bookList(Map<String,Object> conditionMap);
+    PageList<Book> bookList(Map<String,Object> conditionMap,int page,int size);
 
     /**
      * 修改小说
@@ -41,4 +42,13 @@ public interface RPCBookService
      * @return
      */
     Book findBook(long id);
+
+    /**
+     * 查询收藏小说
+     * @param uid
+     * @param page
+     * @param size
+     * @return
+     */
+    PageList<Book> findCollection(int uid, int page, int size);
 }

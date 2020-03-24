@@ -13,18 +13,21 @@ import com.novel.admin.service.BookService;
 import com.novel.admin.service.ChapterService;
 import com.novel.admin.service.TypeService;
 import com.novel.admin.utils.DtoUtil;
+import com.novel.common.bean.PageList;
 import com.novel.common.define.Define;
 import com.novel.common.domain.book.Book;
 import com.novel.common.dto.book.BookDto;
 import com.novel.common.utils.Snowflake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional(propagation = Propagation.REQUIRED)
 public class BookServiceImpl implements BookService
 {
     @Autowired
@@ -37,7 +40,7 @@ public class BookServiceImpl implements BookService
     private Snowflake snowflake;
 
     @Override
-    public Map<String, Object> list(int page, int size, Map<String, Object> condition)
+    public PageList<Book> list(int page, int size, Map<String, Object> condition)
     {
         IPage<Book> bookPage = new Page<>(page, size);
         QueryWrapper<Book> wrapper = new QueryWrapper<>();
@@ -94,10 +97,10 @@ public class BookServiceImpl implements BookService
                     break;
             }
         }
-        bookMapper.selectPage(bookPage, wrapper);
-        List<BookDto> bookDtoList = DtoUtil.convertBook(bookPage.getRecords());
-        completionBookDto(bookDtoList);
-        return Map.of("page", bookPage.getPages(), "size", bookPage.getTotal(), "data", bookDtoList);
+        IPage<Book> iPage = bookMapper.selectPage(bookPage, wrapper);
+        //List<BookDto> bookDtoList = DtoUtil.convertBook(bookPage.getRecords());
+        //completionBookDto(bookDtoList);
+        return PageList.of(iPage.getRecords(),iPage.getTotal());
     }
 
     @Override
@@ -119,7 +122,6 @@ public class BookServiceImpl implements BookService
         return bookMapper.insert(book);
     }
 
-    @Transactional
     @Override
     public int delete(Long id)
     {
@@ -134,10 +136,15 @@ public class BookServiceImpl implements BookService
         return bookMapper.selectById(id);
     }
 
+    @Override
+    public List<Book> findAll()
+    {
+        return bookMapper.selectList(null);
+    }
+
     /**
      * @param bookDtoList
      */
-    @Transactional
     public void completionBookDto(List<BookDto> bookDtoList)
     {
         for (BookDto d : bookDtoList)

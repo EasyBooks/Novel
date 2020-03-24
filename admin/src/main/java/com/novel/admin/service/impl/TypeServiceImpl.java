@@ -8,6 +8,7 @@ package com.novel.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.novel.admin.mapper.TypeMapper;
 import com.novel.admin.service.TypeService;
+import com.novel.common.bean.PageList;
 import com.novel.common.define.Define;
 import com.novel.common.domain.book.Type;
 import com.novel.common.utils.Snowflake;
@@ -26,7 +27,13 @@ public class TypeServiceImpl implements TypeService
     private Snowflake snowflake;
 
     @Override
-    public Map<String, Object> list(int page, int size, Map<String, Object> condition)
+    public List<Type> findAll()
+    {
+        return typeMapper.selectList(null);
+    }
+
+    @Override
+    public PageList<Type> list(int page, int size, Map<String, Object> condition)
     {
         return null;
     }

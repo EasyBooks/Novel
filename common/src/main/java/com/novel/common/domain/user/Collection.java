@@ -8,6 +8,9 @@ package com.novel.common.domain.user;
 import com.novel.common.domain.BaseEntity;
 import lombok.Data;
 
+/**
+ * 收藏
+ */
 @Data
 public class Collection extends BaseEntity
 {

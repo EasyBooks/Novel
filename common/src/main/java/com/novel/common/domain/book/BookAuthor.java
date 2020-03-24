@@ -8,6 +8,9 @@ package com.novel.common.domain.book;
 import com.novel.common.domain.BaseEntity;
 import lombok.Data;
 
+/**
+ * 小说-作者
+ */
 @Data
 public class BookAuthor extends BaseEntity
 {

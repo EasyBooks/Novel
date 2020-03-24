@@ -15,16 +15,16 @@ import java.util.List;
 public class PageList<E>
 {
     private List<E> data;
-    private int total;
+    private long total;
     private int pageIndex;
     private int pageSize;
 
-    public static <E> PageList<E> of(List<E> data,int total)
+    public static <E> PageList<E> of(List<E> data,long total)
     {
-        return new PageList(data,total,1,10);
+        return new PageList(data,total,0,0);
     }
 
-    public static <E> PageList<E> of(List<E> data,int total,int pageIndex,int pageSize)
+    public static <E> PageList<E> of(List<E> data,long total,int pageIndex,int pageSize)
     {
         return new PageList(data,total,pageIndex,pageSize);
     }

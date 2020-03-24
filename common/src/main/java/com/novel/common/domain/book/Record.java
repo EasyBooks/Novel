@@ -8,6 +8,9 @@ package com.novel.common.domain.book;
 import com.novel.common.domain.BaseEntity;
 import lombok.Data;
 
+/**
+ * 阅读记录
+ */
 @Data
 public class Record extends BaseEntity
 {
