@@ -8,7 +8,6 @@ package com.novel.user.service;
 import com.novel.common.bean.PageList;
 import com.novel.common.domain.book.Book;
 
-import java.util.List;
 import java.util.Map;
 
 public interface RPCBookService
@@ -18,7 +17,7 @@ public interface RPCBookService
      *
      * @return
      */
-    PageList<Book> bookList(Map<String,Object> conditionMap,int page,int size);
+    PageList<Book> bookList(Map<String,Object> conditionMap, int page, int size);
 
     /**
      * 修改小说

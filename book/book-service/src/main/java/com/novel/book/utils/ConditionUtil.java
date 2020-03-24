@@ -26,6 +26,7 @@ public class ConditionUtil
 
     public static <T> Wrapper<T> getWrapperByMap(Map<String,Object> conditionMap)
     {
+        QueryWrapper<T> wrapper=new QueryWrapper<T>();
         return new QueryWrapper<>();
     }
 }

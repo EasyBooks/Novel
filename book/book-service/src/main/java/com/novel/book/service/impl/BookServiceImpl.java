@@ -18,9 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Map;
 
+@Transactional
 @Service
 public class BookServiceImpl implements BookService
 {
@@ -30,14 +30,14 @@ public class BookServiceImpl implements BookService
     private Snowflake snowflake;
 
     @Override
-    public PageList<Book> bookList(Map<String, Object> conditionMap,int page,int size)
+    public PageList<Book> bookList(Map<String, Object> conditionMap, int page, int size)
     {
         IPage<Book> pageObj = new Page<>(page, size);
         IPage<Book> iPage=bookMapper.selectPage(pageObj, ConditionUtil.getWrapperByMap(conditionMap));
         return PageList.of(iPage.getRecords(),iPage.getTotal());
     }
 
-    @Transactional
+
     @Override
     public boolean updateBook(Book book)
     {
