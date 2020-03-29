@@ -36,6 +36,7 @@ public class RequestAspect
     public void requestHandler() throws Throwable
     {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attributes == null) return;
         HttpServletRequest request = attributes.getRequest();
         String uid = request.getHeader("uid");
         if (uid != null)

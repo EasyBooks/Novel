@@ -6,33 +6,79 @@
 package com.novel.gateway.handler;
 
 import com.novel.common.bean.PageList;
-import com.novel.common.domain.book.Book;
 import com.novel.common.dto.book.BookDto;
-import com.novel.user.service.PRCTypeService;
-import com.novel.common.domain.book.Type;
+import com.novel.common.dto.user.AuthorDto;
+import com.novel.gateway.logic.CacheLogic;
 import com.novel.common.utils.ResultUtil;
-import com.novel.gateway.utils.DtoUtil;
 import com.novel.user.service.RPCBookService;
+import com.novel.user.service.RPCUserService;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/book")
 public class BookHandler
 {
-    @Reference
+    @Reference(version = "1.0.0", check = false)
     private RPCBookService bookService;
+    @Reference(version = "1.0.0", check = false)
+    private RPCUserService userService;
+
+    @Autowired
+    private CacheLogic cacheLogic;
 
     @GetMapping("list")
-    public Object list(int page,int size)
+    public Object list(@RequestParam int page, @RequestParam int size,
+                       String title,Long typeId,Long id,Integer sort)
     {
-        PageList<Book> bookList = bookService.bookList(null, page, size);
-        List<BookDto> bookDtoList=new ArrayList<>(bookList.getData().size());
-        return ResultUtil.success(PageList.of(bookDtoList,bookList.getTotal()));
+        Map<String,Object> conditionMap=new HashMap<>();
+        if(id!=null)
+        {
+            conditionMap.put("id",id);
+        }
+        if(sort!=null)
+        {
+            conditionMap.put("sort",sort);
+        }
+        if(title!=null)
+        {
+            conditionMap.put("title",title);
+        }
+        if(typeId!=null)
+        {
+            conditionMap.put("typeId",typeId);
+        }
+        PageList<BookDto> bookList = bookService.bookList(conditionMap, page, size);
+        List<Long> ids=new ArrayList<>(bookList.getData().size());
+        for (BookDto b:bookList.getData())
+        {
+            ids.add(b.getId());
+        }
+        List<AuthorDto> authors = userService.findAuthors(ids);
+        Map<Long,List<AuthorDto>> authorMap=new HashMap<>(authors.size());
+        for (AuthorDto a:authors)
+        {
+            List<AuthorDto> temp = authorMap.get(a.getBookId());
+            if(temp==null)
+            {
+                temp=new ArrayList<>();
+            }
+            temp.add(a);
+            authorMap.put(a.getBookId(),temp);
+        }
+        for (BookDto b : bookList.getData())
+        {
+            b.setAuthors(authorMap.get(b.getId()));
+        }
+        return ResultUtil.success(bookList);
     }
 }

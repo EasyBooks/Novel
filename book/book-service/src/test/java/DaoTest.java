@@ -6,12 +6,14 @@
 
 import com.novel.book.BookApplication;
 import com.novel.book.mapper.BookMapper;
+import com.novel.common.domain.book.Book;
+import com.novel.user.service.RPCUserService;
+import org.apache.dubbo.config.annotation.Reference;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @SpringBootTest(classes = BookApplication.class)
 public class DaoTest
@@ -19,13 +21,17 @@ public class DaoTest
     @Autowired
     private BookMapper bookMapper;
 
+    @Reference(version = "1.0.0")
+    private RPCUserService userService;
+
     @Test
     public void test1()
     {
-        Map<String, Object> conditionMap = new HashMap<>();
-        conditionMap.put("page", 0);
-        conditionMap.put("size", 10);
-        // conditionMap.put("title", "道");
-        System.out.println(bookMapper.queryBookDto(conditionMap));
+        long userId = 551264367245656064L;
+        List<Book> books = bookMapper.selectList(null);
+        for (Book b : books)
+        {
+            userService.saveAuthor(userId, b.getId());
+        }
     }
 }

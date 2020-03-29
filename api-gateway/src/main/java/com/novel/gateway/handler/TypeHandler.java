@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("api/v1/type")
 public class TypeHandler
 {
-    @Reference(version = "1.0.0", check = false)
+    @Reference(version = "1.0.0", check = true)
     private PRCTypeService typeService;
 
     @GetMapping("typeList")

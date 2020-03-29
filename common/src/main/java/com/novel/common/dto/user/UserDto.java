@@ -8,10 +8,9 @@ import java.io.Serializable;
 public class UserDto implements Serializable
 {
     private Integer uid;
-    private String nickName;
-    private String userName;
-    private String publicKey;
+    private String nickname;
     private Integer type;
+    private String username;
     private String autograph;
     private String nation;
     private String headImg;

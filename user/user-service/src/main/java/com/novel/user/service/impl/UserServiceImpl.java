@@ -8,6 +8,7 @@ package com.novel.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.novel.common.domain.user.User;
 import com.novel.common.domain.user.UserDetails;
+import com.novel.common.dto.user.AuthorDto;
 import com.novel.common.utils.AuthUtil;
 import com.novel.common.utils.JWTUtil;
 import com.novel.common.utils.MD5Util;
@@ -21,10 +22,13 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.util.List;
+
 import static com.novel.common.utils.AuthVerifyType.VERIFY_OK;
 import static com.novel.common.utils.MD5Util.salt;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService
 {
     @Autowired
@@ -53,28 +57,30 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public String flushToken(String token, Integer uid,Integer userType)
+    public String flushToken(String token, Integer uid)
     {
+        User user = this.find(uid);
+        if (user == null) return null;
         if (AuthUtil.VerifyToken(token, String.valueOf(uid)) == VERIFY_OK)
         {
-            return JWTUtil.createJWT(uid,userType);
+            return JWTUtil.createJWT(uid, user.getType());
         }
         return null;
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE,rollbackFor = Exception.class)
+    @Transactional(isolation = Isolation.SERIALIZABLE, rollbackFor = Exception.class)
     @Override
     public int register(User user, UserDetails details)
     {
-        int now= (int) (System.currentTimeMillis()/1000);
+        int now = (int) (System.currentTimeMillis() / 1000);
         user.setId(snowflake.nextId());
-        int uid=1000+userMapper.selectCount(null);
+        int uid = 1000 + userMapper.selectCount(null);
         user.setUid(uid);
         user.setType(1);
         user.setStatus(1);
         user.setCreateTime(now);
         user.setUpdateTime(now);
-        String salt=salt();
+        String salt = salt();
         user.setSalt(salt);
         user.setPassword(MD5Util.password(user.getPassword(), salt));
         details.setUid(uid);
@@ -82,14 +88,53 @@ public class UserServiceImpl implements UserService
         details.setCreateTime(now);
         details.setUpdateTime(now);
         details.setLoginType(1);
-        details.setHeadImg("http://img3.doubanio.com/view/photo/l/public/p2507996832.jpg");
-        if(userMapper.insert(user)==1&&userDetailsMapper.insert(details)==1)
+        if (userMapper.insert(user) == 1 && userDetailsMapper.insert(details) == 1)
         {
             return 1;
-        }else
+        } else
         {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return 0;
         }
+    }
+
+    @Override
+    public User find(Integer uid)
+    {
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("uid", uid);
+        return userMapper.selectOne(wrapper);
+    }
+
+    @Override
+    public User find(Long id)
+    {
+        return userMapper.selectById(id);
+    }
+
+    @Override
+    public UserDetails findDetails(Integer uid)
+    {
+        QueryWrapper<UserDetails> wrapper = new QueryWrapper<>();
+        wrapper.eq("uid", uid);
+        return userDetailsMapper.selectOne(wrapper);
+    }
+
+    @Override
+    public List<AuthorDto> findAuthors(List<Long> bookIds)
+    {
+        return userMapper.findAuthors(bookIds);
+    }
+
+    @Override
+    public int saveAuthor(Long userId, Long bookId)
+    {
+        int now = (int) (System.currentTimeMillis() / 1000);
+        User user = new User();
+        user.setId(snowflake.nextId());
+        user.setUpdateTime(now);
+        user.setCreateTime(now);
+        user.setStatus(1);
+        return userMapper.insertAuthor(user,userId, bookId);
     }
 }

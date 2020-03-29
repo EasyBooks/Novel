@@ -6,7 +6,7 @@
 		<!-- 文件保存格式 -->
 		<property name="pattern_layout">%d{yyyy-MM-dd HH:mm:ss.SSS} [%c] [%F:%L] %-5level --|#$#|shopId:%X{shopId}|#$#|op_er:%X{op_er}|#$#|out_trade_no:%X{out_trade_no}|#$#|-- |^-^|%m|^-^|%n</property>
 		<!-- 应用名称 -->
-		<property name="SERVER_NAME">novel-user</property>
+		<property name="SERVER_NAME">novel-book</property>
 	</Properties>
     <Appenders>  
         <Console name="Console" target="SYSTEM_OUT">  
