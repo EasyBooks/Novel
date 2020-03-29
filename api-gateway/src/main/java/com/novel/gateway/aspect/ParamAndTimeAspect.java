@@ -6,6 +6,7 @@
 package com.novel.gateway.aspect;
 
 import com.novel.gateway.aspect.annotation.IdParam;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -21,10 +22,11 @@ import java.util.Arrays;
 
 @Component
 @Aspect
-public class ParamAspect
+@Slf4j
+public class ParamAndTimeAspect
 {
     /**
-     * 从请求头取出uid，放置到参数列表
+     * 从请求头取出uid，放置到参数列表，并统计接口运行时间
      *
      * @param joinPoint
      * @throws Throwable
@@ -34,22 +36,25 @@ public class ParamAspect
     {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Annotation[][] annotations = methodSignature.getMethod().getParameterAnnotations();
+        Object[] args = joinPoint.getArgs();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attributes == null) return;
+        HttpServletRequest request = attributes.getRequest();
         for (int i = 0; i < annotations.length; i++)
         {
             for (int j = 0; j < annotations[i].length; j++)
             {
                 if (annotations[i][j].annotationType() == IdParam.class)
                 {
-                    ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-                    if (attributes == null) return;
-                    HttpServletRequest request = attributes.getRequest();
                     String uid = request.getHeader("uid");
                     if (uid == null) return;
-                    Object[] args = joinPoint.getArgs();
                     args[i] = Integer.parseInt(uid);
-                    ((ProceedingJoinPoint) joinPoint).proceed(args);
                 }
             }
         }
+        long start=System.currentTimeMillis();
+        ((ProceedingJoinPoint)joinPoint).proceed(args);
+        long end=System.currentTimeMillis();
+        log.info("接口:{},耗时:{} ms",request.getRequestURI(),end-start);
     }
 }

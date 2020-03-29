@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,12 +76,14 @@ public class BookServiceImpl implements BookService
     }
 
     @Override
-    public PageList<Book> findCollection(int uid, int page, int size)
+    public PageList<BookDto> findCollection(List<Long> idList, int page, int size)
     {
-        IPage<Book> pageObj = new Page<>(page, size);
-        QueryWrapper<Book> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("uid", uid);
-        IPage<Book> iPage = bookMapper.selectPage(pageObj, queryWrapper);
-        return PageList.of(iPage.getRecords(), iPage.getTotal());
+        if(idList.size()==0) return PageList.of(new ArrayList<>(),0);
+        Map<String,Object> conditionMap = new HashMap<>();
+        conditionMap.put("ids", idList);
+        conditionMap.put("page", page);
+        conditionMap.put("size", size);
+        List<BookDto> bookList = bookMapper.queryBookByIds(conditionMap);
+        return PageList.of(bookList, 0);
     }
 }

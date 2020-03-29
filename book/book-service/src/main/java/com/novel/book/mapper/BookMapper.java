@@ -23,6 +23,9 @@ public interface BookMapper extends BaseMapper<Book>
     @SelectProvider(type = BookMapperProvider.class, method = "countBookDto")
     int countBookDto(@Param("condition") Map<String, Object> conditionMap);
 
+    @SelectProvider(type = BookMapperProvider.class, method = "queryBookByIds")
+    List<BookDto> queryBookByIds(@Param("condition") Map<String, Object> conditionMap);
+
     class BookMapperProvider
     {
         private static String COUNT_SQL = "select count(*)";
@@ -45,6 +48,40 @@ public interface BookMapper extends BaseMapper<Book>
             {
                 sql.append(" AND book.id =");
                 sql.append(conditionMap.get("id"));
+            }
+            if (conditionMap.containsKey("ids"))
+            {
+                List<Long> idList= (List<Long>) conditionMap.get("ids");
+                if(idList.size()>0)
+                {
+                    sql.append(" AND book.id in(");
+                    for (Long id:idList)
+                    {
+                        sql.append(id).append(",");
+                    }
+                    sql.delete(sql.length()-1,sql.length());
+                    sql.append(conditionMap.get(")"));
+                }
+            }
+        }
+
+        private void appendSqlLimit(Map<String, Object> conditionMap,StringBuilder sql)
+        {
+            if (conditionMap.containsKey("sort"))
+            {
+                switch ((Integer) conditionMap.get("sort"))
+                {
+                    case 1:
+                        sql.append(" ORDER BY book.click ");
+                        break;
+                }
+            }
+            if (conditionMap.containsKey("page") && conditionMap.containsKey("size"))
+            {
+                sql.append(" LIMIT ");
+                sql.append(conditionMap.get("page"));
+                sql.append(",");
+                sql.append(conditionMap.get("size"));
             }
         }
 
@@ -69,22 +106,19 @@ public interface BookMapper extends BaseMapper<Book>
             sql.append("LEFT JOIN t_type type ON book.type_id=type.id ");
             sql.append("WHERE 1=1 ");
             appendSql(conditionMap,sql);
-            if (conditionMap.containsKey("sort"))
-            {
-                switch ((Integer) conditionMap.get("sort"))
-                {
-                    case 1:
-                        sql.append(" ORDER BY book.click ");
-                        break;
-                }
-            }
-            if (conditionMap.containsKey("page") && conditionMap.containsKey("size"))
-            {
-                sql.append(" LIMIT ");
-                sql.append(conditionMap.get("page"));
-                sql.append(",");
-                sql.append(conditionMap.get("size"));
-            }
+            appendSqlLimit(conditionMap,sql);
+            return sql.toString();
+        }
+
+        public String queryBookByIds(Map<String, Object> paramMap)
+        {
+            StringBuilder sql = new StringBuilder();
+            Map<String, Object> conditionMap = (Map<String, Object>) paramMap.get("condition");
+            sql.append(SELECT_SQL);
+            sql.append(" FROM t_book as book ");
+            sql.append("LEFT JOIN t_type type ON book.type_id=type.id ");
+            appendSql(conditionMap,sql);
+            appendSqlLimit(conditionMap,sql);
             return sql.toString();
         }
     }

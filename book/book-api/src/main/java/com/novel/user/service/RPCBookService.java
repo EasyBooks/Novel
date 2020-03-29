@@ -9,6 +9,7 @@ import com.novel.common.bean.PageList;
 import com.novel.common.domain.book.Book;
 import com.novel.common.dto.book.BookDto;
 
+import java.util.List;
 import java.util.Map;
 
 public interface RPCBookService
@@ -45,10 +46,10 @@ public interface RPCBookService
 
     /**
      * 查询收藏小说
-     * @param uid
+     * @param idList
      * @param page
      * @param size
      * @return
      */
-    PageList<Book> findCollection(int uid, int page, int size);
+    PageList<BookDto> findCollection(List<Long> idList, int page, int size);
 }

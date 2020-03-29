@@ -28,9 +28,11 @@ public class ConsumerHandler
         if (data instanceof Book)
         {
             Book book = (Book) data;
+            if (book.getTitle() == null) return;
             QueryWrapper<Book> bookQueryWrapper = new QueryWrapper<>();
-            bookQueryWrapper.eq("id", book.getId());
-            if (bookMapper.selectCount(bookQueryWrapper) == 0)
+            bookQueryWrapper.eq("third_Id", book.getThirdId());
+            Book temp = bookMapper.selectOne(bookQueryWrapper);
+            if (temp == null)
             {
                 bookMapper.insert(book);
             } else
@@ -42,8 +44,9 @@ public class ConsumerHandler
         {
             Chapter chapter = (Chapter) data;
             QueryWrapper<Chapter> chapterQueryWrapper = new QueryWrapper<>();
-            chapterQueryWrapper.eq("id", chapter.getId());
-            if (chapterMapper.selectCount(chapterQueryWrapper) == 0)
+            chapterQueryWrapper.eq("third_Id", chapter.getThirdId());
+            Chapter temp = chapterMapper.selectOne(chapterQueryWrapper);
+            if (temp == null)
             {
                 chapterMapper.insert(chapter);
             } else

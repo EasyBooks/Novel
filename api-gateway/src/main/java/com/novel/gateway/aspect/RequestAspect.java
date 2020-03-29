@@ -6,6 +6,7 @@
 package com.novel.gateway.aspect;
 
 import com.novel.gateway.handler.UserHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -20,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 @Aspect
+@Slf4j
 public class RequestAspect
 {
     // 访问人次
@@ -28,7 +30,7 @@ public class RequestAspect
     private CopyOnWriteArraySet<String> requestUserSet = new CopyOnWriteArraySet<>();
 
     /**
-     * 基于方法通配符的普通方法拦截
+     * 统计请求人次、路径
      *
      * @throws Throwable
      */
@@ -43,12 +45,12 @@ public class RequestAspect
         {
             requestUserSet.add(uid);
         }
-        System.out.println("请求路径：" + request.getRequestURI());
-        System.out.println("请求人次=" + requestCount.incrementAndGet());
+        log.info("请求路径：{}" , request.getRequestURI());
+        log.info("请求人次：{}" , requestCount.incrementAndGet());
     }
 
     /**
-     * 基于注解的连接点拦截
+     * 统计登录注册
      *
      * @param joinPoint
      * @param result
@@ -69,22 +71,21 @@ public class RequestAspect
         {
             if (code.equals(0))
             {
-                System.out.println("登录成功");
+                log.info("登录成功");
             } else
             {
-                System.out.println("登录失败");
+                log.info("登录失败");
             }
         } else if (clazz == UserHandler.class && "register".equals(methodName))
         {
             if (code.equals(0))
             {
-                System.out.println("注册成功");
+                log.info("注册成功");
             } else
             {
-                System.out.println("注册失败");
+                log.info("注册失败");
             }
         }
-        System.out.println("result=" + result);
         return result;
     }
 }

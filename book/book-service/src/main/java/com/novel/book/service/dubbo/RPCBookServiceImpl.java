@@ -13,6 +13,7 @@ import com.novel.user.service.RPCBookService;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Map;
 
 @Service(version = "1.0.0", timeout = 5000)
@@ -46,8 +47,8 @@ public class RPCBookServiceImpl implements RPCBookService
     }
 
     @Override
-    public PageList<Book> findCollection(int uid, int page, int size)
+    public PageList<BookDto> findCollection(List<Long> idList, int page, int size)
     {
-        return bookService.findCollection(uid, page, size);
+        return bookService.findCollection(idList, page, size);
     }
 }

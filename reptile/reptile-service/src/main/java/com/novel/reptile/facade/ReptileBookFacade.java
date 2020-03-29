@@ -12,7 +12,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -30,7 +29,6 @@ public class ReptileBookFacade
     @Autowired
     private NsqProduce produce;
 
-    @Async
     public void allReptile()
     {
         // work(100000);
@@ -53,42 +51,58 @@ public class ReptileBookFacade
         // 837229
         // 841041
         // work(new int[]{941433,873139,891736,730493,850594,837229,841041});
+        // this.work(125000, 126000);  1000条  66分钟
+        // this.work(126000, 126200);  200条   23分钟
+        long start = System.currentTimeMillis();
+        this.work(126715, 127000);
+        long end = System.currentTimeMillis();
+        System.out.println("-------------------------------");
+        System.out.println("-------------------------------");
+        System.out.println("爬取完毕，耗时：" + (end - start) / 1000 + "秒");
+        System.out.println("-------------------------------");
+        System.out.println("-------------------------------");
+        System.out.println("-------------------------------");
     }
 
-    private void work(int start)
+    public void work(int id)
     {
         try
         {
-            //for (; start < 999999; start++)
+            String url = String.format("http://book.zongheng.com/book/%s.html", id);
+            Document document = getHtmlTextByUrl(url);
+            if (!document.select("title").first().text().equals(NOT_FIND_STR))
             {
-                String url = String.format("http://book.zongheng.com/book/%s.html", start);
-                Document document = getHtmlTextByUrl(url);
-                if (!document.select("title").first().text().equals(NOT_FIND_STR))
+                Book book = getBookInfoByUrl(document);
+                book.setThirdId((long) id);
+                if (book.getTitle() == null) return;
+                produce.produce("book_reptile", book);
+                List<Chapter> chapterList = getChapterListByUrl(url);
+                int sort = 1;
+                if (chapterList == null)
                 {
-                    Book book = getBookInfoByUrl(document);
-                    produce.produce("book_reptile", book);
-                    List<Chapter> chapterList = getChapterListByUrl(url);
-                    int sort = 1;
-                    for (Chapter c : chapterList)
-                    {
-                        c.setId(snowflake.nextId());
-                        c.setBookId(book.getId());
-                        c.setSorted(sort++);
-                        produce.produce("chapter_reptile", c);
-                    }
+                    System.err.println("章节为空");
+                    return;
+                }
+                for (Chapter c : chapterList)
+                {
+                    c.setId(snowflake.nextId());
+                    c.setBookId(book.getId());
+                    c.setSorted(sort++);
+                    produce.produce("chapter_reptile", c);
                 }
             }
+            System.out.println("curr=" + id + ",爬取完毕");
         } catch (NullPointerException e)
         {
-            work(start);
+            System.err.println("发生异常，curr=" + id);
         }
     }
 
-    private void work(int[] arr)
+    public void work(int start, int end)
     {
-        for (int i = 0; i < arr.length; i++)
+        for (; start < end; start++)
         {
-            work(arr[i]);
+            work(start);
         }
     }
 
@@ -201,16 +215,29 @@ public class ReptileBookFacade
         List<Chapter> chapterList = new ArrayList<>();
         do
         {
-            Chapter chapter = BaseEntity.initEntity(Chapter.class);
-            Document document = getHtmlTextByUrl(url);
-            url = getNextUrl(document);
-            // 标题
-            String title = getTitle(document);
-            chapter.setName(title);
-            // 内容
-            chapter.setContent(getText(document));
-            log.info("爬到一个章节，{}", title);
-            chapterList.add(chapter);
+            try
+            {
+                Chapter chapter = BaseEntity.initEntity(Chapter.class);
+                Document document = getHtmlTextByUrl(url);
+                url = getNextUrl(document);
+
+                int index = url.lastIndexOf("/");
+                String thirdId = url.substring(index + 1, url.length() - 5);
+                // 第三方ID
+                chapter.setThirdId(Long.parseLong(thirdId));
+
+                // 标题
+                String title = getTitle(document);
+                chapter.setName(title);
+                // 内容
+                chapter.setContent(getText(document));
+                log.info("爬到一个章节，{}", title);
+                chapterList.add(chapter);
+            } catch (Exception e)
+            {
+                System.err.println("爬取章节发生异常：" + e.getMessage());
+                return chapterList;
+            }
         } while (!url.equals(END_HREF));
         return chapterList;
     }
