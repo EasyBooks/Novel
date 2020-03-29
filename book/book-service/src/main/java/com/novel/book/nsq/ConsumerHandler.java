@@ -39,9 +39,10 @@ public class ConsumerHandler
                 bookMapper.insert(book);
             } else
             {
-                // 删除之前的
-                bookMapper.deleteById(temp.getId());
-                bookMapper.insert(book);
+                long newId = book.getId();
+                long oldId = temp.getId();
+                bookMapper.updateById(book);
+                bookMapper.updateId(oldId, newId);
                 log.info("更新一本小说，{}", book.getTitle());
             }
         } else if (data instanceof Chapter)

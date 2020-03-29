@@ -10,6 +10,7 @@ import com.novel.common.domain.book.Book;
 import com.novel.common.dto.book.BookDto;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
@@ -17,6 +18,9 @@ import java.util.Map;
 
 public interface BookMapper extends BaseMapper<Book>
 {
+    @Update("update t_book set id=#{newId} where id=#{oldId}")
+    int updateId(@Param("oldId") long oldId, @Param("newId") long newId);
+
     @SelectProvider(type = BookMapperProvider.class, method = "queryBookDto")
     List<BookDto> queryBookDto(@Param("condition") Map<String, Object> conditionMap);
 
@@ -31,7 +35,7 @@ public interface BookMapper extends BaseMapper<Book>
         private static String COUNT_SQL = "select count(*)";
         private static String SELECT_SQL = "select book.id,book.type_id as typeId,title,book.synopsis,cover,recommend,click,collection,word_num,book.create_time as createTime,type.`name` as typeName";
 
-        private void appendSql(Map<String, Object> conditionMap,StringBuilder sql)
+        private void appendSql(Map<String, Object> conditionMap, StringBuilder sql)
         {
             if (conditionMap.containsKey("title"))
             {
@@ -51,21 +55,21 @@ public interface BookMapper extends BaseMapper<Book>
             }
             if (conditionMap.containsKey("ids"))
             {
-                List<Long> idList= (List<Long>) conditionMap.get("ids");
-                if(idList.size()>0)
+                List<Long> idList = (List<Long>) conditionMap.get("ids");
+                if (idList.size() > 0)
                 {
                     sql.append(" AND book.id in(");
-                    for (Long id:idList)
+                    for (Long id : idList)
                     {
                         sql.append(id).append(",");
                     }
-                    sql.delete(sql.length()-1,sql.length());
+                    sql.delete(sql.length() - 1, sql.length());
                     sql.append(conditionMap.get(")"));
                 }
             }
         }
 
-        private void appendSqlLimit(Map<String, Object> conditionMap,StringBuilder sql)
+        private void appendSqlLimit(Map<String, Object> conditionMap, StringBuilder sql)
         {
             if (conditionMap.containsKey("sort"))
             {
@@ -93,7 +97,7 @@ public interface BookMapper extends BaseMapper<Book>
             sql.append(" FROM t_book as book ");
             sql.append("LEFT JOIN t_type type ON book.type_id=type.id ");
             sql.append("WHERE 1=1 ");
-            appendSql(conditionMap,sql);
+            appendSql(conditionMap, sql);
             return sql.toString();
         }
 
@@ -105,8 +109,8 @@ public interface BookMapper extends BaseMapper<Book>
             sql.append(" FROM t_book as book ");
             sql.append("LEFT JOIN t_type type ON book.type_id=type.id ");
             sql.append("WHERE 1=1 ");
-            appendSql(conditionMap,sql);
-            appendSqlLimit(conditionMap,sql);
+            appendSql(conditionMap, sql);
+            appendSqlLimit(conditionMap, sql);
             return sql.toString();
         }
 
@@ -117,8 +121,8 @@ public interface BookMapper extends BaseMapper<Book>
             sql.append(SELECT_SQL);
             sql.append(" FROM t_book as book ");
             sql.append("LEFT JOIN t_type type ON book.type_id=type.id ");
-            appendSql(conditionMap,sql);
-            appendSqlLimit(conditionMap,sql);
+            appendSql(conditionMap, sql);
+            appendSqlLimit(conditionMap, sql);
             return sql.toString();
         }
     }
