@@ -25,4 +25,7 @@ public class Define
     {
         return Map.of("status", ENABLE);
     }
+
+    public static final int ZONGHENG_PLATFORM = 1;
+    public static final int JINYONG_PLATFORM = 2;
 }

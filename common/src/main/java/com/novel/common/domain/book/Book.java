@@ -20,4 +20,5 @@ public class Book extends BaseEntity
     private Integer instalments;
     private Long wordNum;
     private Long thirdId;
+    private Integer platformId;
 }

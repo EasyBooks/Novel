@@ -1,12 +1,16 @@
-package com.novel.reptile.facade;
+package com.novel.reptile.facade.zongheng;
 
+import com.novel.common.define.Define;
 import com.novel.common.domain.BaseEntity;
 import com.novel.common.domain.book.Book;
 import com.novel.common.domain.book.Chapter;
 import com.novel.common.utils.Snowflake;
+import com.novel.reptile.facade.ReptileConfig;
+import com.novel.reptile.facade.ReptileStart;
+import com.novel.reptile.facade.ReptileType;
 import com.novel.reptile.nsq.NsqProduce;
+import com.novel.reptile.utils.JsoupUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -18,50 +22,51 @@ import java.util.*;
 
 @Component
 @Slf4j
-public class ReptileBookFacade
+public class ZonghengReptileFacade implements ReptileStart
 {
-    private static final int TIME_OUT = 5 * 1000;
     private static final String END_HREF = "javascript:void(0)";
-    private static final Random RANDOM = new Random();
     private static final String NOT_FIND_STR = "访问页面不存在";
+
+    private int start;
+
+    private int end;
+
     @Autowired
     private Snowflake snowflake;
     @Autowired
     private NsqProduce produce;
 
-    public void allReptile()
+    @Override
+    public void init(ReptileConfig config)
+    {
+        this.start = config.getStart();
+        this.end = config.getEnd();
+    }
+
+    @Override
+    public void start()
     {
         // work(100000);
         // 123438
-        // 124312
-        // 912887
-        // 785695
-        // 887862
-        // 771898
-        // 842795
-        // 879373
-        // 845570
-
-
-        // 941433
-        // 873139
-        // 891736
-        // 730493
-        // 850594
-        // 837229
-        // 841041
         // work(new int[]{941433,873139,891736,730493,850594,837229,841041});
         // this.work(125000, 126000);  1000条  66分钟
         // this.work(126000, 126200);  200条   23分钟
-        long start = System.currentTimeMillis();
-        this.work(126715, 127000);
-        long end = System.currentTimeMillis();
+        // this.work(127000, 127000);
+        long startTime = System.currentTimeMillis();
+        this.work(this.start, this.end);
+        long endTime = System.currentTimeMillis();
         System.out.println("-------------------------------");
         System.out.println("-------------------------------");
-        System.out.println("爬取完毕，耗时：" + (end - start) / 1000 + "秒");
+        System.out.println("爬取完毕，耗时：" + (endTime - startTime) / 1000 + "秒");
         System.out.println("-------------------------------");
         System.out.println("-------------------------------");
         System.out.println("-------------------------------");
+    }
+
+    @Override
+    public ReptileType type()
+    {
+        return ReptileType.ZONGHENG;
     }
 
     public void work(int id)
@@ -69,7 +74,7 @@ public class ReptileBookFacade
         try
         {
             String url = String.format("http://book.zongheng.com/book/%s.html", id);
-            Document document = getHtmlTextByUrl(url);
+            Document document = JsoupUtil.getHtmlTextByUrl(url);
             if (!document.select("title").first().text().equals(NOT_FIND_STR))
             {
                 Book book = getBookInfoByUrl(document);
@@ -86,6 +91,7 @@ public class ReptileBookFacade
                 for (Chapter c : chapterList)
                 {
                     c.setId(snowflake.nextId());
+                    c.setPlatformId(Define.ZONGHENG_PLATFORM);
                     c.setBookId(book.getId());
                     c.setSorted(sort++);
                     produce.produce("chapter_reptile", c);
@@ -110,6 +116,7 @@ public class ReptileBookFacade
     {
         Book book = BaseEntity.initEntity(Book.class);
         book.setId(snowflake.nextId());
+        book.setPlatformId(Define.ZONGHENG_PLATFORM);
         book.setTypeId(1L);
         book.setClick(0);
         book.setInstalments(0);
@@ -136,7 +143,7 @@ public class ReptileBookFacade
 
     private List<Chapter> getChapterListByUrl(String url)
     {
-        Document document = getHtmlTextByUrl(url);
+        Document document = JsoupUtil.getHtmlTextByUrl(url);
         for (Element d : document.select("a"))
         {
             if (d.text().equals("开始阅读"))
@@ -157,7 +164,7 @@ public class ReptileBookFacade
     public Map<String, String> search(String keyword, int size)
     {
         String url = String.format("http://search.zongheng.com/s?keyword=%s", keyword);
-        Document document = getHtmlTextByUrl(url);
+        Document document = JsoupUtil.getHtmlTextByUrl(url);
         Elements elements = document.body().getElementsByClass("fl se-result-infos");
         if (size > elements.size())
         {
@@ -190,7 +197,7 @@ public class ReptileBookFacade
      */
     private String getChapterUrl(String bookUrl)
     {
-        Document document = getHtmlTextByUrl(bookUrl);
+        Document document = JsoupUtil.getHtmlTextByUrl(bookUrl);
         Elements elements = document.getElementsByClass("btn-group");
         if (elements.size() == 1)
         {
@@ -218,7 +225,7 @@ public class ReptileBookFacade
             try
             {
                 Chapter chapter = BaseEntity.initEntity(Chapter.class);
-                Document document = getHtmlTextByUrl(url);
+                Document document = JsoupUtil.getHtmlTextByUrl(url);
                 url = getNextUrl(document);
 
                 int index = url.lastIndexOf("/");
@@ -258,10 +265,7 @@ public class ReptileBookFacade
             for (Node node : element.childNodes())
             {
                 String href = node.attr("href");
-                if (href.trim().equals(""))
-                {
-                    continue;
-                } else
+                if (!href.trim().equals(""))
                 {
                     // 下一章的链接
                     if (++count == 3)
@@ -308,38 +312,5 @@ public class ReptileBookFacade
         {
             return null;
         }
-    }
-
-    /**
-     * 根据url获取数据
-     *
-     * @param url
-     * @return
-     */
-    private Document getHtmlTextByUrl(String url)
-    {
-        Document document = null;
-        try
-        {
-            // 防止被拉黑，随机延迟
-            Thread.sleep(RANDOM.nextInt(1000));
-            document = Jsoup.connect(url)
-                    .data("query", "Java")
-                    .userAgent("Mozilla")
-                    .cookie("auth", "token")
-                    .timeout(TIME_OUT).post();
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return document;
-    }
-
-    public Book getBookByUrl(String url)
-    {
-
-        Book book = BaseEntity.initEntity(Book.class);
-
-        return book;
     }
 }

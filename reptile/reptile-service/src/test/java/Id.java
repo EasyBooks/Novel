@@ -4,16 +4,20 @@
  * 作用：
  */
 
+import com.novel.reptile.facade.ReptileConfig;
+import com.novel.reptile.facade.jinyong.JinyongReptileFacade;
 import org.junit.Test;
+
 
 public class Id
 {
-    String url = "http://book.zongheng.com/chapter/920255/59305460.html";
-
     @Test
     public void test()
     {
-        int index = url.lastIndexOf("/");
-        System.out.println(url.substring(index + 1, url.length() - 5));
+        JinyongReptileFacade facade = new JinyongReptileFacade();
+        ReptileConfig config = new ReptileConfig();
+        config.setName("倚天屠龙记");
+        facade.init(config);
+        facade.start();
     }
 }

@@ -37,9 +37,9 @@ public class NsqProduce
     @Async
     public void produce(String topic, Object data)
     {
+        Optional<byte[]> optionalBytes = BitObjectUtil.objectToBytes(data);
         try
         {
-            Optional<byte[]> optionalBytes = BitObjectUtil.objectToBytes(data);
             if (optionalBytes.isPresent())
             {
                 this.nsqProducer.produce(topic, optionalBytes.get());
@@ -47,7 +47,20 @@ public class NsqProduce
             }
         } catch (Exception e)
         {
-            e.printStackTrace();
+            // 发送数据失败，加入重试队列
+            optionalBytes.ifPresent(bytes -> trySend(topic, bytes));
+        }
+    }
+
+    private void trySend(String topic, byte[] data)
+    {
+        try
+        {
+            Thread.sleep(1000);
+            this.nsqProducer.produce(topic, data);
+        } catch (Exception e)
+        {
+            trySend(topic, data);
         }
     }
 }
