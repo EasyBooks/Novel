@@ -19,7 +19,7 @@ public class AllTest
     private static final String END_HREF = "访问页面不存在";
     private static final Random RANDOM = new Random();
 
-    @Test
+    //@Test
     public void test()
     {
         String url = String.format("http://book.zongheng.com/book/%s.html", 123438);

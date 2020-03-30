@@ -12,7 +12,7 @@ public class Test
     private static final String END_HREF="javascript:void(0)";
     private static final Random RANDOM=new Random();
 
-    @org.junit.Test
+    //@org.junit.Test
     public void url()
     {
         String url = String.format("http://book.zongheng.com/book/%s.html", 123438);
@@ -26,7 +26,7 @@ public class Test
         });
     }
 
-    @org.junit.Test
+   // @org.junit.Test
     public void test()
     {
         Map<String, String> chapterMap = search("苦涯", 2);

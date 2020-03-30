@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class Id
 {
-    @Test
+    //@Test
     public void test()
     {
         JinyongReptileFacade facade = new JinyongReptileFacade();

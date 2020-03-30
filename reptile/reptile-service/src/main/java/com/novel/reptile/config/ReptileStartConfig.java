@@ -22,10 +22,10 @@ public class ReptileStartConfig implements ApplicationRunner
          */
         ReptileStart reptileStart = reptileBuild
                 .type(ReptileType.JINYONG)
-                .name("天龙八部")
+                .name("鹿鼎记")
                 .start(127000)
                 .end(127200)
                 .build();
-        reptileStart.start();
+        //reptileStart.start();
     }
 }

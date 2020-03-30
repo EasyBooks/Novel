@@ -42,10 +42,8 @@
         <guava.version>25.1-jre</guava.version>
         <commons.version>3.9</commons.version>
         <commons-io.version>2.4</commons-io.version>
-        <jwt.version>0.9.1</jwt.version>
         <fastjson.version>1.2.62</fastjson.version>
         <nacos-spring.version>0.3.3</nacos-spring.version>
-        <jwt.version>0.6.0</jwt.version>
         <pagehelper.version>5.1.2</pagehelper.version>
         <protobuf.version>3.11.1</protobuf.version>
         <nsq.version>1.0.0.RC4</nsq.version>
@@ -128,12 +126,6 @@
             <version>${commons-io.version}</version>
             <scope>test</scope>
             <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jwt.version}</version>
         </dependency>
 
         <dependency>
