@@ -10,8 +10,8 @@ import com.novel.common.domain.BaseEntity;
 import com.novel.common.domain.book.Book;
 import com.novel.common.domain.book.Chapter;
 import com.novel.common.utils.Snowflake;
+import com.novel.reptile.facade.AbstractReptileStart;
 import com.novel.reptile.facade.ReptileConfig;
-import com.novel.reptile.facade.ReptileStart;
 import com.novel.reptile.facade.ReptileType;
 import com.novel.reptile.nsq.NsqProduce;
 import com.novel.reptile.utils.JsoupUtil;
@@ -29,7 +29,7 @@ import java.util.*;
  */
 @Component
 @Slf4j
-public class JinyongReptileFacade implements ReptileStart
+public class JinyongReptileFacade extends AbstractReptileStart
 {
     private static final String BASE_URL = "http://www.jinyongwang.com/";
 
@@ -77,11 +77,6 @@ public class JinyongReptileFacade implements ReptileStart
         pageSet.add(213);
         startPageMap.put("神雕侠侣", 781);
         pageSet.add(781);
-    }
-
-    private long getChapterId(String name)
-    {
-        return startPageMap.get(name) + name.hashCode();
     }
 
     @Override
@@ -136,7 +131,7 @@ public class JinyongReptileFacade implements ReptileStart
         System.out.println(startPageMap.size());
     }
 
-    private void appointReptile(String name)
+    public void appointReptile(String name)
     {
         String url = bookMap.get(name);
         if (url == null)

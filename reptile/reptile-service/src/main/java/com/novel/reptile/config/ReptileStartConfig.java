@@ -21,11 +21,11 @@ public class ReptileStartConfig implements ApplicationRunner
          * 指定爬虫资源类型和配置
          */
         ReptileStart reptileStart = reptileBuild
-                .type(ReptileType.JINYONG)
-                .name("鹿鼎记")
+                .type(ReptileType.ZONGHENG)
+                .name("神雕侠侣")
                 .start(127000)
-                .end(127200)
+                .end(127500)
                 .build();
-        //reptileStart.start();
+        new Thread(reptileStart::start).start();
     }
 }

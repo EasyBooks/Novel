@@ -48,18 +48,19 @@ public class NsqProduce
         } catch (Exception e)
         {
             // 发送数据失败，加入重试队列
-            optionalBytes.ifPresent(bytes -> trySend(topic, bytes));
+            trySend(topic, data);
         }
     }
 
-    private void trySend(String topic, byte[] data)
+    private void trySend(String topic, Object data)
     {
         try
         {
-            Thread.sleep(1000);
-            this.nsqProducer.produce(topic, data);
+            Thread.sleep(2*1000);
+            this.produce(topic, data);
         } catch (Exception e)
         {
+            System.err.println("MQ发送重试");
             trySend(topic, data);
         }
     }

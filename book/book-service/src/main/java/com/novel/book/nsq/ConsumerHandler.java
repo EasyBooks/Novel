@@ -39,6 +39,9 @@ public class ConsumerHandler
                 bookMapper.insert(book);
             } else
             {
+                /**
+                 * 此时章节绑定的ID已经重新生成了，需要同步修改
+                 */
                 long newId = book.getId();
                 long oldId = temp.getId();
                 bookMapper.updateById(book);
@@ -58,7 +61,9 @@ public class ConsumerHandler
                 log.info("保存一个章节，{}", chapter.getName());
             } else
             {
+                chapter.setId(temp.getId());
                 chapterMapper.updateById(chapter);
+                log.info("更新一个章节,name={}", chapter.getName());
             }
         }
     }

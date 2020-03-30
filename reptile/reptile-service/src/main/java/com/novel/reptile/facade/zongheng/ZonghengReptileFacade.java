@@ -5,8 +5,8 @@ import com.novel.common.domain.BaseEntity;
 import com.novel.common.domain.book.Book;
 import com.novel.common.domain.book.Chapter;
 import com.novel.common.utils.Snowflake;
+import com.novel.reptile.facade.AbstractReptileStart;
 import com.novel.reptile.facade.ReptileConfig;
-import com.novel.reptile.facade.ReptileStart;
 import com.novel.reptile.facade.ReptileType;
 import com.novel.reptile.nsq.NsqProduce;
 import com.novel.reptile.utils.JsoupUtil;
@@ -22,7 +22,7 @@ import java.util.*;
 
 @Component
 @Slf4j
-public class ZonghengReptileFacade implements ReptileStart
+public class ZonghengReptileFacade extends AbstractReptileStart
 {
     private static final String END_HREF = "javascript:void(0)";
     private static final String NOT_FIND_STR = "访问页面不存在";
