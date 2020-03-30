@@ -49,7 +49,7 @@ public class NsqConsumer implements ApplicationRunner
     public void run(ApplicationArguments args) throws Exception
     {
         NSQLookup lookup = new DefaultNSQLookup();
-        Executor executor = Executors.newFixedThreadPool(20);
+        Executor executor = Executors.newFixedThreadPool(50);
         lookup.addLookupAddress(nsqHost, nsqLookupPort);
         bookConsumer(lookup, executor);
         chapterConsumer(lookup, executor);

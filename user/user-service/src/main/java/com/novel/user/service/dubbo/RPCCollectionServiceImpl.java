@@ -28,4 +28,10 @@ public class RPCCollectionServiceImpl implements RPCCollectionService
     {
         return collectionService.saveCollection(uid, type, bookId);
     }
+
+    @Override
+    public int deleteCollection(Long id)
+    {
+        return 0;
+    }
 }

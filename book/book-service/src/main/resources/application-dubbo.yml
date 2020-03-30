@@ -1,0 +1,12 @@
+# Dubbo、Nacos
+nacos:
+  service-address: 114.116.239.108
+  port: 8848
+dubbo:
+  registry:
+    address: nacos://${nacos.service-address}:${nacos.port}
+  protocol:
+    name: dubbo
+    port: 20020
+  scan:
+    base-packages: com.novel.book.service.dubbo

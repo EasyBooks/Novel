@@ -19,16 +19,9 @@
         <module>im</module>
         <module>common</module>
         <module>user</module>
-        <module>user/user-api</module>
-        <module>user/user-service</module>
         <module>api-gateway</module>
         <module>reptile</module>
-        <module>reptile/reptile-api</module>
-        <module>reptile/reptile-service</module>
         <module>book</module>
-        <module>book/book-api</module>
-        <module>im/im-api</module>
-        <module>im/im-service</module>
         <module>admin</module>
         <module>order</module>
     </modules>

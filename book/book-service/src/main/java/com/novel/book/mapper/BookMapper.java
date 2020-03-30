@@ -11,7 +11,6 @@ import com.novel.common.dto.book.BookDto;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
 import java.util.Map;

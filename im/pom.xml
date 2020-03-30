@@ -10,6 +10,11 @@
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
 
+    <modules>
+        <module>im-api</module>
+        <module>im-service</module>
+    </modules>
+
     <artifactId>im</artifactId>
 
     <dependencies>

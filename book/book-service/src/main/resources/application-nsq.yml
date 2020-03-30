@@ -1,0 +1,11 @@
+# NSQ
+nsq:
+  produce:
+    host: 47.95.239.29
+    port: 4150
+  lookup:
+    host: 47.95.239.29
+    port: 4161
+  bookTopic: book_reptile
+  chapterTopic: chapter_reptile
+  channel: reptile_channel
