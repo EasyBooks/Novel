@@ -20,8 +20,8 @@ public class AuthInterceptor implements HandlerInterceptor
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
     {
-        // 登录请求放行
-        if (request.getServletPath().equals("/user/login"))
+        // 登录、注册请求放行
+        if (request.getServletPath().equals("/user/login") || request.getServletPath().equals("/user/register"))
         {
             return true;
         }
@@ -30,13 +30,12 @@ public class AuthInterceptor implements HandlerInterceptor
         {
             return true;
         }
-
         // 请求头获取token和uid
         String token = request.getHeader("token");
         String uid = request.getHeader("uid");
         String versions = request.getHeader("versions");
         String device = request.getHeader("device");
-        if(ObjectUtil.isNull(token,uid,versions,device))
+        if (ObjectUtil.isNull(token, uid, versions, device))
         {
             response.setContentType("text/json;charset=UTF-8");
             response.getWriter().println(ResultUtil.metadataResult);

@@ -19,4 +19,6 @@ public class Chapter extends BaseEntity
     private Integer sorted;
     private String name;
     private String content;
+    private Long thirdId;
+    private Integer platformId;
 }

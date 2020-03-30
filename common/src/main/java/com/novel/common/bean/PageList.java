@@ -8,11 +8,12 @@ package com.novel.common.bean;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class PageList<E>
+public class PageList<E> implements Serializable
 {
     private List<E> data;
     private long total;

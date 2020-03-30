@@ -5,7 +5,7 @@
  */
 package com.novel.common.dto.book;
 
-import com.novel.common.domain.user.User;
+import com.novel.common.dto.user.AuthorDto;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -26,5 +26,5 @@ public class BookDto implements Serializable
     private Integer instalments;
     private Long wordNum;
     private Integer createTime;
-    private List<User> authors;
+    private List<AuthorDto> authors;
 }

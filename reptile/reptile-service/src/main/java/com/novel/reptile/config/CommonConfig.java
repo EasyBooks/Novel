@@ -58,7 +58,7 @@ public class CommonConfig
         // 配置最大线程数
         executor.setMaxPoolSize(20);
         // 配置队列大小
-        executor.setQueueCapacity(500);
+        executor.setQueueCapacity(30);
         // 配置线程池中的线程的名称前缀
         executor.setThreadNamePrefix(serviceName + "-");
         // 如果线程池任务已满，则由调用者自己处理

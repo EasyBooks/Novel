@@ -13,14 +13,18 @@ import com.novel.book.service.BookService;
 import com.novel.book.utils.ConditionUtil;
 import com.novel.common.bean.PageList;
 import com.novel.common.domain.book.Book;
+import com.novel.common.dto.book.BookDto;
 import com.novel.common.utils.Snowflake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Transactional
 @Service
 public class BookServiceImpl implements BookService
 {
@@ -30,14 +34,19 @@ public class BookServiceImpl implements BookService
     private Snowflake snowflake;
 
     @Override
-    public PageList<Book> bookList(Map<String, Object> conditionMap,int page,int size)
+    public PageList<BookDto> bookList(Map<String, Object> conditionMap, int page, int size)
     {
-        IPage<Book> pageObj = new Page<>(page, size);
-        IPage<Book> iPage=bookMapper.selectPage(pageObj, ConditionUtil.getWrapperByMap(conditionMap));
-        return PageList.of(iPage.getRecords(),iPage.getTotal());
+        if (conditionMap == null)
+        {
+            conditionMap = new HashMap<>();
+        }
+        conditionMap.put("page", page);
+        conditionMap.put("size", size);
+        List<BookDto> bookList = bookMapper.queryBookDto(conditionMap);
+        return PageList.of(bookList, bookMapper.countBookDto(conditionMap));
     }
 
-    @Transactional
+
     @Override
     public boolean updateBook(Book book)
     {
@@ -67,12 +76,14 @@ public class BookServiceImpl implements BookService
     }
 
     @Override
-    public PageList<Book> findCollection(int uid, int page, int size)
+    public PageList<BookDto> findCollection(List<Long> idList, int page, int size)
     {
-        IPage<Book> pageObj = new Page<>(page, size);
-        QueryWrapper<Book> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("uid", uid);
-        IPage<Book> iPage=bookMapper.selectPage(pageObj, queryWrapper);
-        return PageList.of(iPage.getRecords(),iPage.getTotal());
+        if(idList.size()==0) return PageList.of(new ArrayList<>(),0);
+        Map<String,Object> conditionMap = new HashMap<>();
+        conditionMap.put("ids", idList);
+        conditionMap.put("page", page);
+        conditionMap.put("size", size);
+        List<BookDto> bookList = bookMapper.queryBookByIds(conditionMap);
+        return PageList.of(bookList, 0);
     }
 }

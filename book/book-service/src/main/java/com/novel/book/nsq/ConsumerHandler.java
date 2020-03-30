@@ -28,29 +28,38 @@ public class ConsumerHandler
         if (data instanceof Book)
         {
             Book book = (Book) data;
+            if (book.getTitle() == null) return;
             QueryWrapper<Book> bookQueryWrapper = new QueryWrapper<>();
-            bookQueryWrapper.eq("id", book.getId());
-            if (bookMapper.selectCount(bookQueryWrapper) == 0)
+            bookQueryWrapper.eq("third_Id", book.getThirdId())
+                    .and(w -> w.eq("platform_Id", book.getPlatformId()));
+            Book temp = bookMapper.selectOne(bookQueryWrapper);
+            if (temp == null)
             {
+                log.info("保存一本小说，{}", book.getTitle());
                 bookMapper.insert(book);
             } else
             {
+                long newId = book.getId();
+                long oldId = temp.getId();
                 bookMapper.updateById(book);
+                bookMapper.updateId(oldId, newId);
+                log.info("更新一本小说，{}", book.getTitle());
             }
-            log.info("保存一本小说，{}", book.getTitle());
         } else if (data instanceof Chapter)
         {
             Chapter chapter = (Chapter) data;
             QueryWrapper<Chapter> chapterQueryWrapper = new QueryWrapper<>();
-            chapterQueryWrapper.eq("id", chapter.getId());
-            if (chapterMapper.selectCount(chapterQueryWrapper) == 0)
+            chapterQueryWrapper.eq("third_Id", chapter.getThirdId())
+                    .and(w -> w.eq("platform_Id", chapter.getPlatformId()));
+            Chapter temp = chapterMapper.selectOne(chapterQueryWrapper);
+            if (temp == null)
             {
                 chapterMapper.insert(chapter);
+                log.info("保存一个章节，{}", chapter.getName());
             } else
             {
                 chapterMapper.updateById(chapter);
             }
-            log.info("保存一个章节，{}", chapter.getName());
         }
     }
 }

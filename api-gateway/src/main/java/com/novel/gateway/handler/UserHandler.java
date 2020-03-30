@@ -11,6 +11,7 @@ import com.novel.common.dto.user.UserDto;
 import com.novel.common.utils.JWTUtil;
 import com.novel.common.utils.MetadataUtil;
 import com.novel.common.utils.ResultUtil;
+import com.novel.gateway.aspect.annotation.IdParam;
 import com.novel.gateway.aspect.annotation.LogInterceptJoinPoint;
 import com.novel.user.service.RPCUserService;
 import org.apache.dubbo.config.annotation.Reference;
@@ -24,29 +25,31 @@ import java.util.Map;
 @RequestMapping("api/v1/user")
 public class UserHandler
 {
-    @Reference(version = "1.0.0",check = false)
+    @Reference(version = "1.0.0", check = false)
     private RPCUserService userService;
 
     @GetMapping("test")
     public Object test(String name, HttpServletRequest request)
     {
-        System.out.println("versions="+ MetadataUtil.getVersions(request));
+        System.out.println("versions=" + MetadataUtil.getVersions(request));
         return ResultUtil.success(userService.hello(name));
     }
 
     @LogInterceptJoinPoint
     @PostMapping("login")
-    public Object login(String name,String pass)
+    public Object login(String name, String pass)
     {
-        User user= userService.login(name, pass);
-        if(user==null)
+        User user = userService.login(name, pass);
+        if (user == null)
         {
             return ResultUtil.error("登录失败");
-        }else
+        } else
         {
-            UserDto userDto=new UserDto();
-            BeanUtils.copyProperties(user,userDto);
-            return ResultUtil.success(Map.of("token",JWTUtil.createJWT(user.getUid(),user.getType()),"data",userDto));
+            UserDto userDto = new UserDto();
+            BeanUtils.copyProperties(user, userDto);
+            UserDetails details = userService.findDetails(user.getUid());
+            BeanUtils.copyProperties(details, userDto);
+            return ResultUtil.success(Map.of("token", JWTUtil.createJWT(user.getUid(), user.getType()), "data", userDto));
         }
     }
 
@@ -54,13 +57,38 @@ public class UserHandler
     @PostMapping("register")
     public Object register(User user, UserDetails userDetails)
     {
-        int result= userService.register(user,userDetails);
-        if(result==1)
+
+        int result = userService.register(user, userDetails);
+        if (result == 1)
         {
             return ResultUtil.success("注册成功");
-        }else
+        } else
         {
             return ResultUtil.error("注册失败");
         }
+    }
+
+    @PostMapping("flushToken")
+    public Object flushToken(@IdParam Integer uid, String token)
+    {
+        token = userService.flushToken(token, uid);
+        if (token == null)
+        {
+            return ResultUtil.error("error");
+        } else
+        {
+            return ResultUtil.success(token);
+        }
+    }
+
+    @GetMapping("userInfo/{uid}")
+    public Object userInfo(@PathVariable Integer uid)
+    {
+        User user = userService.find(uid);
+        UserDetails details = userService.findDetails(uid);
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(user, userDto);
+        BeanUtils.copyProperties(details, userDto);
+        return ResultUtil.success(userDto);
     }
 }

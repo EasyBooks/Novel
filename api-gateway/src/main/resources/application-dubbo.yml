@@ -1,0 +1,8 @@
+nacos:
+  service-address: 114.116.239.108
+  port: 8848
+dubbo:
+  application:
+    logger: log4j2
+  registry:
+    address: nacos://${nacos.service-address}:${nacos.port}
