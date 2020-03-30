@@ -37,7 +37,7 @@
         <boot.version>2.2.0.RELEASE</boot.version>
         <mysql.version>8.0.13</mysql.version>
         <lombok.version>1.18.10</lombok.version>
-        <druid.version>1.1.9</druid.version>
+        <druid.version>1.1.21</druid.version>
         <log.version>1.2.17</log.version>
         <guava.version>25.1-jre</guava.version>
         <commons.version>3.9</commons.version>
