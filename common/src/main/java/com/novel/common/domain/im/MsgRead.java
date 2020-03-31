@@ -8,12 +8,11 @@ package com.novel.common.domain.im;
 import com.novel.common.domain.BaseEntity;
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
 public class MsgRead extends BaseEntity
 {
     private Long id;
     private Integer uid;
     private Long msgId;
+    private Integer type;
 }

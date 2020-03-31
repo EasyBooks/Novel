@@ -3,8 +3,7 @@ module web-go
 go 1.14
 
 require (
-	github.com/PuerkitoBio/goquery v1.5.1
-	github.com/akavel/rsrc v0.8.0 // indirect
+	github.com/PuerkitoBio/goquery v1.5.1 // indirect
 	github.com/antchfx/htmlquery v1.2.2 // indirect
 	github.com/antchfx/xmlquery v1.2.3 // indirect
 	github.com/antchfx/xpath v1.1.4 // indirect
@@ -12,11 +11,8 @@ require (
 	github.com/gocolly/colly v1.2.0
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/kennygrant/sanitize v1.2.4 // indirect
-	github.com/lxn/walk v0.0.0-20191128110447-55ccb3a9f5c1
-	github.com/lxn/win v0.0.0-20191128105842-2da648fda5b4 // indirect
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
 	github.com/temoto/robotstxt v1.1.1 // indirect
 	golang.org/x/net v0.0.0-20200324143707-d3edc9973b7e // indirect
 	google.golang.org/appengine v1.6.5 // indirect
-	gopkg.in/Knetic/govaluate.v3 v3.0.0 // indirect
 )

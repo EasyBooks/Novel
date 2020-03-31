@@ -13,6 +13,8 @@ import (
 	"time"
 )
 
+var Urls = []string{"http://image.baidu.com/search/index?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fm=result&fr=&sf=1&fmq=1585661685339_R&pv=&ic=&nc=1&z=&hd=&latest=&copyright=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&ie=utf-8&hs=2&sid=&word="}
+
 /**
  * 根据关键字和指定的图片资源网站
  */
@@ -25,14 +27,7 @@ func ImageReptile(keyword string) {
 	imageC := c.Clone()
 	// 请求头
 	c.OnRequest(func(r *colly.Request) {
-		r.Headers.Set("Cookie", "BIGipServerPools_Web_ssl=2135533760.47873.0000; Hm_lvt_c01558ab05fd344e898880e9fc1b65c4=1577432018; qimo_seosource_578c8dc0-6fab-11e8-ab7a-fda8d0606763=%E7%BB%94%E6%AC%8F%E5%94%B4; qimo_seokeywords_578c8dc0-6fab-11e8-ab7a-fda8d0606763=; accessId=578c8dc0-6fab-11e8-ab7a-fda8d0606763; pageViewNum=3; Hm_lpvt_c01558ab05fd344e898880e9fc1b65c4=1577432866")
-		r.Headers.Add("referer", "https://www.quanjing.com/search.aspx?q=%E5%8D%A1%E9%80%9A")
-		r.Headers.Add("sec-fetch-mode", "cors")
-		r.Headers.Add("sec-fetch-site", "same-origin")
-		r.Headers.Add("accept", "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01")
-		r.Headers.Add("accept-encoding", "gzip, deflate, br")
-		r.Headers.Add("accept-language", "en,zh-CN;q=0.9,zh;q=0.8")
-		r.Headers.Add("X-Requested-With", "XMLHttpRequest")
+
 	})
 	//构造图片url，让图片imageC收集器来下载图片
 	c.OnResponse(func(r *colly.Response) {

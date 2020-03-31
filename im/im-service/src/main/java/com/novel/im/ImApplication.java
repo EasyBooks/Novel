@@ -1,3 +1,8 @@
+/*
+ * 作者：刘时明
+ * 时间：2020/4/1-0:01
+ * 作用：
+ */
 package com.novel.im;
 
 import org.springframework.boot.SpringApplication;

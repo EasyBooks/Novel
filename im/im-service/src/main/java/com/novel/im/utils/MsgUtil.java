@@ -1,31 +1,37 @@
 /*
  * 作者：刘时明
- * 时间：2020/1/9-23:51
+ * 时间：2020/3/21-10:51
  * 作用：
  */
 package com.novel.im.utils;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.novel.common.domain.im.Msg;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MsgUtil
 {
-    private static final Gson gson = new Gson();
-
-    public static Msg strToMsg(String msg)
+    public static void decryptMsg(Msg msg, String aesKey)
     {
         try
         {
-            return gson.fromJson(msg, Msg.class);
-        } catch (JsonSyntaxException e)
+            String content = DESUtil.decrypt(msg.getContent(), aesKey);
+            msg.setContent(content);
+        } catch (Exception e)
         {
-            return null;
+            log.error("解密失败，err={}", e.getMessage());
         }
     }
 
-    public static String msgToStr(Msg msg)
+    public static void encryptMsg(Msg msg, String aesKey)
     {
-        return gson.toJson(msg);
+        try
+        {
+            String content = DESUtil.encrypt(msg.getContent(), aesKey);
+            msg.setContent(content);
+        } catch (Exception e)
+        {
+            log.error("解密失败，err={}", e.getMessage());
+        }
     }
 }

@@ -12,7 +12,7 @@ import lombok.Data;
 public class Msg extends BaseEntity
 {
     // 消息ID
-    private int id;
+    private Long id;
     // 消息命令，0ACK确认，1握手，2私聊，3群发，4系统消息，5系统广播
     private int cmd;
     // 消息长度
