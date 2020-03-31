@@ -3,7 +3,7 @@
  * 时间：2020/3/5-11:16
  * 作用：
  */
-package com.novel.admin.security.service;
+package com.novel.admin.security;
 
 import com.novel.admin.security.entity.Admin;
 import com.novel.admin.security.entity.JwtAdmin;

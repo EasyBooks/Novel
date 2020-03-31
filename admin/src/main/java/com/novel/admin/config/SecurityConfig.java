@@ -3,13 +3,13 @@
  * 时间：2020/3/5-11:15
  * 作用：
  */
-package com.novel.admin.security.config;
+package com.novel.admin.config;
 
 import com.novel.admin.security.bean.JWTAccessDeniedHandler;
 import com.novel.admin.security.bean.JWTAuthenticationEntryPoint;
 import com.novel.admin.security.filter.JWTAuthenticationFilter;
 import com.novel.admin.security.filter.JWTAuthorizationFilter;
-import com.novel.admin.security.service.UserDetailsServiceImpl;
+import com.novel.admin.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;

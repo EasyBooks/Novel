@@ -6,7 +6,7 @@
 package com.novel.admin.security.bean;
 
 import com.novel.admin.security.entity.JwtAdmin;
-import com.novel.admin.security.service.UserDetailsServiceImpl;
+import com.novel.admin.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
