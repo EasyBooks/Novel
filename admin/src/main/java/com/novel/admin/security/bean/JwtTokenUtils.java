@@ -32,7 +32,8 @@ public class JwtTokenUtils
 
         String tokenPrefix = Jwts.builder()
                 .setHeaderParam("typ", SecurityConstants.TOKEN_TYPE)
-                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .signWith(SignatureAlgorithm.HS256,secretKey)
+                // .signWith(secretKey, SignatureAlgorithm.HS256)
                 .claim(SecurityConstants.ROLE_CLAIMS, String.join(",", roles))
                 .setIssuer("SnailClimb")
                 .setIssuedAt(new Date())

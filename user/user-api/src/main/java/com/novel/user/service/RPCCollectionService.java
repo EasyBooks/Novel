@@ -7,7 +7,6 @@ package com.novel.user.service;
 
 import com.novel.common.bean.PageList;
 
-
 public interface RPCCollectionService
 {
     PageList<Long> collectionBookIds(Integer uid, int page, int size);

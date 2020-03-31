@@ -8,6 +8,7 @@
 * order   -- 订单服务
 * reptile   -- 资源爬虫服务
 * user   -- 用户服务
+* web-go   -- golang语言实现的爬虫服务
 
 ## 项目概述：
 技术栈：SpringBoot（基础）+dubbo（RPC）+nacos（注册中心）+nsq（消息对列）+Netty（IM通讯）
