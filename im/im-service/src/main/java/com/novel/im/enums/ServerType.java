@@ -8,5 +8,5 @@ package com.novel.im.enums;
 public enum ServerType
 {
     // 服务端协议格式
-    WS, BYTES
+    WEB_SOCKET, BYTES
 }

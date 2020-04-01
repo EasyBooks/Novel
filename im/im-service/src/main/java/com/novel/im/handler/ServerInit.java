@@ -31,17 +31,18 @@ public class ServerInit extends ChannelInitializer<SocketChannel>
     protected void initChannel(SocketChannel socketChannel) throws Exception
     {
         ChannelPipeline pipeline = socketChannel.pipeline();
-        if (type == ServerType.WS)
+        if (type == ServerType.WEB_SOCKET)
         {
             // WS协议基于HTTP，需要HTTP解码器
-            pipeline.addLast(new HttpServerCodec());
+            pipeline.addLast("http-codec", new HttpServerCodec());
             // 对写大数据流的支持
-            pipeline.addLast(new ChunkedWriteHandler());
+            pipeline.addLast("http-chunked", new ChunkedWriteHandler());
             // 对HttpMessage聚合，聚合为FullHttpReq和FullHttpRsp
-            pipeline.addLast(new HttpObjectAggregator(1024 * 64));
+            pipeline.addLast("aggregator", new HttpObjectAggregator(1024 * 64));
             // ws服务器处理的协议，指定路由，处理ws握手，ping+pong=心跳
             // ws协议数据以frames传输，不同的数据类型对应不同的frames
-            pipeline.addLast(new WebSocketServerProtocolHandler("/" + path));
+            System.out.println("path=" + this.path);
+            pipeline.addLast(new WebSocketServerProtocolHandler(this.path));
             // 自定义handler
             pipeline.addLast(new WebSocketHandler());
         } else

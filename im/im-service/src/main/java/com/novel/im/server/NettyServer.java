@@ -34,14 +34,14 @@ public class NettyServer implements ApplicationRunner, Task
     private EventLoopGroup subGroup;
     private ServerBootstrap server;
 
-    public NettyServer()
+    public void initNettyServer()
     {
         mainGroup = new NioEventLoopGroup();
         subGroup = new NioEventLoopGroup();
         server = new ServerBootstrap();
         server.group(mainGroup, subGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new ServerInit(path, ServerType.BYTES))
+                .childHandler(new ServerInit(path, ServerType.WEB_SOCKET))
                 .option(ChannelOption.SO_BACKLOG, 1024)
                 .childOption(ChannelOption.SO_KEEPALIVE, true);
     }
@@ -66,6 +66,7 @@ public class NettyServer implements ApplicationRunner, Task
     @Override
     public void taskWork(Object args)
     {
+        this.initNettyServer();
         this.startServer();
     }
 
