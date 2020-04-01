@@ -1,12 +1,14 @@
 /*
  * 作者：刘时明
- * 时间：2020/3/21-9:58
- * 作用：
+ * 时间：2019/11/23-22:19
+ * 作用：公共配置
  */
 package com.novel.im.config;
 
 import com.novel.common.define.ResultTask;
 import com.novel.common.define.Task;
+import com.novel.common.utils.Snowflake;
+import org.apache.dubbo.config.MetadataReportConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,19 +22,19 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 @Configuration
 @EnableAsync
-public class ExecutorConfig
+public class CommonConfig
 {
     private static ThreadPoolTaskExecutor executor;
 
     @Autowired
     public void setExecutor(ThreadPoolTaskExecutor executor)
     {
-        ExecutorConfig.executor = executor;
+        CommonConfig.executor = executor;
     }
 
     public static void executor(Task task, Object args)
     {
-        executor.execute(() -> task.taskWork((args)));
+        executor.execute(() -> task.taskWork(args));
     }
 
     public static <E> E executor(ResultTask<E> task, Object args) throws ExecutionException, InterruptedException
@@ -45,7 +47,7 @@ public class ExecutorConfig
      *
      * @return
      */
-    @Bean("taskExecutor")
+    @Bean
     @Primary
     public ThreadPoolTaskExecutor asyncServiceExecutor(@Value("${spring.application.name}") String serviceName)
     {
@@ -64,5 +66,31 @@ public class ExecutorConfig
         // 执行初始化
         executor.initialize();
         return executor;
+    }
+
+    /**
+     * dubbo元数据配置
+     *
+     * @return
+     */
+    @Bean
+    public MetadataReportConfig metadataReportConfig(@Value("${nacos.service-address}") String address,
+                                                     @Value("${nacos.port}") int port)
+    {
+        MetadataReportConfig config = new MetadataReportConfig();
+        config.setAddress(String.format("nacos://%s:%d", address, port));
+        return config;
+    }
+
+    /**
+     * 雪花算法机器配置
+     *
+     * @return
+     */
+    @Bean
+    public Snowflake snowflake(@Value("${snowflake.machine-id}") long machineId,
+                               @Value("${snowflake.app-id}") long appId)
+    {
+        return new Snowflake(machineId, appId);
     }
 }

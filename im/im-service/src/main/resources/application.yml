@@ -2,7 +2,7 @@ spring:
   application:
     name: novel-im-server
   profiles:
-    include: redis,mysql,dubbo
+    include: redis,mysql,dubbo,nsq
 
 snowflake:
   machine-id: 1

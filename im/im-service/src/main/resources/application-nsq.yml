@@ -1,0 +1,10 @@
+# NSQ
+nsq:
+  produce:
+    host: 47.95.239.29
+    port: 4150
+  lookup:
+    host: 47.95.239.29
+    port: 4161
+  topic: chat
+  channel: channel_001

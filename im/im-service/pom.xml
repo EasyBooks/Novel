@@ -104,5 +104,11 @@
             <version>1.0.0.RC4</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.brainlag</groupId>
+            <artifactId>nsq-client</artifactId>
+            <version>1.0.0.RC4</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

@@ -3,10 +3,10 @@
  * 时间：2020/3/20-21:09
  * 作用：
  */
-package com.novel.im.server;
+package com.novel.im.netty;
 
 import com.novel.common.define.Task;
-import com.novel.im.config.ExecutorConfig;
+import com.novel.im.config.CommonConfig;
 import com.novel.im.enums.ServerType;
 import com.novel.im.handler.ServerInit;
 import io.netty.bootstrap.ServerBootstrap;
@@ -74,6 +74,6 @@ public class NettyServer implements ApplicationRunner, Task
     public void run(ApplicationArguments args) throws Exception
     {
         // run方法运行在main线程，而startServer会阻塞
-        ExecutorConfig.executor(this, null);
+        CommonConfig.executor(this, null);
     }
 }

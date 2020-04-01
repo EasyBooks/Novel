@@ -11,14 +11,14 @@ import com.novel.common.dto.im.MsgDto;
 
 import java.util.List;
 
-public interface PRCImService
+public interface RPCMsgService
 {
     /**
      * 消息列表
      *
      * @return
      */
-    PageList<MsgDto> msgList(Integer uid);
+    PageList<MsgDto> msgList(Integer uid,int page,int size);
 
     /**
      * 读取或者删除消息
