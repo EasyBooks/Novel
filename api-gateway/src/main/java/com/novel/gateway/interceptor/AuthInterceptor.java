@@ -8,7 +8,8 @@ package com.novel.gateway.interceptor;
 import com.novel.common.utils.AuthUtil;
 import com.novel.common.utils.ObjectUtil;
 import com.novel.common.utils.ResultUtil;
-import com.novel.gateway.logic.AddersLogic;
+import com.novel.gateway.logic.auth.AddersLogic;
+import com.novel.gateway.logic.auth.TouristLogic;
 import com.novel.gateway.utils.RequestUtil;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -20,8 +21,14 @@ public class AuthInterceptor implements HandlerInterceptor
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
     {
+        String url=request.getServletPath();
         // 登录、注册请求放行
-        if (request.getServletPath().equals("/user/login") || request.getServletPath().equals("/user/register"))
+        if (url.equals("/user/login") || url.equals("/user/register"))
+        {
+            return true;
+        }
+        // 游客放行
+        if(TouristLogic.isTouristUrl(url))
         {
             return true;
         }

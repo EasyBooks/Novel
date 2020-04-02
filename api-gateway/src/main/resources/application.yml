@@ -9,6 +9,9 @@ spring:
 server:
   port: 8080
 
+base:
+  url: /api/app,/api/base
+
 address:
   white:
     list: 127.0.0.1,192.168.31.21

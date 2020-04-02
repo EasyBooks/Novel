@@ -6,7 +6,7 @@
 package com.novel.gateway.interceptor;
 
 import com.novel.common.utils.ResultUtil;
-import com.novel.gateway.logic.AddersLogic;
+import com.novel.gateway.logic.auth.AddersLogic;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
