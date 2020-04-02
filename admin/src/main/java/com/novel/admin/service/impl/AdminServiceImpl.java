@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.novel.admin.security.entity.Admin;
 import com.novel.admin.mapper.AdminMapper;
 import com.novel.admin.service.AdminService;
-import com.novel.common.utils.Snowflake;
+import com.novel.common.bean.Snowflake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

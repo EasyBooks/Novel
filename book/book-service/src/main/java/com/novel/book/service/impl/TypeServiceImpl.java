@@ -9,7 +9,7 @@ import com.novel.book.mapper.TypeMapper;
 import com.novel.book.service.TypeService;
 import com.novel.book.utils.ConditionUtil;
 import com.novel.common.domain.book.Type;
-import com.novel.common.utils.Snowflake;
+import com.novel.common.bean.Snowflake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

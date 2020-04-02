@@ -3,7 +3,7 @@
  * 时间：2019/11/2-16:31
  * 作用：
  */
-package com.novel.common.utils;
+package com.novel.common.bean;
 
 import java.util.concurrent.atomic.AtomicLong;
 

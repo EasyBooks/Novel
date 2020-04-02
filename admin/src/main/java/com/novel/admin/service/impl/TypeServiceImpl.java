@@ -11,7 +11,7 @@ import com.novel.admin.service.TypeService;
 import com.novel.common.bean.PageList;
 import com.novel.common.define.Define;
 import com.novel.common.domain.book.Type;
-import com.novel.common.utils.Snowflake;
+import com.novel.common.bean.Snowflake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

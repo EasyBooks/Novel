@@ -3,27 +3,27 @@
  * 时间：2020/3/20-22:15
  * 作用：
  */
-package com.novel.im.handler.bytes;
+package com.novel.im.netty.handler.bytes;
 
-import com.novel.im.handler.OnLineListService;
+import com.novel.im.netty.handler.AbstractHandler;
+import com.novel.im.netty.handler.OnLineListService;
 import com.novel.im.proto.DataProto;
 import com.novel.im.utils.ProtoBufUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-public class BytesHandler extends ChannelInboundHandlerAdapter
+@Component
+public class BytesHandler extends AbstractHandler
 {
-    private static BytesRequestHandler handler;
-    private static OnLineListService onLineListService;
-
-    static
-    {
-        onLineListService=OnLineListService.getInstance();
-    }
+    @Autowired
+    private BytesRequestHandler handler;
+    @Autowired
+    private OnLineListService onLineListService;
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception
@@ -32,7 +32,6 @@ public class BytesHandler extends ChannelInboundHandlerAdapter
         byte[] bytes = new byte[buf.readableBytes()];
         buf.getBytes(0, bytes);
         buf.release();
-
         DataProto.MsgReq req = ProtoBufUtil.parseReqBytes(bytes);
         if (req != null)
         {
@@ -45,14 +44,8 @@ public class BytesHandler extends ChannelInboundHandlerAdapter
     }
 
     @Override
-    public void handlerRemoved(ChannelHandlerContext ctx) throws Exception
+    public OnLineListService onLineListService()
     {
-        onLineListService.leave(ctx.channel().id().asShortText());
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception
-    {
-        log.debug("一名用户断开连接,name={}", ctx.name());
+        return onLineListService;
     }
 }

@@ -11,3 +11,4 @@ snowflake:
 im:
   port: 8888
   path: /im
+  protocol: ws

@@ -5,7 +5,7 @@
  */
 package com.novel.user.config;
 
-import com.novel.common.utils.Snowflake;
+import com.novel.common.bean.Snowflake;
 import org.apache.dubbo.config.MetadataReportConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

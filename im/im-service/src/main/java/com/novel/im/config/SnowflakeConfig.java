@@ -5,7 +5,7 @@
  */
 package com.novel.im.config;
 
-import com.novel.common.utils.Snowflake;
+import com.novel.common.bean.Snowflake;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

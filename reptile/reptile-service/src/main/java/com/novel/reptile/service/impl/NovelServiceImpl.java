@@ -2,7 +2,7 @@ package com.novel.reptile.service.impl;
 
 import com.novel.common.domain.BaseEntity;
 import com.novel.common.domain.book.Book;
-import com.novel.common.utils.Snowflake;
+import com.novel.common.bean.Snowflake;
 import com.novel.reptile.service.NovelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

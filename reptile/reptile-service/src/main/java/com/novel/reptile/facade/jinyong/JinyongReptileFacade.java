@@ -9,7 +9,7 @@ import com.novel.common.define.Define;
 import com.novel.common.domain.BaseEntity;
 import com.novel.common.domain.book.Book;
 import com.novel.common.domain.book.Chapter;
-import com.novel.common.utils.Snowflake;
+import com.novel.common.bean.Snowflake;
 import com.novel.reptile.facade.AbstractReptileStart;
 import com.novel.reptile.facade.ReptileConfig;
 import com.novel.reptile.facade.ReptileType;

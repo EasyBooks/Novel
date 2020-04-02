@@ -7,6 +7,7 @@ package com.novel.im.nsq;
 
 import com.github.brainlag.nsq.NSQProducer;
 import com.novel.common.utils.BitObjectUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class MsgProducer
 {
     @Value("${nsq.produce.host}")
@@ -45,20 +47,21 @@ public class MsgProducer
         } catch (Exception e)
         {
             // 发送数据失败，加入重试队列
-            trySend(topic, data);
+            log.error("produce发送消息失败,err={}",e.getMessage());
+            trySend(topic, data,1);
         }
     }
 
-    private void trySend(String topic, Object data)
+    private void trySend(String topic, Object data,int count)
     {
         try
         {
-            Thread.sleep(2 * 1000);
+            Thread.sleep(count * 1000);
             this.produce(topic, data);
         } catch (Exception e)
         {
-            System.err.println("MQ发送重试");
-            trySend(topic, data);
+            log.error("trySend重试失败,err={},当前次数={}",e.getMessage(),count);
+            trySend(topic, data, ++count);
         }
     }
 }

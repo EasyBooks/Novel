@@ -7,7 +7,7 @@ package com.novel.admin.config;
 
 import com.novel.common.define.ResultTask;
 import com.novel.common.define.Task;
-import com.novel.common.utils.Snowflake;
+import com.novel.common.bean.Snowflake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

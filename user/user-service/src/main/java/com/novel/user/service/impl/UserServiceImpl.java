@@ -12,7 +12,7 @@ import com.novel.common.dto.user.AuthorDto;
 import com.novel.common.utils.AuthUtil;
 import com.novel.common.utils.JWTUtil;
 import com.novel.common.utils.MD5Util;
-import com.novel.common.utils.Snowflake;
+import com.novel.common.bean.Snowflake;
 import com.novel.user.mapper.UserDetailsMapper;
 import com.novel.user.mapper.UserMapper;
 import com.novel.user.service.UserService;

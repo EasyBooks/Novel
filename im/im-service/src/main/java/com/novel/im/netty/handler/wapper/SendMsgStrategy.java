@@ -3,21 +3,22 @@
  * 时间：2020/3/21-14:21
  * 作用：
  */
-package com.novel.im.handler.strategy;
+package com.novel.im.netty.handler.wapper;
 
 import com.novel.common.domain.im.Msg;
-import com.novel.im.handler.HandlerStrategy;
 import com.novel.im.proto.DataProto;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SendMsgStrategy implements HandlerStrategy<DataProto.SendMsgReq>
 {
     private static final DataProto.MsgType TYPE = DataProto.MsgType.SEND_MSG;
 
     @Override
-    public DataProto.MsgRsp handler(DataProto.SendMsgReq req)
+    public DataProto.MsgRsp protoBufHandler(DataProto.SendMsgReq req)
     {
-//        String formAesKey = userDao.findAesKey(req.getFormId());
+        //        String formAesKey = userDao.findAesKey(req.getFormId());
 //        String ToAesKey = userDao.findAesKey(req.getToId());
         Msg msg = new Msg();
         BeanUtils.copyProperties(req, msg);
@@ -37,5 +38,11 @@ public class SendMsgStrategy implements HandlerStrategy<DataProto.SendMsgReq>
                 .setMsgType(TYPE)
                 .setSendMsgRsp(rsp)
                 .build();
+    }
+
+    @Override
+    public String jsonHandler(String json)
+    {
+        return null;
     }
 }

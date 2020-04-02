@@ -3,7 +3,7 @@
  * 时间：2020/3/20-22:13
  * 作用：
  */
-package com.novel.im.enums;
+package com.novel.im.netty.enums;
 
 public enum ServerType
 {

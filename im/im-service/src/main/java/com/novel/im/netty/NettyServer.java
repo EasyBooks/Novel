@@ -7,8 +7,8 @@ package com.novel.im.netty;
 
 import com.novel.common.define.Task;
 import com.novel.im.config.CommonConfig;
-import com.novel.im.enums.ServerType;
-import com.novel.im.handler.ServerInit;
+import com.novel.im.netty.enums.ServerType;
+import com.novel.im.netty.handler.ServerInit;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
@@ -16,6 +16,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -29,6 +30,11 @@ public class NettyServer implements ApplicationRunner, Task
     private int port;
     @Value("${im.path}")
     private String path;
+    @Value("${im.protocol}")
+    private String protocol;
+
+    @Autowired
+    private ServerInit serverInit;
 
     private EventLoopGroup mainGroup;
     private EventLoopGroup subGroup;
@@ -36,17 +42,28 @@ public class NettyServer implements ApplicationRunner, Task
 
     public void initNettyServer()
     {
+        switch (protocol)
+        {
+            case "byte":
+                serverInit.setType(ServerType.BYTES);
+                break;
+            case "ws":
+            default:
+                serverInit.setType(ServerType.WEB_SOCKET);
+        }
+        serverInit.setPath(path);
         mainGroup = new NioEventLoopGroup();
         subGroup = new NioEventLoopGroup();
         server = new ServerBootstrap();
         server.group(mainGroup, subGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new ServerInit(path, ServerType.WEB_SOCKET))
+                // .childHandler(new ServerInit(path, ServerType.WEB_SOCKET))
+                .childHandler(serverInit)
                 .option(ChannelOption.SO_BACKLOG, 1024)
                 .childOption(ChannelOption.SO_KEEPALIVE, true);
     }
 
-    public void startServer()
+    public void startNettyServer()
     {
         try
         {
@@ -67,13 +84,13 @@ public class NettyServer implements ApplicationRunner, Task
     public void taskWork(Object args)
     {
         this.initNettyServer();
-        this.startServer();
+        this.startNettyServer();
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception
     {
-        // run方法运行在main线程，而startServer会阻塞
+        // run方法运行在main线程，而startNettyServer会阻塞
         CommonConfig.executor(this, null);
     }
 }

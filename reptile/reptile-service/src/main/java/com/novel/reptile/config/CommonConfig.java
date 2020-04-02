@@ -7,7 +7,7 @@ package com.novel.reptile.config;
 
 import com.novel.common.define.ResultTask;
 import com.novel.common.define.Task;
-import com.novel.common.utils.Snowflake;
+import com.novel.common.bean.Snowflake;
 import org.apache.dubbo.config.MetadataReportConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

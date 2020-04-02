@@ -8,9 +8,11 @@ package com.novel.im.nsq;
 import com.github.brainlag.nsq.NSQConsumer;
 import com.github.brainlag.nsq.lookup.DefaultNSQLookup;
 import com.github.brainlag.nsq.lookup.NSQLookup;
-import com.novel.common.domain.book.Book;
-import com.novel.common.domain.im.Msg;
 import com.novel.common.utils.BitObjectUtil;
+import com.novel.im.netty.handler.bytes.BytesRequestHandler;
+import com.novel.im.netty.handler.ws.WebSocketRequestHandler;
+import com.novel.im.utils.ProtoBufUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -35,6 +37,15 @@ public class MsgConsumer
     @Value("${nsq.channel}")
     private String channel;
 
+    @Value("${im.protocol}")
+    private String protocol;
+
+    @Autowired
+    private BytesRequestHandler bytesRequestHandler;
+
+    @Autowired
+    private WebSocketRequestHandler webSocketRequestHandler;
+
     @PostConstruct
     public void initConsumer()
     {
@@ -50,10 +61,19 @@ public class MsgConsumer
         NSQConsumer registerConsumer = new NSQConsumer(lookup, bookTopic, channel,
                 (message) ->
                 {
-                    Optional<Msg> optional = BitObjectUtil.bytesToObject(message.getMessage());
+                    Optional<byte[]> optional = BitObjectUtil.bytesToObject(message.getMessage());
                     optional.ifPresent(o ->
                     {
-                        System.out.println("收到消息");
+                        switch (protocol)
+                        {
+                            case "byte":
+                                bytesRequestHandler.mqService(ProtoBufUtil.parseReqBytes(o));
+                                break;
+                            case "ws":
+                            default:
+                                webSocketRequestHandler.mqService(new String(o));
+                                break;
+                        }
                     });
                     message.finished();
                 });

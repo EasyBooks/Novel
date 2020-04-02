@@ -3,30 +3,25 @@
  * 时间：2020/3/21-11:09
  * 作用：
  */
-package com.novel.im.handler.bytes;
+package com.novel.im.netty.handler.bytes;
 
-import com.novel.im.handler.HandlerContext;
-import com.novel.im.handler.OnLineListService;
+import com.novel.im.netty.handler.wapper.proto.ProtoBufStrategyContext;
+import com.novel.im.netty.handler.OnLineListService;
 import com.novel.im.proto.DataProto;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
 public class BytesRequestHandler
 {
-    private static HandlerContext context;
-    private static OnLineListService onLineListService;
-
-    static
-    {
-        context = HandlerContext.getInstance();
-        onLineListService = OnLineListService.getInstance();
-    }
+    @Autowired
+    private ProtoBufStrategyContext context;
+    @Autowired
+    private OnLineListService onLineListService;
 
     public void service(DataProto.MsgReq req, ChannelHandlerContext ctx)
     {
@@ -53,4 +48,7 @@ public class BytesRequestHandler
                 break;
         }
     }
+
+    public void mqService(DataProto.MsgReq req)
+    {}
 }

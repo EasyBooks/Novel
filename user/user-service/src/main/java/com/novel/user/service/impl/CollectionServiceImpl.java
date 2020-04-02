@@ -8,7 +8,7 @@ package com.novel.user.service.impl;
 import com.novel.common.bean.PageList;
 import com.novel.common.domain.BaseEntity;
 import com.novel.common.domain.user.Collection;
-import com.novel.common.utils.Snowflake;
+import com.novel.common.bean.Snowflake;
 import com.novel.user.mapper.CollectionMapper;
 import com.novel.user.service.CollectionService;
 import org.springframework.beans.factory.annotation.Autowired;

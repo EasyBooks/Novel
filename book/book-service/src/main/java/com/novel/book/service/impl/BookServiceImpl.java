@@ -5,16 +5,12 @@
  */
 package com.novel.book.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.novel.book.mapper.BookMapper;
 import com.novel.book.service.BookService;
-import com.novel.book.utils.ConditionUtil;
 import com.novel.common.bean.PageList;
 import com.novel.common.domain.book.Book;
 import com.novel.common.dto.book.BookDto;
-import com.novel.common.utils.Snowflake;
+import com.novel.common.bean.Snowflake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -3,13 +3,12 @@
  * 时间：2020/3/21-22:01
  * 作用：
  */
-package com.novel.im.handler;
+package com.novel.im.netty.handler;
 
 import com.novel.common.domain.user.User;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,21 +16,11 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 在线列表业务类
  */
+@Component
 public class OnLineListService
 {
     private static final ConcurrentHashMap<String, Long> onLineMap = new ConcurrentHashMap<>(128);
     private static final ConcurrentHashMap<Long, UserBean> userMap = new ConcurrentHashMap<>(128);
-
-    private static final OnLineListService onLineListService = new OnLineListService();
-
-    private OnLineListService()
-    {
-    }
-
-    public static OnLineListService getInstance()
-    {
-        return onLineListService;
-    }
 
     public void onLine(ChannelHandlerContext ctx, Long id)
     {
