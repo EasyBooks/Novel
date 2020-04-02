@@ -31,9 +31,9 @@ public class BaseController
      * @throws IOException
      */
     @GetMapping("banner")
-    public void banner(HttpServletResponse response,@RequestParam(defaultValue = "1") int page) throws IOException
+    public void banner(HttpServletResponse response) throws IOException
     {
-        ResponseUtil.json(response,redisCacheLogic.cacheAnGetBannerList(page));
+        ResponseUtil.json(response,redisCacheLogic.cacheAnGetBannerList());
     }
 
     /**

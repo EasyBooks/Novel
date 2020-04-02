@@ -16,4 +16,5 @@ public class Banner extends BaseEntity
     private String img;
     private String link;
     private String title;
+    private Integer enable;
 }
