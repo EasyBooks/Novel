@@ -23,12 +23,12 @@ public class TypeHandler
     @Reference(version = "1.0.0", check = false)
     private PRCTypeService typeService;
 
-    @GetMapping("typeList")
-    public Object typeList()
-    {
-        List<Type> typeList = typeService.typeList(null);
-        return ResultUtil.success(DtoUtil.typeDto(typeList));
-    }
+//    @GetMapping("typeList")
+//    public Object typeList()
+//    {
+//        List<Type> typeList = typeService.typeList(null);
+//        return ResultUtil.success(DtoUtil.typeDto(typeList));
+//    }
 
     @GetMapping("addType")
     public Object addType(Type type)

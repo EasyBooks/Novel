@@ -10,6 +10,7 @@ import com.novel.book.service.TypeService;
 import com.novel.book.utils.ConditionUtil;
 import com.novel.common.domain.book.Type;
 import com.novel.common.bean.Snowflake;
+import com.novel.common.dto.book.TypeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class TypeServiceImpl implements TypeService
 {
     @Autowired
@@ -58,5 +60,11 @@ public class TypeServiceImpl implements TypeService
     public Type findType(long id)
     {
         return typeMapper.selectById(id);
+    }
+
+    @Override
+    public List<TypeDto> list()
+    {
+        return typeMapper.list();
     }
 }

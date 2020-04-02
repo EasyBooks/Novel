@@ -5,6 +5,7 @@
  */
 package com.novel.book.service.dubbo;
 
+import com.novel.common.dto.book.TypeDto;
 import com.novel.user.service.PRCTypeService;
 import com.novel.book.service.TypeService;
 import com.novel.common.domain.book.Type;
@@ -42,5 +43,11 @@ public class RPCTypeServiceImpl implements PRCTypeService
     public Type findType(long id)
     {
         return typeService.findType(id);
+    }
+
+    @Override
+    public List<TypeDto> list()
+    {
+        return typeService.list();
     }
 }

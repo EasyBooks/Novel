@@ -12,6 +12,7 @@ import org.apache.dubbo.config.annotation.Reference;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,14 +25,22 @@ public class DaoTest
     @Reference(version = "1.0.0",check = false)
     private RPCUserService userService;
 
+    @Transactional
     @Test
     public void test1()
     {
-//        long userId = 551264367245656064L;
-//        List<Book> books = bookMapper.selectList(null);
-//        for (Book b : books)
-//        {
-//            userService.saveAuthor(userId, b.getId());
-//        }
+        List<Book> books = bookMapper.selectList(null);
+        for (Book b : books)
+        {
+            if(b.getId()<=561555830801969152L){
+                userService.saveAuthor(1L, b.getId());
+            }else if(b.getId()>=561936135706652672L)
+            {
+                userService.saveAuthor(1L, b.getId());
+            }else
+            {
+                userService.saveAuthor(3L, b.getId());
+            }
+        }
     }
 }

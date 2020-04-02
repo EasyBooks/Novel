@@ -6,6 +6,7 @@
 package com.novel.user.service;
 
 import com.novel.common.domain.book.Type;
+import com.novel.common.dto.book.TypeDto;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,13 @@ public interface PRCTypeService
      * @return
      */
     List<Type> typeList(Map<String,Object> conditionMap);
+
+    /**
+     * APP分类列表
+     *
+     * @return
+     */
+    List<TypeDto> list();
 
     /**
      * 修改分类
