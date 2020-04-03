@@ -18,7 +18,6 @@
 
     <build>
         <plugins>
-            <!-- 不执行单元测试，但会编译测试类并在target/test-classes目录下生成相应的class -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>

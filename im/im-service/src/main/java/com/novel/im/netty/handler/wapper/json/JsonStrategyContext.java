@@ -10,9 +10,12 @@ import com.google.gson.JsonParser;
 import com.novel.im.netty.handler.wapper.AckStrategy;
 import com.novel.im.netty.handler.wapper.HandShakeStrategy;
 import com.novel.im.netty.handler.wapper.SendMsgStrategy;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 public class JsonStrategyContext
@@ -33,7 +36,7 @@ public class JsonStrategyContext
             cmd = jsonObject.get("cmd").getAsInt();
         }catch (Exception e)
         {
-            return JsonResult.of(-1,"hello:"+json);
+            return JsonResult.of(0,"echoes:"+json);
         }
         switch (cmd)
         {
@@ -41,7 +44,9 @@ public class JsonStrategyContext
                 ackStrategy.jsonHandler(json);
                 return null;
             case 1:
-                String publicKey=handShakeStrategy.jsonHandler(json);
+                String uid=handShakeStrategy.jsonHandler(json);
+                if(uid==null) return JsonResult.of(cmd+1,null);
+                String publicKey=UUID.randomUUID().toString().substring(0,5);
                 return JsonResult.of(cmd+1,publicKey);
             case 3:
             case 5:

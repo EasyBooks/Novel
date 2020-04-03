@@ -54,6 +54,7 @@
         <mybatisplus.version>3.3.0</mybatisplus.version>
         <reflectasm.version>1.11.9</reflectasm.version>
         <jjwt.version>0.6.0</jjwt.version>
+        <java-websocket.version>1.4.1</java-websocket.version>
     </properties>
 
     <dependencies>
@@ -67,7 +68,6 @@
 
     <build>
         <plugins>
-            <!-- 不执行单元测试，但会编译测试类并在target/test-classes目录下生成相应的class -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>

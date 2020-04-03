@@ -11,8 +11,6 @@ import com.novel.im.utils.DESUtil;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 public class HandShakeStrategy implements HandlerStrategy<DataProto.HandShakeReq>
 {
@@ -43,7 +41,13 @@ public class HandShakeStrategy implements HandlerStrategy<DataProto.HandShakeReq
     {
         final HandShakeType handShakeType = gson.fromJson(json, HandShakeType.class);
         // 校验token
-        return UUID.randomUUID().toString().substring(0,5);
+        try {
+            int uid = Integer.parseInt(handShakeType.token);
+            return String.valueOf(uid);
+        }catch (Exception e)
+        {
+            return null;
+        }
     }
 
     @Data

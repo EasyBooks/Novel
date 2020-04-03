@@ -26,7 +26,6 @@ public class OnLineListService
     {
         System.out.println("一名用户加入,id=" + id);
         onLineMap.put(ctx.channel().id().asShortText(), id);
-        // userMap.put(id, new UserBean(userDao.find(id), ctx.channel()));
     }
 
     public void leave(String ctxId)

@@ -18,7 +18,7 @@ import java.util.Map;
 
 public interface UserMapper extends BaseMapper<User>
 {
-    @Select("SELECT salt FROM user WHERE username=#{username} AND status=1")
+    @Select("SELECT salt FROM t_user_info WHERE username=#{username} AND status=1")
     String selectSalt(String username);
 
     @Insert("insert into t_book_author values(#{user.id},#{userId},#{bookId},#{user.status},#{user.createTime},#{user.updateTime})")
@@ -33,7 +33,7 @@ public interface UserMapper extends BaseMapper<User>
         {
             List<Long> bookIds=(List<Long>)paramMap.get("bookIds");
             StringBuilder sql=new StringBuilder();
-            sql.append("select author.book_id,user.uid,nickname,details.head_img from user `user`");
+            sql.append("select author.book_id,user.uid,nickname,details.head_img from t_user_info `user`");
             sql.append(" inner join t_book_author author on user.id=author.user_id");
             sql.append(" left join t_user_details details on details.uid=`user`.uid");
             sql.append(" where author.book_id in(");

@@ -36,7 +36,15 @@ public class WebSocketRequestHandler
         }
         switch (rsp.getCmd())
         {
-            case -1:
+            case 2:
+                if(rsp.getResult()!=null)
+                {
+                    // 握手完成，保存信息
+                    onLineListService.onLine(ctx,Long.parseLong(rsp.getResult().toString()));
+                    rsp.setResult("握手完成");
+                }
+                break;
+            default:
 
                 break;
         }

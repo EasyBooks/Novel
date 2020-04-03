@@ -30,7 +30,7 @@ public class PlusConfig
         DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
         dynamicTableNameParser.setTableNameHandlerMap(new HashMap<>(2)
         {{
-            // put("user", (metaObject, sql, tableName) -> "t_" + tableName);
+            put("user_info", (metaObject, sql, tableName) -> "t_user_info");
             put("user_details", (metaObject, sql, tableName) -> "t_user_details");
             put("collection", (metaObject, sql, tableName) -> "t_" + tableName);
             put("follow", (metaObject, sql, tableName) -> "t_" + tableName);
