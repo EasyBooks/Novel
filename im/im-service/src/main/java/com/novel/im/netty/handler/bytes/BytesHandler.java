@@ -11,6 +11,7 @@ import com.novel.im.proto.DataProto;
 import com.novel.im.utils.ProtoBufUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
+@ChannelHandler.Sharable
 public class BytesHandler extends AbstractHandler
 {
     @Autowired

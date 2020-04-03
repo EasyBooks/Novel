@@ -7,17 +7,17 @@ package com.novel.im.netty.handler.ws;
 
 import com.novel.im.netty.handler.AbstractHandler;
 import com.novel.im.netty.handler.OnLineListService;
-import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
+@ChannelHandler.Sharable
 public class WebSocketHandler extends AbstractHandler
 {
     @Autowired
