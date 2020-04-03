@@ -12,9 +12,11 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -80,5 +82,27 @@ public class RedisCacheLogic
             }
         }
         return category;
+    }
+
+    public String cacheAnGetIndexBookList(int page)
+    {
+        String key="index_book";
+        String indexBook = redisTemplate.opsForValue().get(key);
+        if(indexBook==null)
+        {
+            try {
+                LOCK.lock();
+                String value=redisTemplate.opsForValue().get(key);
+                if(value!=null) return value;
+                List<TypeDto> list = typeService.list();
+                if(ObjectUtils.isEmpty(list)) return EMPTY_RESULT;
+                String json=gson.toJson(ResultUtil.success(list));
+                redisTemplate.opsForValue().set(key,json,20+RANDOM.nextInt(20) , TimeUnit.MINUTES);
+                return json;
+            }finally {
+                LOCK.unlock();
+            }
+        }
+        return indexBook;
     }
 }
