@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class AuthorDto implements Serializable
 {
     private Integer uid;
-    private Long bookId;
+    private String bookId;
     private String nickname;
     private String headImg;
 }

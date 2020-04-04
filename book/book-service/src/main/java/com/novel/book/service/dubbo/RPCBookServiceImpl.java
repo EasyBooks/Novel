@@ -8,15 +8,18 @@ package com.novel.book.service.dubbo;
 import com.novel.book.service.BookService;
 import com.novel.common.bean.PageList;
 import com.novel.common.domain.book.Book;
+import com.novel.common.dto.book.BookDetailDto;
 import com.novel.common.dto.book.BookDto;
 import com.novel.user.service.RPCBookService;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
-@Service(version = "1.0.0", timeout = 5000)
+@Transactional
+@Service(version = "2.0.0", timeout = 6000)
 public class RPCBookServiceImpl implements RPCBookService
 {
     @Autowired
@@ -50,5 +53,17 @@ public class RPCBookServiceImpl implements RPCBookService
     public PageList<BookDto> findCollection(List<Long> idList, int page, int size)
     {
         return bookService.findCollection(idList, page, size);
+    }
+
+    @Override
+    public BookDetailDto bookDetail(Long id)
+    {
+        return bookService.bookDetail(id);
+    }
+
+    @Override
+    public Map<String, List<BookDto>> boutiqueList()
+    {
+        return bookService.boutiqueList();
     }
 }

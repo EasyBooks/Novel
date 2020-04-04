@@ -21,4 +21,5 @@ public class Book extends BaseEntity
     private Long wordNum;
     private Long thirdId;
     private Integer platformId;
+    private Integer isSerial;
 }

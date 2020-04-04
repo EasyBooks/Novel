@@ -29,11 +29,11 @@ import java.util.Map;
 @RequestMapping("api/v1/book")
 public class BookHandler
 {
-    @Reference(version = "1.0.0", check = false)
+    @Reference(version = "2.0.0", check = false)
     private RPCBookService bookService;
-    @Reference(version = "1.0.0", check = false)
+    @Reference(version = "2.0.0", check = false)
     private RPCUserService userService;
-    @Reference(version = "1.0.0", check = false)
+    @Reference(version = "2.0.0", check = false)
     private RPCCollectionService collectionService;
 
     @GetMapping("list")
@@ -57,7 +57,7 @@ public class BookHandler
             conditionMap.put("typeId",typeId);
         }
         PageList<BookDto> bookList = bookService.bookList(conditionMap, page, size);
-        makeUpBookDto(bookList);
+        makeUpBookDto(userService,bookList.getData());
         return ResultUtil.success(bookList);
     }
 
@@ -67,34 +67,42 @@ public class BookHandler
         PageList<Long> collectionList = collectionService.collectionBookIds(uid, page, size);
         long total = collectionList.getTotal();
         PageList<BookDto> bookList = bookService.findCollection(collectionList.getData(),page,size);
-        makeUpBookDto(bookList);
+        makeUpBookDto(userService,bookList.getData());
         bookList.setTotal(total);
         return ResultUtil.success(bookList);
     }
 
-    private void makeUpBookDto(PageList<BookDto> bookList)
+    public static void makeUpBookDto(RPCUserService userService,List<BookDto> bookList)
     {
-        List<Long> ids=new ArrayList<>(bookList.getData().size());
-        for (BookDto b:bookList.getData())
+        List<Long> ids=new ArrayList<>(bookList.size());
+        for (BookDto b:bookList)
         {
-            ids.add(b.getId());
+            ids.add(Long.parseLong(b.getId()));
         }
         if(ids.size()==0)return;
         List<AuthorDto> authors = userService.findAuthors(ids);
         Map<Long,List<AuthorDto>> authorMap=new HashMap<>(authors.size());
         for (AuthorDto a:authors)
         {
-            List<AuthorDto> temp = authorMap.get(a.getBookId());
+            List<AuthorDto> temp = authorMap.get(Long.parseLong(a.getBookId()));
             if(temp==null)
             {
                 temp=new ArrayList<>();
             }
             temp.add(a);
-            authorMap.put(a.getBookId(),temp);
+            authorMap.put(Long.parseLong(a.getBookId()),temp);
         }
-        for (BookDto b : bookList.getData())
+        for (BookDto b : bookList)
         {
-            b.setAuthors(authorMap.get(b.getId()));
+            List<AuthorDto> list = authorMap.get(Long.parseLong(b.getId()));
+            b.setAuthors(list);
+            StringBuilder builder=new StringBuilder();
+            list.forEach(e-> builder.append(e.getNickname()).append(","));
+            if(builder.length()>1)
+            {
+                builder.delete(builder.length()-1,builder.length());
+            }
+            b.setAuthor(builder.toString());
         }
     }
 }

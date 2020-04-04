@@ -8,11 +8,14 @@ package com.novel.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.novel.common.domain.user.User;
 import com.novel.common.domain.user.UserDetails;
+import com.novel.common.dto.book.CircleDto;
 import com.novel.common.dto.user.AuthorDto;
 import com.novel.common.utils.AuthUtil;
+import com.novel.common.utils.DateUtil;
 import com.novel.common.utils.JWTUtil;
 import com.novel.common.utils.MD5Util;
 import com.novel.common.bean.Snowflake;
+import com.novel.user.mapper.CircleMapper;
 import com.novel.user.mapper.UserDetailsMapper;
 import com.novel.user.mapper.UserMapper;
 import com.novel.user.service.UserService;
@@ -35,6 +38,8 @@ public class UserServiceImpl implements UserService
     private UserMapper userMapper;
     @Autowired
     private UserDetailsMapper userDetailsMapper;
+    @Autowired
+    private CircleMapper circleMapper;
     @Autowired
     private Snowflake snowflake;
 
@@ -72,7 +77,7 @@ public class UserServiceImpl implements UserService
     @Override
     public int register(User user, UserDetails details)
     {
-        int now = (int) (System.currentTimeMillis() / 1000);
+        int now = DateUtil.nowTime();
         user.setId(snowflake.nextId());
         int uid = 1000 + userMapper.selectCount(null);
         user.setUid(uid);
@@ -129,12 +134,18 @@ public class UserServiceImpl implements UserService
     @Override
     public int saveAuthor(Long userId, Long bookId)
     {
-        int now = (int) (System.currentTimeMillis() / 1000);
+        int now = DateUtil.nowTime();
         User user = new User();
         user.setId(snowflake.nextId());
         user.setUpdateTime(now);
         user.setCreateTime(now);
         user.setStatus(1);
         return userMapper.insertAuthor(user,userId, bookId);
+    }
+
+    @Override
+    public List<CircleDto> findCircleByBook(Long bookId)
+    {
+        return circleMapper.findCircleByBook(bookId);
     }
 }

@@ -179,6 +179,7 @@ public class JinyongReptileFacade extends AbstractReptileStart
         book.setWordNum(0L);
         book.setPlatformId(Define.JINYONG_PLATFORM);
         book.setThirdId((long) startPageMap.get(name));
+        book.setIsSerial(1);
         return book;
     }
 

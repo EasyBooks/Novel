@@ -119,6 +119,7 @@ public class ZonghengReptileFacade extends AbstractReptileStart
         book.setPlatformId(Define.ZONGHENG_PLATFORM);
         book.setTypeId(1L);
         book.setClick(0);
+        book.setIsSerial(1);
         book.setInstalments(0);
         book.setCollection(0);
         book.setRecommend(0);

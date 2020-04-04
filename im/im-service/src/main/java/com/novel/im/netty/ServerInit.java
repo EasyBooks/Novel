@@ -3,7 +3,7 @@
  * 时间：2020/3/20-21:12
  * 作用：
  */
-package com.novel.im.netty.handler;
+package com.novel.im.netty;
 
 import com.novel.im.netty.enums.ServerType;
 import com.novel.im.netty.handler.bytes.BytesHandler;

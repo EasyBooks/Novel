@@ -47,7 +47,7 @@ public class ParamAndTimeAspect
                 if (annotations[i][j].annotationType() == IdParam.class)
                 {
                     String uid = request.getHeader("uid");
-                    if (uid == null) return;
+                    if (uid == null) break;
                     args[i] = Integer.parseInt(uid);
                 }
             }

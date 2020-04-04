@@ -7,6 +7,7 @@ package com.novel.user.service;
 
 import com.novel.common.bean.PageList;
 import com.novel.common.domain.book.Book;
+import com.novel.common.dto.book.BookDetailDto;
 import com.novel.common.dto.book.BookDto;
 
 import java.util.List;
@@ -52,4 +53,18 @@ public interface RPCBookService
      * @return
      */
     PageList<BookDto> findCollection(List<Long> idList, int page, int size);
+
+    /**
+     * 精选书籍
+     *
+     * @return
+     */
+    Map<String,List<BookDto>> boutiqueList();
+
+    /**
+     * 书籍详情
+     * @param id
+     * @return
+     */
+    BookDetailDto bookDetail(Long id);
 }

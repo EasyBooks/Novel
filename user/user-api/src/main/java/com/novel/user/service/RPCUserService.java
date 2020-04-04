@@ -7,6 +7,7 @@ package com.novel.user.service;
 
 import com.novel.common.domain.user.User;
 import com.novel.common.domain.user.UserDetails;
+import com.novel.common.dto.book.CircleDto;
 import com.novel.common.dto.user.AuthorDto;
 
 import java.util.List;
@@ -30,4 +31,6 @@ public interface RPCUserService
     List<AuthorDto> findAuthors(List<Long> bookIds);
 
     int saveAuthor(Long userId,Long bookId);
+
+    List<CircleDto> findCircleByBook(Long bookId);
 }

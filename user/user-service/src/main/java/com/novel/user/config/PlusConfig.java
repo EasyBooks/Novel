@@ -34,6 +34,7 @@ public class PlusConfig
             put("user_details", (metaObject, sql, tableName) -> "t_user_details");
             put("collection", (metaObject, sql, tableName) -> "t_" + tableName);
             put("follow", (metaObject, sql, tableName) -> "t_" + tableName);
+            put("circle", (metaObject, sql, tableName) -> "t_" + tableName);
         }});
         paginationInterceptor.setSqlParserList(Collections.singletonList(dynamicTableNameParser));
         return paginationInterceptor;

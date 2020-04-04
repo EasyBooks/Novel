@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class MsgDto
 {
-    private Long id;
+    private String id;
     private int cmd;
     // 发送者ID
     private int formId;

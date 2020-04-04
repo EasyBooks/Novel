@@ -8,7 +8,6 @@ package com.novel.im.netty;
 import com.novel.common.define.Task;
 import com.novel.im.config.CommonConfig;
 import com.novel.im.netty.enums.ServerType;
-import com.novel.im.netty.handler.ServerInit;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;

@@ -1,6 +1,6 @@
 /*
  * 作者：刘时明
- * 时间：2020/3/4-0:45
+ * 时间：2020/4/4-14:39
  * 作用：
  */
 package com.novel.common.dto.book;
@@ -12,22 +12,24 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class BookDto implements Serializable
+public class BookDetailDto implements Serializable
 {
     private String id;
-    // 分类
-    private String typeId;
-    private String typeName;
     private String title;
     private String synopsis;
     private String cover;
-    private Integer recommend;
     private Integer click;
     private Integer collection;
     private Integer instalments;
-    private String wordNum;
-    private Integer createTime;
+    private Integer top;
+    private List<CircleDto> circleList;
     private List<AuthorDto> authors;
-    private String remake;
     private String author;
+    private String lastChapter;
+    // 最后更新时间
+    private Integer updated;
+    // 是否完结
+    private Integer isSerial;
+    // 相关推荐
+    private List<BookDto> related;
 }

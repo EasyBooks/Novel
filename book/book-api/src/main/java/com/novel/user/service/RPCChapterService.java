@@ -5,11 +5,13 @@
  */
 package com.novel.user.service;
 
-import com.novel.common.domain.book.Chapter;
+import com.novel.common.dto.book.ChapterDto;
 
 import java.util.List;
 
 public interface RPCChapterService
 {
-    List<Chapter> chapterList();
+    List<ChapterDto> chapterList(Long bookId);
+
+    ChapterDto read(Long id,Integer uid);
 }

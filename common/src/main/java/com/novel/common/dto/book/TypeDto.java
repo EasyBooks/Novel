@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Data
 public class TypeDto implements Serializable
 {
-    private Long id;
+    private String id;
     private String pic;
     private String name;
     private Integer bookCount;
