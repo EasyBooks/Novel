@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 public class Book extends BaseEntity
 {
-    private Long id;
     private Long typeId;
     private String title;
     private String synopsis;

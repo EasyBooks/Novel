@@ -5,6 +5,9 @@
  */
 package com.novel.im.service;
 
+import com.novel.common.domain.im.Message;
+
 public interface MsgService extends RPCMsgService
 {
+    int saveMsg(Message msg);
 }

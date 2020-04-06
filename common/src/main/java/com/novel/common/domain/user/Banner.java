@@ -12,7 +12,6 @@ import lombok.Data;
 @Data
 public class Banner extends BaseEntity
 {
-    private Long id;
     private String img;
     private String link;
     private String title;

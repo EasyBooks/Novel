@@ -31,8 +31,8 @@ public class PlusConfig
         DynamicTableNameParser dynamicTableNameParser = new DynamicTableNameParser();
         dynamicTableNameParser.setTableNameHandlerMap(new HashMap<>(2)
         {{
-            put("msg", (metaObject, sql, tableName) -> "t_" + tableName);
-            put("msg_read", (metaObject, sql, tableName) -> "t_" + tableName);
+            put("message", (metaObject, sql, tableName) -> "t_" + tableName);
+            put("message_read", (metaObject, sql, tableName) -> "t_message_read");
         }});
         paginationInterceptor.setSqlParserList(Collections.singletonList(dynamicTableNameParser));
         return paginationInterceptor;

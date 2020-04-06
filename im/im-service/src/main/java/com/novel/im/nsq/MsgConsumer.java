@@ -8,10 +8,10 @@ package com.novel.im.nsq;
 import com.github.brainlag.nsq.NSQConsumer;
 import com.github.brainlag.nsq.lookup.DefaultNSQLookup;
 import com.github.brainlag.nsq.lookup.NSQLookup;
+import com.novel.common.domain.im.Message;
 import com.novel.common.utils.BitObjectUtil;
 import com.novel.im.netty.handler.bytes.BytesRequestHandler;
 import com.novel.im.netty.handler.ws.WebSocketRequestHandler;
-import com.novel.im.utils.ProtoBufUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
@@ -61,17 +61,17 @@ public class MsgConsumer
         NSQConsumer registerConsumer = new NSQConsumer(lookup, bookTopic, channel,
                 (message) ->
                 {
-                    Optional<byte[]> optional = BitObjectUtil.bytesToObject(message.getMessage());
+                    Optional<Message> optional = BitObjectUtil.bytesToObject(message.getMessage());
                     optional.ifPresent(o ->
                     {
                         switch (protocol)
                         {
                             case "byte":
-                                bytesRequestHandler.mqService(ProtoBufUtil.parseReqBytes(o));
+                                bytesRequestHandler.mqService(o);
                                 break;
                             case "ws":
                             default:
-                                webSocketRequestHandler.mqService(new String(o));
+                                webSocketRequestHandler.mqService(o);
                                 break;
                         }
                     });

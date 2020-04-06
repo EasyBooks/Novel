@@ -6,7 +6,7 @@
 package com.novel.im.service.dubbo;
 
 import com.novel.common.bean.PageList;
-import com.novel.common.domain.im.Msg;
+import com.novel.common.domain.im.Message;
 import com.novel.common.dto.im.MsgDto;
 import com.novel.im.service.MsgService;
 import com.novel.im.service.RPCMsgService;
@@ -34,7 +34,7 @@ public class RPCMsgServiceImpl implements RPCMsgService
     }
 
     @Override
-    public boolean systemSendMsg(Msg msg)
+    public boolean systemSendMsg(Message msg)
     {
         return msgService.systemSendMsg(msg);
     }

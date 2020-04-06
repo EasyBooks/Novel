@@ -11,7 +11,6 @@ import lombok.Data;
 @Data
 public class Account extends BaseEntity
 {
-    private Long id;
     private Integer uid;
     private Long accountBalance;
     private Long monthlyBalance;

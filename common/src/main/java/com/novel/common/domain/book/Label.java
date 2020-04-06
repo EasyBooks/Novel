@@ -14,6 +14,5 @@ import lombok.Data;
 @Data
 public class Label extends BaseEntity
 {
-    private Long id;
     private String name;
 }

@@ -5,11 +5,10 @@
  */
 package com.novel.gateway.handler;
 
-import com.novel.common.domain.user.User;
+import com.novel.common.domain.user.UserInfo;
 import com.novel.common.domain.user.UserDetails;
 import com.novel.common.dto.user.UserDto;
 import com.novel.common.utils.JWTUtil;
-import com.novel.common.utils.MetadataUtil;
 import com.novel.common.utils.ResultUtil;
 import com.novel.gateway.aspect.annotation.IdParam;
 import com.novel.gateway.aspect.annotation.LogInterceptJoinPoint;
@@ -18,7 +17,6 @@ import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
@@ -28,18 +26,11 @@ public class UserHandler
     @Reference(version = "2.0.0", check = false)
     private RPCUserService userService;
 
-    @GetMapping("test")
-    public Object test(String name, HttpServletRequest request)
-    {
-        System.out.println("versions=" + MetadataUtil.getVersions(request));
-        return ResultUtil.success(userService.hello(name));
-    }
-
     @LogInterceptJoinPoint
     @PostMapping("login")
     public Object login(String name, String pass)
     {
-        User user = userService.login(name, pass);
+        UserInfo user = userService.login(name, pass);
         if (user == null)
         {
             return ResultUtil.error("登录失败");
@@ -55,10 +46,9 @@ public class UserHandler
 
     @LogInterceptJoinPoint
     @PostMapping("register")
-    public Object register(User user, UserDetails userDetails)
+    public Object register(UserInfo user)
     {
-
-        int result = userService.register(user, userDetails);
+        int result = userService.register(user);
         if (result == 1)
         {
             return ResultUtil.success("注册成功");
@@ -84,7 +74,7 @@ public class UserHandler
     @GetMapping("userInfo/{uid}")
     public Object userInfo(@PathVariable Integer uid)
     {
-        User user = userService.find(uid);
+        UserInfo user = userService.find(uid);
         UserDetails details = userService.findDetails(uid);
         UserDto userDto = new UserDto();
         BeanUtils.copyProperties(user, userDto);

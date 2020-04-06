@@ -6,7 +6,8 @@
 package com.novel.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.novel.common.domain.user.User;
+import com.novel.common.domain.BaseEntity;
+import com.novel.common.domain.user.UserInfo;
 import com.novel.common.domain.user.UserDetails;
 import com.novel.common.dto.book.CircleDto;
 import com.novel.common.dto.user.AuthorDto;
@@ -50,12 +51,12 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public User login(String username, String password)
+    public UserInfo login(String username, String password)
     {
         String salt = userMapper.selectSalt(username);
         if (salt != null)
         {
-            QueryWrapper<User> wrapper = new QueryWrapper<>();
+            QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
             return userMapper.selectOne(wrapper.eq("username", username).eq("password", MD5Util.password(password, salt)));
         }
         return null;
@@ -64,7 +65,7 @@ public class UserServiceImpl implements UserService
     @Override
     public String flushToken(String token, Integer uid)
     {
-        User user = this.find(uid);
+        UserInfo user = this.find(uid);
         if (user == null) return null;
         if (AuthUtil.VerifyToken(token, String.valueOf(uid)) == VERIFY_OK)
         {
@@ -73,21 +74,22 @@ public class UserServiceImpl implements UserService
         return null;
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE, rollbackFor = Exception.class)
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
-    public int register(User user, UserDetails details)
+    public int register(UserInfo user)
     {
+        System.out.println("注册一次");
         int now = DateUtil.nowTime();
-        user.setId(snowflake.nextId());
         int uid = 1000 + userMapper.selectCount(null);
         user.setUid(uid);
         user.setType(1);
-        user.setStatus(1);
-        user.setCreateTime(now);
-        user.setUpdateTime(now);
+        BaseEntity.initEntity(user,snowflake);
         String salt = salt();
         user.setSalt(salt);
         user.setPassword(MD5Util.password(user.getPassword(), salt));
+        UserDetails details=new UserDetails();
+        details.setHeadImg("");
+        details.setId(user.getId());
         details.setUid(uid);
         details.setStatus(1);
         details.setCreateTime(now);
@@ -104,15 +106,15 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public User find(Integer uid)
+    public UserInfo find(Integer uid)
     {
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
         wrapper.eq("uid", uid);
         return userMapper.selectOne(wrapper);
     }
 
     @Override
-    public User find(Long id)
+    public UserInfo find(Long id)
     {
         return userMapper.selectById(id);
     }
@@ -135,7 +137,7 @@ public class UserServiceImpl implements UserService
     public int saveAuthor(Long userId, Long bookId)
     {
         int now = DateUtil.nowTime();
-        User user = new User();
+        UserInfo user = new UserInfo();
         user.setId(snowflake.nextId());
         user.setUpdateTime(now);
         user.setCreateTime(now);

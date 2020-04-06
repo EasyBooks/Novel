@@ -18,9 +18,9 @@ public class AddersLogic
     private static Set<String> IPWhiteSet = new HashSet<>();
     private static Set<String> IPBlackSet = new HashSet<>();
 
-    @Value("${address.white.list}")
+    @Value("${address.white.list:128.0.0.1}")
     private Set<String> whiteList;
-    @Value("${address.black.list}")
+    @Value("${address.black.list:128.0.0.1}")
     private Set<String> blackList;
 
     public static boolean isWhiteList(String ip)

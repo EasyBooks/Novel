@@ -5,7 +5,8 @@
  */
 package com.novel.im.netty.handler.bytes;
 
-import com.novel.im.netty.handler.wapper.proto.ProtoBufStrategyContext;
+import com.novel.common.domain.im.Message;
+import com.novel.im.netty.wapper.proto.ProtoBufStrategyContext;
 import com.novel.im.netty.handler.OnLineListService;
 import com.novel.im.proto.DataProto;
 import io.netty.buffer.Unpooled;
@@ -39,7 +40,7 @@ public class BytesRequestHandler
                 userBean.getChannel().writeAndFlush(rsp.toByteArray());
                 break;
             case HANDSHAKE_MSG:
-                Long id = Long.parseLong(req.getHandShakeReq().getToken());
+                Integer id = Integer.parseInt(req.getHandShakeReq().getToken());
                 onLineListService.onLine(ctx, id);
                 ctx.writeAndFlush(Unpooled.copiedBuffer(rsp.toByteArray()));
                 break;
@@ -49,6 +50,6 @@ public class BytesRequestHandler
         }
     }
 
-    public void mqService(DataProto.MsgReq req)
+    public void mqService(Message req)
     {}
 }

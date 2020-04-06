@@ -9,9 +9,8 @@ import com.novel.common.domain.BaseEntity;
 import lombok.Data;
 
 @Data
-public class MsgRead extends BaseEntity
+public class MessageRead extends BaseEntity
 {
-    private Long id;
     private Integer uid;
     private Long msgId;
     private Integer type;

@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 public class Comment extends BaseEntity
 {
-    private Long id;
     private Integer uid;
     private String content;
     // 哪本书的评论

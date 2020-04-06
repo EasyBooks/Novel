@@ -6,6 +6,7 @@
 package com.novel.user.service;
 
 import com.novel.common.dto.book.ChapterDto;
+import com.novel.common.dto.book.PageDto;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface RPCChapterService
     List<ChapterDto> chapterList(Long bookId);
 
     ChapterDto read(Long id,Integer uid);
+
+    PageDto readByPage(Long id, Integer page);
 }

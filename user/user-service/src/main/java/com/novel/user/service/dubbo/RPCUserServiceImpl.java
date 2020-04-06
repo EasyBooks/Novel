@@ -5,7 +5,7 @@
  */
 package com.novel.user.service.dubbo;
 
-import com.novel.common.domain.user.User;
+import com.novel.common.domain.user.UserInfo;
 import com.novel.common.domain.user.UserDetails;
 import com.novel.common.dto.book.CircleDto;
 import com.novel.common.dto.user.AuthorDto;
@@ -31,7 +31,7 @@ public class RPCUserServiceImpl implements RPCUserService
     }
 
     @Override
-    public User login(String username, String password)
+    public UserInfo login(String username, String password)
     {
         return userService.login(username, password);
     }
@@ -43,19 +43,19 @@ public class RPCUserServiceImpl implements RPCUserService
     }
 
     @Override
-    public int register(User user, UserDetails details)
+    public int register(UserInfo user)
     {
-        return userService.register(user, details);
+        return userService.register(user);
     }
 
     @Override
-    public User find(Integer uid)
+    public UserInfo find(Integer uid)
     {
         return userService.find(uid);
     }
 
     @Override
-    public User find(Long id)
+    public UserInfo find(Long id)
     {
         return userService.find(id);
     }

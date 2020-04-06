@@ -6,6 +6,7 @@
 package com.novel.im.nsq;
 
 import com.github.brainlag.nsq.NSQProducer;
+import com.novel.common.domain.im.Message;
 import com.novel.common.utils.BitObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +26,9 @@ public class MsgProducer
     @Value("${nsq.produce.port}")
     private Integer nsqPort;
 
+    @Value("${nsq.topic}")
+    private String topic;
+
     private NSQProducer nsqProducer;
 
     @PostConstruct
@@ -35,33 +39,33 @@ public class MsgProducer
     }
 
     @Async
-    public void produce(String topic, Object data)
+    public void produce(Message data)
     {
         Optional<byte[]> optionalBytes = BitObjectUtil.objectToBytes(data);
         try
         {
             if (optionalBytes.isPresent())
             {
-                this.nsqProducer.produce(topic, optionalBytes.get());;
+                this.nsqProducer.produce(topic, optionalBytes.get());
             }
         } catch (Exception e)
         {
             // 发送数据失败，加入重试队列
-            log.error("produce发送消息失败,err={}",e.getMessage());
-            trySend(topic, data,1);
+            log.error("produce发送消息失败,err={}", e.getMessage());
+            trySend(data, 1);
         }
     }
 
-    private void trySend(String topic, Object data,int count)
+    private void trySend(Message data, int count)
     {
         try
         {
             Thread.sleep(count * 1000);
-            this.produce(topic, data);
+            this.produce(data);
         } catch (Exception e)
         {
-            log.error("trySend重试失败,err={},当前次数={}",e.getMessage(),count);
-            trySend(topic, data, ++count);
+            log.error("trySend重试失败,err={},当前次数={}", e.getMessage(), count);
+            trySend(data, ++count);
         }
     }
 }

@@ -8,6 +8,7 @@ package com.novel.book.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.novel.common.domain.book.Chapter;
 import com.novel.common.dto.book.ChapterDto;
+import com.novel.common.dto.book.PageDto;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -21,6 +22,9 @@ public interface ChapterMapper extends BaseMapper<Chapter>
             "ORDER BY sorted DESC limit 1")
     Chapter findLastChapter(Long bookId);
 
+    // 考虑substr优化
+    //SELECT substr(content,1,1000) as content,LENGTH(content)/1000 as size FROM t_chapter
+    //limit 1000
     @Select("SELECT chapter.id,name as chapterName,sorted,content,\n" +
             "(SELECT max(sorted) FROM t_chapter WHERE book_id=book.id) as isLast \n" +
             "FROM t_chapter chapter\n" +
@@ -30,4 +34,7 @@ public interface ChapterMapper extends BaseMapper<Chapter>
 
     @Select("SELECT id FROM t_chapter WHERE book_id=#{bookId} AND sorted=1")
     Long findFirstChapter(Long bookId);
+
+    @Select("SELECT id,substr(content,1,1000) as content,LENGTH(content)/1000 as size FROM t_chapter")
+    PageDto readByPage(Long id, Integer page);
 }

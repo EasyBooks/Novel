@@ -5,7 +5,7 @@
  */
 package com.novel.user.service;
 
-import com.novel.common.domain.user.User;
+import com.novel.common.domain.user.UserInfo;
 import com.novel.common.domain.user.UserDetails;
 import com.novel.common.dto.book.CircleDto;
 import com.novel.common.dto.user.AuthorDto;
@@ -16,15 +16,15 @@ public interface RPCUserService
 {
     String hello(String name);
 
-    User login(String username, String password);
+    UserInfo login(String username, String password);
 
     String flushToken(String token, Integer uid);
 
-    int register(User user, UserDetails details);
+    int register(UserInfo user);
 
-    User find(Integer uid);
+    UserInfo find(Integer uid);
 
-    User find(Long id);
+    UserInfo find(Long id);
 
     UserDetails findDetails(Integer uid);
 

@@ -6,8 +6,8 @@
 package com.novel.im.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.novel.common.domain.im.MsgRead;
+import com.novel.common.domain.im.MessageRead;
 
-public interface MsgReadMapper extends BaseMapper<MsgRead>
+public interface MsgReadMapper extends BaseMapper<MessageRead>
 {
 }

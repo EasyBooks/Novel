@@ -6,23 +6,20 @@
 package com.novel.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.novel.common.domain.user.User;
+import com.novel.common.domain.user.UserInfo;
 import com.novel.common.dto.user.AuthorDto;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
 
-public interface UserMapper extends BaseMapper<User>
+public interface UserMapper extends BaseMapper<UserInfo>
 {
     @Select("SELECT salt FROM t_user_info WHERE username=#{username} AND status=1")
     String selectSalt(String username);
 
     @Insert("insert into t_book_author values(#{user.id},#{userId},#{bookId},#{user.status},#{user.createTime},#{user.updateTime})")
-    int insertAuthor(@Param("user") User user, @Param("userId") Long userId, @Param("bookId") Long bookId);
+    int insertAuthor(@Param("user") UserInfo user, @Param("userId") Long userId, @Param("bookId") Long bookId);
 
     @SelectProvider(type = UserMapperProvider.class,method = "findAuthors")
     List<AuthorDto> findAuthors(@Param("bookIds") List<Long> bookIds);

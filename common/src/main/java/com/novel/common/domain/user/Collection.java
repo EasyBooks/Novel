@@ -14,7 +14,6 @@ import lombok.Data;
 @Data
 public class Collection extends BaseEntity
 {
-    private Long id;
     private Integer uid;
     private Integer type;
     private Long bookId;

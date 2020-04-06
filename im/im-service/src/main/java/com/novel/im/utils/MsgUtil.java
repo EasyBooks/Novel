@@ -5,13 +5,16 @@
  */
 package com.novel.im.utils;
 
-import com.novel.common.domain.im.Msg;
+import com.google.gson.Gson;
+import com.novel.common.domain.im.Message;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class MsgUtil
 {
-    public static void decryptMsg(Msg msg, String aesKey)
+    private static final Gson gson=new Gson();
+
+    public static void decryptMsg(Message msg, String aesKey)
     {
         try
         {
@@ -23,7 +26,7 @@ public class MsgUtil
         }
     }
 
-    public static void encryptMsg(Msg msg, String aesKey)
+    public static void encryptMsg(Message msg, String aesKey)
     {
         try
         {
@@ -32,6 +35,19 @@ public class MsgUtil
         } catch (Exception e)
         {
             log.error("解密失败，err={}", e.getMessage());
+        }
+    }
+
+    public static Message serializeMsg(String json)
+    {
+        try
+        {
+//            JsonObject jsonObject =JsonParser.parseString(json).getAsJsonObject();
+//            cmd = jsonObject.get("cmd").getAsInt();
+            return gson.fromJson(json, Message.class);
+        }catch (Exception e)
+        {
+            return null;
         }
     }
 }

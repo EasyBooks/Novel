@@ -14,7 +14,6 @@ import lombok.Data;
 @Data
 public class Circle  extends BaseEntity
 {
-    private Long id;
     // 谁发的？
     private Integer uid;
     // 关联小说

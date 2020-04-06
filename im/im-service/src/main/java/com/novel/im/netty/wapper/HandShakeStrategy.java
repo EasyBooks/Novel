@@ -3,19 +3,24 @@
  * 时间：2020/3/21-14:23
  * 作用：
  */
-package com.novel.im.netty.handler.wapper;
+package com.novel.im.netty.wapper;
 
-import com.google.gson.Gson;
+import com.novel.common.domain.im.Message;
 import com.novel.im.proto.DataProto;
+import com.novel.im.service.UserService;
 import com.novel.im.utils.DESUtil;
-import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 public class HandShakeStrategy implements HandlerStrategy<DataProto.HandShakeReq>
 {
-    private static final Gson gson=new Gson();
     private static final DataProto.MsgType TYPE = DataProto.MsgType.HANDSHAKE_MSG;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public DataProto.MsgRsp protoBufHandler(DataProto.HandShakeReq req) {
@@ -37,22 +42,20 @@ public class HandShakeStrategy implements HandlerStrategy<DataProto.HandShakeReq
     }
 
     @Override
-    public String jsonHandler(String json)
+    public String jsonHandler(Message msg)
     {
-        final HandShakeType handShakeType = gson.fromJson(json, HandShakeType.class);
         // 校验token
         try {
-            int uid = Integer.parseInt(handShakeType.token);
-            return String.valueOf(uid);
+            int uid = Integer.parseInt(msg.getContent());
+            String publicKey= UUID.randomUUID().toString().substring(0,5);
+            if(userService.setPublicKey(uid,publicKey)==1)
+            {
+                return String.format("%d$%s",uid,publicKey);
+            }
+            return null;
         }catch (Exception e)
         {
             return null;
         }
-    }
-
-    @Data
-    static class HandShakeType
-    {
-        private String token;
     }
 }

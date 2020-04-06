@@ -11,7 +11,6 @@ import lombok.Data;
 @Data
 public class Recharge extends BaseEntity
 {
-    private Long id;
     private Integer uid;
     private Long amount;
     private Integer type;

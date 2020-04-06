@@ -3,8 +3,9 @@
  * 时间：2020/3/21-13:57
  * 作用：
  */
-package com.novel.im.netty.handler.wapper;
+package com.novel.im.netty.wapper;
 
+import com.novel.common.domain.im.Message;
 import com.novel.im.proto.DataProto;
 
 /**
@@ -21,8 +22,8 @@ public interface HandlerStrategy<E>
 
     /**
      * json处理
-     * @param json
+     * @param msg
      * @return
      */
-    String jsonHandler(String json);
+    String jsonHandler(Message msg);
 }

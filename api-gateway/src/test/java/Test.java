@@ -4,7 +4,7 @@
  * 作用：
  */
 
-import com.novel.common.domain.user.User;
+import com.novel.common.domain.user.UserInfo;
 import com.novel.gateway.GatewayApplication;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class Test
     @org.junit.Test
     public void test2()
     {
-        User user=new User();
+        UserInfo user=new UserInfo();
         user.setNickname("hello");
         ValueOperations<String, Object> opsForValue = redisTemplate.opsForValue();
         opsForValue.set("mybe",user,5, TimeUnit.SECONDS);

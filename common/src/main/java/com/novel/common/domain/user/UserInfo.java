@@ -11,9 +11,8 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class User extends BaseEntity
+public class UserInfo extends BaseEntity
 {
-    private Long id;
     private Integer uid;
     private String username;
     private String password;

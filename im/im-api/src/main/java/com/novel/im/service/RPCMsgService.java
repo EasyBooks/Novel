@@ -6,7 +6,7 @@
 package com.novel.im.service;
 
 import com.novel.common.bean.PageList;
-import com.novel.common.domain.im.Msg;
+import com.novel.common.domain.im.Message;
 import com.novel.common.dto.im.MsgDto;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public interface RPCMsgService
      * @param msg
      * @return
      */
-    boolean systemSendMsg(Msg msg);
+    boolean systemSendMsg(Message msg);
 
     /**
      * 在线列表

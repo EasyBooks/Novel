@@ -14,7 +14,6 @@ import lombok.Data;
 @Data
 public class BookAuthor extends BaseEntity
 {
-    private Long id;
     private Integer userId;
     private Integer bookId;
 }

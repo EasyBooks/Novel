@@ -5,18 +5,14 @@ package proto;
 option java_package = "com.novel.im.proto";
 option java_outer_classname = "DataProto";
 
-// 请求类型枚举
-enum ReqType {
-    ACK_MSG = 0; // ACK确认
-    HANDSHAKE_MSG=1; // 握手
-    SEND_MSG = 3; // 发送消息
-    BROADCAST_MSG = 5; // 广播消息
-    SYSTEM_MSG =7; // 系统消息
-    SYSTEM_BROADCAST_MSG =9; // 系统广播
-    PONG_MSG =11; // 心跳
-    LEAVE_MSG=13; // 离开
-    FILE_MSG=15; // 文件传输
-    FILE_SLICES_MSG=17; // 文件切片包
+enum SendType{
+    SINGLE=0; // 单聊
+    GROUP=1; // 群聊
+    ONLINE=2; // 上线
+    LEAVE=3; // 离线
+    ADD_FRIEND=4; // 请求添加好友
+    AGREE_FRIEND=5; // 同意添加好友
+    REFUSE_FRIEND=6; // 拒绝添加好友
 }
 
 // 返回码枚举
@@ -27,14 +23,17 @@ enum ResultCode{
 }
 
 // 消息类型枚举
-enum MsgType{
-    SINGLE=0; // 单聊
-    GROUP=1; // 群聊
-    ONLINE=2; // 上线
-    LEAVE=3; // 离线
-    ADD_FRIEND=4; // 请求添加好友
-    AGREE_FRIEND=5; // 同意添加好友
-    REFUSE_FRIEND=6; // 拒绝添加好友
+enum MsgType {
+    ACK_MSG = 0; // ACK确认
+    HANDSHAKE_MSG=1; // 握手
+    SEND_MSG = 2; // 发送消息
+    BROADCAST_MSG = 3; // 广播消息
+    SYSTEM_MSG =4; // 系统消息
+    SYSTEM_BROADCAST_MSG =5; // 系统广播
+    PONG_MSG =6; // 心跳
+    LEAVE_MSG=7; // 离开
+    FILE_MSG=8; // 文件传输
+    FILE_SLICES_MSG=9; // 文件切片包
 }
 
 // 系统通知类型枚举
@@ -98,12 +97,13 @@ message HandShakeRsp{
 
 // 发送消息(有ACK回复)
 message SendMsgReq{
-    int64 to_id=1;
-    int64 form_id=2;
+    int32 to_id=1;
+    int32 form_id=2;
     string content=3;
     int64 time_stamp=4;
     SendType type=5;
 }
+
 // 收到消息(有ACK回复)
 message SendMsgRsp{
     int64 id=1;

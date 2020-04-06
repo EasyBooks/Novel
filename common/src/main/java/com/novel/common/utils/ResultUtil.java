@@ -18,6 +18,7 @@ public class ResultUtil
     public static final String timeOutResult;
     public static final String errorResult;
     public static final String metadataResult;
+    public static final String authErrorResult;
 
     static
     {
@@ -29,6 +30,8 @@ public class ResultUtil
         timeOutResult = gson.toJson(timeOut);
         Result metadata = Result.of(10003,"缺少请求元数据");
         metadataResult = gson.toJson(metadata);
+        Result authError = Result.of(10004,"权限不足");
+        authErrorResult=gson.toJson(authError);
     }
 
     public static Map<String, Object> success(String info)

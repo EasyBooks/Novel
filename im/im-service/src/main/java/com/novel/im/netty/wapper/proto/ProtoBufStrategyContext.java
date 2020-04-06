@@ -3,11 +3,11 @@
  * 时间：2020/3/21-14:04
  * 作用：
  */
-package com.novel.im.netty.handler.wapper.proto;
+package com.novel.im.netty.wapper.proto;
 
-import com.novel.im.netty.handler.wapper.AckStrategy;
-import com.novel.im.netty.handler.wapper.HandShakeStrategy;
-import com.novel.im.netty.handler.wapper.SendMsgStrategy;
+import com.novel.im.netty.wapper.AckStrategy;
+import com.novel.im.netty.wapper.HandShakeStrategy;
+import com.novel.im.netty.wapper.SendMsgStrategy;
 import com.novel.im.proto.DataProto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

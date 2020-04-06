@@ -14,7 +14,6 @@ import lombok.Data;
 @Data
 public class Chapter extends BaseEntity
 {
-    private Long id;
     private Long bookId;
     private Integer sorted;
     private String name;

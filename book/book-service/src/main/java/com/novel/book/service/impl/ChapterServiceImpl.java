@@ -11,6 +11,7 @@ import com.novel.book.mapper.RecordMapper;
 import com.novel.book.service.ChapterService;
 import com.novel.common.domain.book.Chapter;
 import com.novel.common.dto.book.ChapterDto;
+import com.novel.common.dto.book.PageDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,5 +61,11 @@ public class ChapterServiceImpl implements ChapterService
             chapter.setIsFirst(0);
         }
         return chapter;
+    }
+
+    @Override
+    public PageDto readByPage(Long id, Integer page)
+    {
+        return chapterMapper.readByPage(id,page);
     }
 }

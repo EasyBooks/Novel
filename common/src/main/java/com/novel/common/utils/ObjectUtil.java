@@ -2,15 +2,15 @@ package com.novel.common.utils;
 
 public class ObjectUtil
 {
-    public static boolean isNull(Object... args)
+    public static boolean isNull(String... args)
     {
-        for (Object o:args)
+        for (String o:args)
         {
-            if(o==null)
+            if(o==null||o.equals(""))
             {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 }

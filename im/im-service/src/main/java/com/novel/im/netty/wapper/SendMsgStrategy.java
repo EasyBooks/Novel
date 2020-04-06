@@ -3,11 +3,13 @@
  * 时间：2020/3/21-14:21
  * 作用：
  */
-package com.novel.im.netty.handler.wapper;
+package com.novel.im.netty.wapper;
 
-import com.novel.common.domain.im.Msg;
+import com.novel.common.domain.im.Message;
+import com.novel.im.nsq.MsgProducer;
 import com.novel.im.proto.DataProto;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,12 +17,15 @@ public class SendMsgStrategy implements HandlerStrategy<DataProto.SendMsgReq>
 {
     private static final DataProto.MsgType TYPE = DataProto.MsgType.SEND_MSG;
 
+    @Autowired
+    private MsgProducer producer;
+
     @Override
     public DataProto.MsgRsp protoBufHandler(DataProto.SendMsgReq req)
     {
         //        String formAesKey = userDao.findAesKey(req.getFormId());
 //        String ToAesKey = userDao.findAesKey(req.getToId());
-        Msg msg = new Msg();
+        Message msg = new Message();
         BeanUtils.copyProperties(req, msg);
         // msg.setId(snowflake.nextId());
         //MsgUtil.decryptMsg(msg, formAesKey);
@@ -41,8 +46,10 @@ public class SendMsgStrategy implements HandlerStrategy<DataProto.SendMsgReq>
     }
 
     @Override
-    public String jsonHandler(String json)
+    public String jsonHandler(Message msg)
     {
-        return null;
+        producer.produce(msg);
+        System.out.println("消息发送");
+        return "";
     }
 }

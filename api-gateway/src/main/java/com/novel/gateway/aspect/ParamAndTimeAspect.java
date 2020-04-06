@@ -9,8 +9,8 @@ import com.novel.gateway.aspect.annotation.IdParam;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -18,7 +18,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
-import java.util.Arrays;
 
 @Component
 @Aspect
@@ -31,14 +30,13 @@ public class ParamAndTimeAspect
      * @param joinPoint
      * @throws Throwable
      */
-    @Before("execution(public * com.novel.gateway.handler.*.*(..))")
-    public void BeforeExec(JoinPoint joinPoint) throws Throwable
+    @Around("execution(public * com.novel.gateway.handler.*.*(..))")
+    public Object BeforeExec(ProceedingJoinPoint joinPoint) throws Throwable
     {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Annotation[][] annotations = methodSignature.getMethod().getParameterAnnotations();
         Object[] args = joinPoint.getArgs();
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (attributes == null) return;
         HttpServletRequest request = attributes.getRequest();
         for (int i = 0; i < annotations.length; i++)
         {
@@ -53,8 +51,16 @@ public class ParamAndTimeAspect
             }
         }
         long start=System.currentTimeMillis();
-        ((ProceedingJoinPoint)joinPoint).proceed(args);
+        Object result = null;
+        try
+        {
+            result = joinPoint.proceed(args);
+        } catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
         long end=System.currentTimeMillis();
         log.info("接口:{},耗时:{} ms",request.getRequestURI(),end-start);
+        return result;
     }
 }

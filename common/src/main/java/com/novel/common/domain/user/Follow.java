@@ -11,7 +11,6 @@ import lombok.Data;
 @Data
 public class Follow extends BaseEntity
 {
-    private Long id;
     private Integer followId;
     private Integer fansId;
 }
