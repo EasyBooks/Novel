@@ -31,7 +31,7 @@ public class ParamAndTimeAspect
      * @throws Throwable
      */
     @Around("execution(public * com.novel.gateway.handler.*.*(..))")
-    public Object BeforeExec(ProceedingJoinPoint joinPoint) throws Throwable
+    public Object AroundExec(ProceedingJoinPoint joinPoint) throws Throwable
     {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Annotation[][] annotations = methodSignature.getMethod().getParameterAnnotations();
@@ -51,14 +51,7 @@ public class ParamAndTimeAspect
             }
         }
         long start=System.currentTimeMillis();
-        Object result = null;
-        try
-        {
-            result = joinPoint.proceed(args);
-        } catch (Throwable e)
-        {
-            e.printStackTrace();
-        }
+        Object result = joinPoint.proceed(args);
         long end=System.currentTimeMillis();
         log.info("接口:{},耗时:{} ms",request.getRequestURI(),end-start);
         return result;

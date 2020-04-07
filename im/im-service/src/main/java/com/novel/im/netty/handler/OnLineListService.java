@@ -20,6 +20,7 @@ import java.util.function.Consumer;
 @Component
 public class OnLineListService
 {
+    // private static final ChannelGroup CHANNEL_GROUP = new DefaultChannelGroup("ChannelGroups", GlobalEventExecutor.INSTANCE);
     private static final ConcurrentHashMap<String, Integer> onLineMap = new ConcurrentHashMap<>(128);
     private static final ConcurrentHashMap<Integer, UserBean> userMap = new ConcurrentHashMap<>(128);
 

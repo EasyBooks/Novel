@@ -140,16 +140,4 @@ public class BookServiceImpl implements BookService
     {
         return bookMapper.selectList(null);
     }
-
-    /**
-     * @param bookDtoList
-     */
-    public void completionBookDto(List<BookDto> bookDtoList)
-    {
-        for (BookDto d : bookDtoList)
-        {
-            // d.setAuthors();
-            d.setTypeName(typeService.findTypeName(d.getTypeId()));
-        }
-    }
 }

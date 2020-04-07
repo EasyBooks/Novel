@@ -38,7 +38,7 @@ public class ImHandler
         return "test";
     }
 
-    @Auth(value = {AuthType.USER})
+    @Auth(value = {AuthType.USER,AuthType.ADMIN})
     @GetMapping("test2")
     public Object test2()
     {

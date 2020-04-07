@@ -8,6 +8,7 @@ package com.novel.book.service.dubbo;
 import com.novel.book.service.ChapterService;
 import com.novel.common.domain.book.Chapter;
 import com.novel.common.dto.book.ChapterDto;
+import com.novel.common.dto.book.PageDto;
 import com.novel.user.service.RPCChapterService;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,10 @@ public class RPCChapterServiceImpl implements RPCChapterService
     public ChapterDto read(Long id,Integer uid)
     {
         return chapterService.read(id,uid);
+    }
+
+    @Override
+    public PageDto readByPage(Long id, Integer page) {
+        return chapterService.readByPage(id, page);
     }
 }
