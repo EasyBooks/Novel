@@ -25,7 +25,7 @@ public class BookController
 {
     @Autowired
     private RedisCacheLogic redisCacheLogic;
-    @Reference(version = "2.0.0",check = false)
+    @Reference(version = "1.0.0",check = false)
     private RPCChapterService chapterService;
 
     // 精选书籍列表

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/im")
 public class ImHandler
 {
-    @Reference(version = "2.0.0", check = false)
+    @Reference(version = "1.0.0", check = false)
     private RPCMsgService msgService;
 
     @Auth(value = {AuthType.ADMIN})

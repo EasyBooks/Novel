@@ -12,7 +12,7 @@ import lombok.Data;
  * 圈子，简单理解为说说
  */
 @Data
-public class Circle  extends BaseEntity
+public class Circle extends BaseEntity
 {
     // 谁发的？
     private Integer uid;

@@ -29,11 +29,11 @@ import java.util.Map;
 @RequestMapping("api/v1/book")
 public class BookHandler
 {
-    @Reference(version = "2.0.0", check = false)
+    @Reference(version = "1.0.0", check = false)
     private RPCBookService bookService;
-    @Reference(version = "2.0.0", check = false)
+    @Reference(version = "1.0.0", check = false)
     private RPCUserService userService;
-    @Reference(version = "2.0.0", check = false)
+    @Reference(version = "1.0.0", check = false)
     private RPCCollectionService collectionService;
 
     @GetMapping("list")

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Transactional
-@Service(version = "2.0.0", timeout = 5000)
+@Service(version = "1.0.0", timeout = 5000)
 public class RPCUserServiceImpl implements RPCUserService
 {
     @Autowired

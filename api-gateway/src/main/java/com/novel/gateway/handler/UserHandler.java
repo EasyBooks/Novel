@@ -23,7 +23,7 @@ import java.util.Map;
 @RequestMapping("api/v1/user")
 public class UserHandler
 {
-    @Reference(version = "2.0.0", check = false)
+    @Reference(version = "1.0.0", check = false)
     private RPCUserService userService;
 
     @LogInterceptJoinPoint

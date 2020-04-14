@@ -6,6 +6,8 @@
 package com.novel.im.netty.wapper;
 
 import com.novel.common.domain.im.Message;
+import com.novel.common.utils.AuthUtil;
+import com.novel.common.utils.JWTUtil;
 import com.novel.im.proto.DataProto;
 import com.novel.im.service.UserService;
 import com.novel.im.utils.DESUtil;
@@ -46,7 +48,11 @@ public class HandShakeStrategy implements HandlerStrategy<DataProto.HandShakeReq
     {
         // 校验token
         try {
-            int uid = Integer.parseInt(msg.getContent());
+            int uid = Integer.parseInt(AuthUtil.parseToken(msg.getContent()));
+            if(uid==-1)
+            {
+                return null;
+            }
             String publicKey= UUID.randomUUID().toString().substring(0,5);
             if(userService.setPublicKey(uid,publicKey)==1)
             {

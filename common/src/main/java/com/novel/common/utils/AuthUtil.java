@@ -43,4 +43,18 @@ public class AuthUtil
             return AuthVerifyType.VERIFY_ERR;
         }
     }
+
+    public static String parseToken(String token)
+    {
+        Claims claims = JWTUtil.parseJWT(token);
+        Object error = claims.get("error");
+        if ("过期".equals(error))
+        {
+            return "-1";
+        } else if ("解析失败".equals(error))
+        {
+            return "-1";
+        }
+        return claims.get("uid").toString();
+    }
 }

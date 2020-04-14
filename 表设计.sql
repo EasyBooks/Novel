@@ -191,3 +191,28 @@ CREATE TABLE `t_admin` (
   `roles` varchar(1288) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+DROP TABLE IF EXISTS `t_circle_comment`;
+CREATE TABLE `t_circle_comment` (
+  `id` bigint(20) NOT NULL,
+  `circle_id` bigint(20) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `reply_uid` int(11) NOT NULL,
+  `content` varchar(255),
+  `status` tinyint(1) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `t_circle_like`;
+CREATE TABLE `t_circle_like` (
+  `id` bigint(20) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `type` tinyint(1) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

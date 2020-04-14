@@ -33,15 +33,15 @@ public class RedisCacheLogic
     private static final Gson gson = new Gson();
     @Autowired
     private StringRedisTemplate redisTemplate;
-    @Reference(version = "2.0.0", check = false)
+    @Reference(version = "1.0.0", check = false)
     private RPCBannerService bannerService;
-    @Reference(version = "2.0.0", check = false)
+    @Reference(version = "1.0.0", check = false)
     private PRCTypeService typeService;
-    @Reference(version = "2.0.0", check = false)
+    @Reference(version = "1.0.0", check = false)
     private RPCBookService bookService;
-    @Reference(version = "2.0.0", check = false)
+    @Reference(version = "1.0.0", check = false)
     private RPCUserService userService;
-    @Reference(version = "2.0.0", check = false)
+    @Reference(version = "1.0.0", check = false)
     private RPCChapterService chapterService;
 
     private static final Random RANDOM = new Random();
