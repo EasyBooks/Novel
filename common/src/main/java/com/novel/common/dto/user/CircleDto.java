@@ -3,6 +3,7 @@ package com.novel.common.dto.user;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @program: Novel
@@ -14,5 +15,11 @@ import java.io.Serializable;
 public class CircleDto implements Serializable
 {
     private Long id;
-
+    private Integer uid;
+    private String nickname;
+    private String headImg;
+    private String content;
+    private List<CircleCommentDto> comments;
+    private Integer likeNum;
+    private String createTime;
 }

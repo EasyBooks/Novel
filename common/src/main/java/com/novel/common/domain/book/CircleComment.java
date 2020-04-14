@@ -1,4 +1,4 @@
-package com.novel.common.domain.user;
+package com.novel.common.domain.book;
 
 import com.novel.common.domain.BaseEntity;
 import lombok.Data;
@@ -14,6 +14,7 @@ public class CircleComment extends BaseEntity
 {
     private Long circleId;
     private Integer uid;
+    private Long mast;
     private Integer replyUid;
     private String content;
 }

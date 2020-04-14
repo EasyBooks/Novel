@@ -7,8 +7,8 @@ package com.novel.user.service.dubbo;
 
 import com.novel.common.domain.user.UserInfo;
 import com.novel.common.domain.user.UserDetails;
-import com.novel.common.dto.book.CircleDto;
 import com.novel.common.dto.user.AuthorDto;
+import com.novel.common.dto.user.CircleDto;
 import com.novel.user.service.RPCUserService;
 import com.novel.user.service.UserService;
 import org.apache.dubbo.config.annotation.Service;

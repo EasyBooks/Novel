@@ -1,7 +1,7 @@
 package com.novel.user.service;
 
 import com.novel.common.bean.PageList;
-import com.novel.common.domain.user.Circle;
+import com.novel.common.domain.book.Circle;
 import com.novel.common.dto.user.CircleDto;
 
 import java.util.Map;
@@ -21,5 +21,5 @@ public interface RPCCircleService
 
     int updateCircle(Circle circle);
 
-    int deleteCircle(Circle circle);
+    int deleteCircle(Long id);
 }

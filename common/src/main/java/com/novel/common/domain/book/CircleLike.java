@@ -1,4 +1,4 @@
-package com.novel.common.domain.user;
+package com.novel.common.domain.book;
 
 import com.novel.common.domain.BaseEntity;
 import lombok.Data;
@@ -15,4 +15,5 @@ public class CircleLike extends BaseEntity
     private Integer uid;
     // 1赞，0踩
     private Integer type;
+    private Long circleId;
 }

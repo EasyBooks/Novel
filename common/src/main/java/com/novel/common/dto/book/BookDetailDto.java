@@ -6,6 +6,7 @@
 package com.novel.common.dto.book;
 
 import com.novel.common.dto.user.AuthorDto;
+import com.novel.common.dto.user.CircleDto;
 import lombok.Data;
 
 import java.io.Serializable;
