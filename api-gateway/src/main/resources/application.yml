@@ -12,8 +12,8 @@ server:
 base:
   url: /api/app,/api/base
 
-#address:
-#  white:
-#    list: 127.0.0.1,192.168.31.21
-#  black:
-#    list: 127.0.0.2,192.168.146.21
+address:
+  white:
+    list: 127.0.0.1,192.168.31.21
+  black:
+    list: 127.0.0.2,192.168.146.21

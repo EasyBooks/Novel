@@ -80,7 +80,6 @@ public class WebSocketRequestHandler
 
     public void mqService(Message msg)
     {
-        log.info("mqService收到消息，msg=>{}", msg);
         OnLineListService.UserBean userBean;
         if (msg == null)
         {

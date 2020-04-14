@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Map;
 
-@Service(version = "2.0.0", timeout = 5000)
+@Service(version = "1.0.0", timeout = 5000)
 public class RPCTypeServiceImpl implements PRCTypeService
 {
     @Autowired

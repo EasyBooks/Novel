@@ -36,10 +36,10 @@ public class AuthInterceptor implements HandlerInterceptor
             return true;
         }
         // 白名单放行
-        if (AddersLogic.isWhiteList(RequestUtil.getRemoteHost(request)))
-        {
-            return true;
-        }
+//        if (AddersLogic.isWhiteList(RequestUtil.getRemoteHost(request)))
+//        {
+//            return true;
+//        }
         // 请求头获取token和uid
         String token = request.getHeader("token");
         String uid = request.getHeader("uid");

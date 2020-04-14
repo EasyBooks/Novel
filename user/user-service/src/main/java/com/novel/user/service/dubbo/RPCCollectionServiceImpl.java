@@ -11,7 +11,7 @@ import com.novel.user.service.RPCCollectionService;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Service(version = "2.0.0", timeout = 5000)
+@Service(version = "1.0.0", timeout = 5000)
 public class RPCCollectionServiceImpl implements RPCCollectionService
 {
     @Autowired

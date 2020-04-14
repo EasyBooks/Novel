@@ -1,4 +1,5 @@
 package com.novel.im.client;
+
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -14,10 +15,10 @@ public class WSClient extends WebSocketClient
 {
     private WebSocketHandler handler;
 
-    public WSClient(URI uri,WebSocketHandler handler)
+    public WSClient(URI uri, WebSocketHandler handler)
     {
         super(uri);
-        this.handler=handler;
+        this.handler = handler;
     }
 
     @Override
@@ -46,6 +47,8 @@ public class WSClient extends WebSocketClient
 
     public static WSClient create(String url, WebSocketHandler handler)
     {
-        return new WSClient(URI.create(url),handler);
+        WSClient client = new WSClient(URI.create(url), handler);
+        client.connect();
+        return client;
     }
 }
