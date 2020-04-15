@@ -16,7 +16,6 @@ import com.novel.common.utils.DateUtil;
 import com.novel.common.utils.JWTUtil;
 import com.novel.common.utils.MD5Util;
 import com.novel.common.bean.Snowflake;
-import com.novel.user.mapper.CircleMapper;
 import com.novel.user.mapper.UserDetailsMapper;
 import com.novel.user.mapper.UserMapper;
 import com.novel.user.service.UserService;
@@ -39,8 +38,6 @@ public class UserServiceImpl implements UserService
     private UserMapper userMapper;
     @Autowired
     private UserDetailsMapper userDetailsMapper;
-    @Autowired
-    private CircleMapper circleMapper;
     @Autowired
     private Snowflake snowflake;
 
@@ -143,11 +140,5 @@ public class UserServiceImpl implements UserService
         user.setCreateTime(now);
         user.setStatus(1);
         return userMapper.insertAuthor(user,userId, bookId);
-    }
-
-    @Override
-    public List<CircleDto> findCircleByBook(Long bookId)
-    {
-        return circleMapper.findCircleByBook(bookId);
     }
 }

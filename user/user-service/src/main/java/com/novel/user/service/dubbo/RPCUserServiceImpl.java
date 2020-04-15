@@ -73,12 +73,6 @@ public class RPCUserServiceImpl implements RPCUserService
     }
 
     @Override
-    public List<CircleDto> findCircleByBook(Long bookId)
-    {
-        return userService.findCircleByBook(bookId);
-    }
-
-    @Override
     public int saveAuthor(Long userId, Long bookId)
     {
         return userService.saveAuthor(userId, bookId);

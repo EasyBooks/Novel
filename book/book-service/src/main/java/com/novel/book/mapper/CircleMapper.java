@@ -28,6 +28,9 @@ public interface CircleMapper extends BaseMapper<Circle>
     @SelectProvider(type = CircleMapperProvider.class,method = "findList")
     List<CircleDto> findList(@Param("condition") Map<String, Object> conditionMap);
 
+    @SelectProvider(type = CircleMapperProvider.class,method = "findListByBookId")
+    List<CircleDto> findListByBookId(@Param("id") long bookId,@Param("page")int page,@Param("size")int size);
+
     @Select("SELECT FOUND_ROWS()")
     long total();
 
@@ -38,13 +41,27 @@ public interface CircleMapper extends BaseMapper<Circle>
             Map<String, Object> conditionMap= (Map<String, Object>) paramMap.get("condition");
             StringBuilder sql=new StringBuilder();
             sql.append("SELECT SQL_CALC_FOUND_ROWS circle.id,circle.uid,info.nickname,circle.content,detail.head_img as headImg,FROM_UNIXTIME(circle.create_time) as createTime,");
-            sql.append("(SELECT count(*) FROM t_circle_like `like` WHERE `like`.circle_id=circle.id) as likeNum");
+            sql.append("(SELECT count(*) FROM t_circle_like `like` WHERE `like`.circle_id=circle.id) as likeNum,");
+            sql.append("(SELECT count(*) FROM t_circle_comment `comment` WHERE `comment`.circle_id=circle.id) as commentNum");
             sql.append(" FROM t_circle circle");
             sql.append(" LEFT JOIN t_user_info info ON circle.uid=info.uid");
             sql.append(" LEFT JOIN t_user_details detail ON detail.uid=circle.uid");
             conditionAppend(sql,conditionMap);
             sortAppend(sql,conditionMap);
             SQLUtil.limitAppend(sql,conditionMap);
+            return sql.toString();
+        }
+
+        public String findListByBookId()
+        {
+            StringBuilder sql=new StringBuilder();
+            sql.append("SELECT SQL_CALC_FOUND_ROWS circle.id,circle.uid,info.nickname,circle.content,detail.head_img as headImg,FROM_UNIXTIME(circle.create_time) as createTime,");
+            sql.append("(SELECT count(*) FROM t_circle_like `like` WHERE `like`.circle_id=circle.id) as likeNum");
+            sql.append(" FROM t_circle circle");
+            sql.append(" LEFT JOIN t_user_info info ON circle.uid=info.uid");
+            sql.append(" LEFT JOIN t_user_details detail ON detail.uid=circle.uid");
+            sql.append(" WHERE circle.book_id=#{id}");
+            sql.append(" LIMIT #{page},#{size}");
             return sql.toString();
         }
 

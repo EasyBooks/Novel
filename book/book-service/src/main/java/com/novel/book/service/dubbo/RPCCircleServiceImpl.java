@@ -44,4 +44,10 @@ public class RPCCircleServiceImpl implements RPCCircleService
     {
         return circleService.deleteCircle(id);
     }
+
+    @Override
+    public PageList<CircleDto> findListByBookId(long bookId, int page, int size)
+    {
+        return circleService.findListByBookId(bookId, page, size);
+    }
 }

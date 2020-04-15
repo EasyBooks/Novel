@@ -21,5 +21,6 @@ public class CircleDto implements Serializable
     private String content;
     private List<CircleCommentDto> comments;
     private Integer likeNum;
+    private Integer commentNum;
     private String createTime;
 }

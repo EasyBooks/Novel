@@ -8,6 +8,7 @@ import com.novel.common.dto.book.ChapterDto;
 import com.novel.common.dto.book.TypeDto;
 import com.novel.common.dto.user.AuthorDto;
 import com.novel.common.dto.user.BannerDto;
+import com.novel.common.dto.user.CircleDto;
 import com.novel.common.utils.ResultUtil;
 import com.novel.gateway.handler.BookHandler;
 import com.novel.user.service.*;
@@ -43,6 +44,8 @@ public class RedisCacheLogic
     private RPCUserService userService;
     @Reference(version = "1.0.0", check = false)
     private RPCChapterService chapterService;
+    @Reference(version = "1.0.0", check = false)
+    private RPCCircleService circleService;
 
     private static final Random RANDOM = new Random();
     private static final ReentrantLock LOCK = new ReentrantLock();
@@ -133,7 +136,8 @@ public class RedisCacheLogic
                 String value = redisTemplate.opsForValue().get(key);
                 if (value != null) return value;
                 BookDetailDto bookDetail = bookService.bookDetail(id);
-                bookDetail.setCircleList(userService.findCircleByBook(id));
+                PageList<CircleDto> circlePage = circleService.findListByBookId(id, 0, 5);
+                bookDetail.setCircleList(circlePage.getData());
                 List<Long> idList=new ArrayList<>(1);
                 idList.add(Long.parseLong(bookDetail.getId()));
                 List<AuthorDto> authors = userService.findAuthors(idList);

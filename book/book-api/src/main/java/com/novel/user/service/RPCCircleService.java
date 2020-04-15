@@ -17,6 +17,8 @@ public interface RPCCircleService
 {
     PageList<CircleDto> findList(Map<String,Object> conditionMap);
 
+    PageList<CircleDto> findListByBookId(long bookId,int page,int size);
+
     int insertCircle(Circle circle);
 
     int updateCircle(Circle circle);

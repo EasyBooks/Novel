@@ -15,6 +15,7 @@ import com.novel.common.dto.book.BookDetailDto;
 import com.novel.common.dto.book.BookDto;
 import com.novel.common.bean.Snowflake;
 import com.novel.common.dto.book.ChapterDto;
+import com.novel.common.dto.user.CircleDto;
 import com.novel.common.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

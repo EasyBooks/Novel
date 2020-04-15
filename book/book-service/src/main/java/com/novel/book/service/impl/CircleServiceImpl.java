@@ -5,6 +5,7 @@
  */
 package com.novel.book.service.impl;
 
+import com.novel.book.mapper.CircleCommentMapper;
 import com.novel.book.mapper.CircleMapper;
 import com.novel.book.service.CircleService;
 import com.novel.common.bean.PageList;
@@ -23,12 +24,20 @@ public class CircleServiceImpl implements CircleService
 {
     @Autowired
     private CircleMapper circleMapper;
+    @Autowired
+    private CircleCommentMapper circleCommentMapper;
+
+    @Override
+    public PageList<CircleDto> findListByBookId(long bookId, int page, int size)
+    {
+        return PageList.of(circleMapper.findListByBookId(bookId,page,size),circleMapper.total());
+    }
 
     @Override
     public PageList<CircleDto> findList(Map<String, Object> conditionMap)
     {
         List<CircleDto> circleDtoList= circleMapper.findList(conditionMap);
-
+        circleDtoList.forEach(e->e.setComments(circleCommentMapper.circleCommentLit(e.getId(),0,5)));
         return PageList.of(circleDtoList,circleMapper.total());
     }
 

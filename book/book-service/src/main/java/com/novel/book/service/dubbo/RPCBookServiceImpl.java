@@ -10,6 +10,7 @@ import com.novel.common.bean.PageList;
 import com.novel.common.domain.book.Book;
 import com.novel.common.dto.book.BookDetailDto;
 import com.novel.common.dto.book.BookDto;
+import com.novel.common.dto.user.CircleDto;
 import com.novel.user.service.RPCBookService;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;

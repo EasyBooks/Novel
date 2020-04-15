@@ -9,6 +9,7 @@ import com.novel.common.bean.PageList;
 import com.novel.common.domain.book.Book;
 import com.novel.common.dto.book.BookDetailDto;
 import com.novel.common.dto.book.BookDto;
+import com.novel.common.dto.user.CircleDto;
 
 import java.util.List;
 import java.util.Map;
