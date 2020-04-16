@@ -142,13 +142,11 @@ public class RedisCacheLogic
                 idList.add(Long.parseLong(bookDetail.getId()));
                 List<AuthorDto> authors = userService.findAuthors(idList);
                 bookDetail.setAuthors(authors);
-                if(!ObjectUtils.isEmpty(authors))
-                {
-                    StringBuilder builder=new StringBuilder();
-                    authors.forEach(e->builder.append(e.getNickname()).append(","));
-                    builder.delete(builder.length()-1,builder.length());
-                    bookDetail.setAuthor(builder.toString());
-                }
+                if(ObjectUtils.isEmpty(authors)) return EMPTY_RESULT;
+                StringBuilder builder=new StringBuilder();
+                authors.forEach(e->builder.append(e.getNickname()).append(","));
+                builder.delete(builder.length()-1,builder.length());
+                bookDetail.setAuthor(builder.toString());
                 String json = gson.toJson(ResultUtil.success(bookDetail));
                 redisTemplate.opsForValue().set(key, json, 20 + RANDOM.nextInt(20), TimeUnit.MINUTES);
                 return json;
