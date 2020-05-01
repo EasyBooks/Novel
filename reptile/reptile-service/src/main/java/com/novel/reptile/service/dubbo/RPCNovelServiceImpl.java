@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Service(version = "1.0.0", timeout = 5000)
+@Service(version = "99.0.0", timeout = 5000)
 public class RPCNovelServiceImpl implements RPCReptileService
 {
     @Autowired

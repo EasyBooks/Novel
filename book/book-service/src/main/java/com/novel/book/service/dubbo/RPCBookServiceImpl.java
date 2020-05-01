@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Transactional
-@Service(version = "1.0.0", timeout = 6000)
+@Service(version = "99.0.0", timeout = 6000)
 public class RPCBookServiceImpl implements RPCBookService
 {
     @Autowired

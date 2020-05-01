@@ -19,7 +19,7 @@ import java.util.Map;
 @RequestMapping("api/app/circle")
 public class CircleController
 {
-    @Reference(version = "1.0.0",check = false)
+    @Reference(version = "99.0.0",check = false)
     private RPCCircleService circleService;
 
     @GetMapping("list")

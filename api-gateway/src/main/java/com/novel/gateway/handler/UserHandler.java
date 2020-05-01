@@ -23,7 +23,7 @@ import java.util.Map;
 @RequestMapping("api/v1/user")
 public class UserHandler
 {
-    @Reference(version = "1.0.0", check = false)
+    @Reference(version = "99.0.0", check = false)
     private RPCUserService userService;
 
     @LogInterceptJoinPoint
@@ -46,7 +46,7 @@ public class UserHandler
 
     @LogInterceptJoinPoint
     @PostMapping("register")
-    public Object register(UserInfo user)
+    public Object register(@RequestBody UserInfo user)
     {
         int result = userService.register(user);
         if (result == 1)

@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
-@Service(version = "1.0.0",timeout = 5000)
+@Service(version = "99.0.0",timeout = 5000)
 public class RPCCircleServiceImpl implements RPCCircleService
 {
     @Autowired

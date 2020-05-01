@@ -75,7 +75,6 @@ public class UserServiceImpl implements UserService
     @Override
     public int register(UserInfo user)
     {
-        System.out.println("注册一次");
         int now = DateUtil.nowTime();
         int uid = 1000 + userMapper.selectCount(null);
         user.setUid(uid);

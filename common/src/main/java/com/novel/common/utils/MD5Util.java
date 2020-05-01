@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class MD5Util
 {
-    public static final int SALT_LEN = 10;
+    public static final int SALT_LEN = 5;
 
     public static String md5(String str)
     {
@@ -38,7 +38,7 @@ public class MD5Util
 
     public static String password(String password, String salt)
     {
-        if (password.length() < 10)
+        if (password.length() < 5)
         {
             return md5(password);
         }
@@ -46,7 +46,7 @@ public class MD5Util
         int index = 0;
         for (int i = 0; i < password.length(); i++)
         {
-            if (i % 2 == 0 && i <= 10)
+            if (i % 2 == 0)
             {
                 charArr[index++] = salt.charAt(i);
             } else
