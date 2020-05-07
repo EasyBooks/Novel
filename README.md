@@ -11,4 +11,4 @@
 * web-go   -- golang语言实现的爬虫服务
 
 ## 项目概述：
-技术栈：SpringBoot（基础）+dubbo（RPC）+nacos（注册中心）+nsq（消息对列）+Netty（IM通讯）
+技术栈：SpringBoot（基础）+dubbo（RPC）+nacos（注册中心）+nsq（消息队列）+Netty（IM通讯）
